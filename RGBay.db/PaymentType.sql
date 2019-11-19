@@ -1,0 +1,51 @@
+-- Create a new database called 'RGBay'
+-- Connect to the 'master' database to run this snippet
+USE master
+GO
+-- Create the new database if it does not exist already
+IF NOT EXISTS (
+    SELECT [name]
+        FROM sys.databases
+        WHERE [name] = N'RGBay'
+)
+CREATE DATABASE RGBay
+GO
+
+USE RGBay
+
+-- Create a new table called '[PaymentType]' in schema '[dbo]'
+-- Drop the table if it already exists
+IF OBJECT_ID('[dbo].[PaymentType]', 'U') IS NOT NULL
+DROP TABLE [dbo].[PaymentType]
+GO
+-- Create the table in the specified schema
+CREATE TABLE [dbo].[PaymentType]
+(
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, -- Primary Key column
+    [UserId] INT NOT NULL
+        FOREIGN KEY (UserId)
+        REFERENCES [User] (Id),
+    [ServiceName] INT NOT NULL,
+    [ProfileName] NVARCHAR(50)
+);
+GO
+
+-- Insert rows into table 'PaymentType' in schema '[dbo]'
+INSERT INTO [dbo].[PaymentType]
+( -- Columns to insert data into
+ [UserId], [ServiceName], [ProfileName]
+)
+VALUES
+( -- First row: values for the columns in the list above
+ 1, 1, '@1Cool4School'
+),
+( -- Second row: values for the columns in the list above
+ 2, 2, '@2Cool4School'
+),
+( -- Third row: values for the columns in the list above
+ 3, 3, '@3Cool4School'
+),
+( -- Fourth row: values for the columns in the list above
+ 4, 4, '@4Cool4School'
+)
+GO
