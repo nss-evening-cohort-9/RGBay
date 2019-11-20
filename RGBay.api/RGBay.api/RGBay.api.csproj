@@ -13,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
     <Folder Include="Dtos\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
