@@ -86,3 +86,18 @@ VALUES
  4, 4, '@4Cool4School'
 )
 GO
+
+IF OBJECT_ID('[dbo].[Order]', 'U') IS NOT NULL
+DROP TABLE [dbo].[Order]
+GO
+CREATE TABLE [dbo].[Order]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [CustomerId] INT
+        FOREIGN KEY
+        REFERENCES [User] (Id),
+    [Date] DATETIME,
+    [Total] INT NOT NULL,
+    [Status] NVARCHAR(50)
+);
+GO
