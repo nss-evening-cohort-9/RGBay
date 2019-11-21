@@ -101,3 +101,23 @@ CREATE TABLE [dbo].[Order]
     [Status] NVARCHAR(50)
 );
 GO
+
+INSERT INTO [dbo].[Order]
+(
+    [CustomerId], [Date], [Total], [Status]
+)
+VALUES
+-- DATETIME FORMAT = YYYYMMDD HH:MM:SS AM/PM
+(
+    1, '20001231 11:59:59 PM', 1000, 'Status 1'
+),
+(
+    2, '20120710 12:00:00 PM', 2000, 'Status 2'
+),
+(
+    3, '20180418 07:11:30 AM', 3000, 'Status 3'
+),
+(
+    4, '20191120 6:00:00 AM', 4000, 'Status 4'
+)
+GO
