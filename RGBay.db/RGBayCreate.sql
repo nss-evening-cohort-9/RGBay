@@ -63,7 +63,7 @@ CREATE TABLE [dbo].[PaymentType]
         FOREIGN KEY (UserId)
         REFERENCES [User] (Id),
     [ServiceName] INT NOT NULL,
-    [ProfileName] NVARCHAR(50)
+    [ProfileName] NVARCHAR(50) NOT NULL
 );
 GO
 
@@ -86,3 +86,5 @@ VALUES
  4, 4, '@4Cool4School'
 )
 GO
+
+select * from PaymentType
