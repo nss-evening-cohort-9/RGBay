@@ -7,7 +7,7 @@ namespace RGBay.api.Commands
 {
     public class AddUserCommand
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string City { get; set; }

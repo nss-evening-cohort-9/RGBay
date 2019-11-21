@@ -43,14 +43,32 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"Insert into [dbo].[User]([Username], [Email], [City], [State])
-                            values (
-                              @Username
-                            , @Email
-                            , @City
-                            , @State
+                var sql = @"INSERT INTO [dbo].[User]([Username], [Email], [City], [State])
+                            VALUES (
+                              @Username,
+                              @Email,
+                              @City,
+                              @State
                             )";
                 return db.Execute(sql, newUser);
+            }
+        }
+
+        public User Update(User updatedUser, int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [User]
+                            SET [Username] = @Username,
+	                            [Email] = @Email,
+	                            [City] = @City,
+	                            [State] = @State
+                            WHERE Id = @Id";
+
+                updatedUser.Id = id;
+
+                var user = db.Query<User>(sql, updatedUser);
+                return user;
             }
         }
     }

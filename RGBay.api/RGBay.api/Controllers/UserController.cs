@@ -4,6 +4,7 @@ using RGBay.api.Commands;
 using RGBay.api.DataModels;
 using RGBay.api.Repositories;
 
+
 namespace RGBay.api.Controllers
 {
     [Route("rgbay/user")]
@@ -56,5 +57,22 @@ namespace RGBay.api.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(UpdateUserCommand updatedUserCommand, int id)
+        {
+            var repo = new UserRepository();
+
+            var updatedUser = new User
+            {
+                Username = updatedUserCommand.Username,
+                Email = updatedUserCommand.Email,
+                City = updatedUserCommand.City,
+                State = updatedUserCommand.State,
+                Bio = updatedUserCommand.Bio
+            };
+
+            var yourUpdatedUser = repo.Update(updatedUser, id);
+            return Ok(yourUpdatedUser);
+        }
     }
 }

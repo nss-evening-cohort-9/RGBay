@@ -10,10 +10,13 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+<<<<<<< HEAD
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Dtos\" />
+=======
+>>>>>>> 70bb65bb55047f2a2dc1f5e09b0b11a42761aa3e
   </ItemGroup>
 
 </Project>

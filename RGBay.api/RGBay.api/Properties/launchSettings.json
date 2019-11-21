@@ -12,7 +12,11 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+<<<<<<< HEAD
       "launchUrl": "rgbay/user",
+=======
+      "launchUrl": "api/PaymentType",
+>>>>>>> 70bb65bb55047f2a2dc1f5e09b0b11a42761aa3e
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
