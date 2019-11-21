@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RGBay.api.DataModels;
-using RGBay.api.Dtos;
+using RGBay.api.Commands;
 using RGBay.api.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +36,25 @@ namespace RGBay.api.Controllers
         }
 
         [HttpPost]
-        public void Add(AddPaymentTypeDto newPaymentType)
+        public void Add(AddPaymentTypeCommand newPaymentType)
         {
             _repo.AddPaymentType(newPaymentType);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePaymentType(UpdatePaymentTypeCommand updatedPaymentTypeCommand, int id)
+        {
+            var repo = new PaymentTypeRepository();
+
+            var updatedPaymentType = new UpdatePaymentTypeCommand
+            {
+                ServiceName = updatedPaymentTypeCommand.ServiceName,
+                ProfileName = updatedPaymentTypeCommand.ProfileName
+            };
+
+            var trainerThatGotUpdated = repo.UpdatePaymentType(updatedPaymentType, id);
+
+            return Ok(trainerThatGotUpdated);
         }
 
         [HttpDelete("{paymentTypeIdToDelete}/delete")]

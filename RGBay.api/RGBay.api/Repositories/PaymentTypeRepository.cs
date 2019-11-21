@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using RGBay.api.DataModels;
-using RGBay.api.Dtos;
+using RGBay.api.Commands;
 using Dapper;
 
 namespace RGBay.api.Repositories
@@ -23,7 +23,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public bool AddPaymentType(AddPaymentTypeDto newPaymentType)
+        public bool AddPaymentType(AddPaymentTypeCommand newPaymentType)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -37,6 +37,24 @@ namespace RGBay.api.Repositories
                             ,@profileName)";
 
                 return connection.Execute(sql, newPaymentType) == 1;
+            }
+        }
+
+        public bool UpdatePaymentType(UpdatePaymentTypeCommand updatedPaymentTypeCommand, int idOfPaymentTypeToUpdate)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [dbo].[PaymentType]
+                            SET [ServiceName] = @serviceName
+                                ,[ProfileName] = @profileName
+                            WHERE Id = @id";
+                //output inserted.*
+
+                var parameters = new {id = idOfPaymentTypeToUpdate
+                                     ,serviceName = updatedPaymentTypeCommand.ServiceName
+                                     ,profileName = updatedPaymentTypeCommand.ProfileName};
+
+                return connection.Execute(sql, parameters) == 1;
             }
         }
 

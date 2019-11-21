@@ -1,8 +1,7 @@
-﻿namespace RGBay.api.Dtos
+﻿namespace RGBay.api.Commands
 {
-    public class AddPaymentTypeDto
+    public class UpdatePaymentTypeCommand
     {
-        public int UserId { get; set; }
         public string ServiceName { get; set; }
         public string ProfileName { get; set; }
     }

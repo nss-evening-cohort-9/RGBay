@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using RGBay.api.DataModels;
-using RGBay.api.Dtos;
+using RGBay.api.Commands;
 
 namespace RGBay.api.Repositories
 {
     public interface IPaymentTypeRepository
     {
         IEnumerable<PaymentType> GetAllPaymentTypes();
-        bool AddPaymentType(AddPaymentTypeDto newPaymentType);
+        bool AddPaymentType(AddPaymentTypeCommand newPaymentType);
+        bool UpdatePaymentType(UpdatePaymentTypeCommand updatedPaymentTypeCommand, int id);
         bool DeletePaymentType(int paymentTypeIdToDelete);
     }
 }
