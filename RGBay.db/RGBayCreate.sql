@@ -86,5 +86,3 @@ VALUES
  4, 4, '@4Cool4School'
 )
 GO
-
-select * from PaymentType
