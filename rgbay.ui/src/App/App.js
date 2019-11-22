@@ -7,8 +7,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import APITest from '../components/APITest/APITest';
 import Home from '../components/Home/Home';
 import './App.scss';
+
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   // props contains Location, Match, and History
@@ -36,7 +38,7 @@ class App extends React.Component {
             <div className="row">
               <Switch>
                 {/* <PublicRoute path="/auth" component={Auth} authed={authed} /> */}
-                <PrivateRoute path="/" exact component={Home} authed={authed} />
+                <PrivateRoute path="/" exact component={APITest} authed={authed} />
               </Switch>
             </div>
           </div>

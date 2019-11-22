@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import './Home.scss';
+import './APITest.scss';
 
-import PaymentTypeTable from '../APITest/PaymentType/PaymentTypeTable/PaymentTypeTable';
+import PaymentTypeTable from './PaymentType/PaymentTypeTable/PaymentTypeTable';
 
-class Home extends Component {
+class APITest extends Component {
   state = {
     displayValues: []
   }
 
   render() {
     return (
-      <div className="Home col">
+      <div className="APITest col">
         <div className="card">
           <PaymentTypeTable />
         </div>
@@ -28,4 +28,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default APITest;
