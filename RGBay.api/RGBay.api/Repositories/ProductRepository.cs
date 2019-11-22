@@ -11,7 +11,7 @@ namespace RGBay.api.Repositories
 {
     public class ProductRepository
     {
-        string _connectionString = "Server=localhost;Database=candymarket;Trusted_Connection=True";
+        string _connectionString = "Server=localhost;Database=rgbay;Trusted_Connection=True";
 
         public IEnumerable<Product> GetProducts()
         {
@@ -34,13 +34,13 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public void DeleteProduct(int id)
+        public bool DeleteProduct(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = "delete from product where [id] = @id";
                 var parameters = new { id };
-                db.Execute(sql, parameters);
+                return db.Execute(sql, parameters) == 1;
             }
         }
 
