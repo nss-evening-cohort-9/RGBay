@@ -19,9 +19,25 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"SELECT *
-                            FROM [dbo].[Order]";
+                            FROM [Order]";
                 var orders = db.Query<Order>(sql).AsList();
                 return orders;
+            }
+        }
+
+        public Order GetOrderByOrderId(int orderId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Order]
+                            WHERE Id = @OrderId";
+                var parameters = new
+                {
+                    OrderId = orderId
+                };
+                var selectedOrder = db.QueryFirst<Order>(sql, parameters);
+                return selectedOrder;
             }
         }
 
