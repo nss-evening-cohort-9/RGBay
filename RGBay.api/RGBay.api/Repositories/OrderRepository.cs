@@ -16,6 +16,7 @@ namespace RGBay.api.Repositories
 
 
         /* GET */
+
         public IEnumerable<Order> GetAllOrders()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -60,7 +61,9 @@ namespace RGBay.api.Repositories
         }
 
 
+
         /* POST */
+
         public Order CreateOrder(Order newOrder)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -74,21 +77,10 @@ namespace RGBay.api.Repositories
             }
         }
 
-        /* DELETE */
-        public bool DeleteByOrderId(int orderId)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"DELETE FROM [Order]
-                                WHERE Id = @orderId";
 
-                var parameters = new {orderId};
-
-                return db.Execute(sql, parameters) == 1;
-            }
-        }
 
         /* PUT */
+
         public Order UpdateOrderStatus(Order updatedOrder, int orderId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -120,6 +112,58 @@ namespace RGBay.api.Repositories
                 var order = db.QueryFirst<Order>(sql, updatedOrder);
 
                 return order;
+            }
+        }
+
+        public Order UpdateFullOrder(Order updatedOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var fullQuery = @"UPDATE [ORDER] 
+                                    SET [Total] = @total,
+                                        [Status] = @status
+                            OUTPUT INSERTED.*
+                                WHERE [Id] = @id";
+
+                var statusQuery = @"UPDATE [ORDER] 
+                                        SET [Status] = @status
+                                    OUTPUT INSERTED.*
+                                        WHERE [Id] = @id";
+
+                var matchedOrder = GetOrderByOrderId(updatedOrder.Id);
+
+                if (matchedOrder.CustomerId == updatedOrder.CustomerId)
+                {
+                    if (updatedOrder.Total == 0 && updatedOrder.Status != null)
+                    {
+                        updatedOrder.Total = matchedOrder.Total;
+                        var orderStatusUpdate = db.QueryFirst<Order>(statusQuery, updatedOrder);
+                        return orderStatusUpdate;
+                    }
+                    else
+                    {
+                        var fullOrderUpdate = db.QueryFirst<Order>(fullQuery, updatedOrder);
+                        return fullOrderUpdate;
+                    }
+                }
+                else return null;
+            }
+        }
+
+
+
+        /* DELETE */
+        
+        public bool DeleteByOrderId(int orderId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE FROM [Order]
+                                WHERE Id = @orderId";
+
+                var parameters = new { orderId };
+
+                return db.Execute(sql, parameters) == 1;
             }
         }
 

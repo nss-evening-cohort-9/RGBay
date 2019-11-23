@@ -15,11 +15,9 @@ namespace RGBay.api.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-
         // GET //
 
-        /* GET: api/order
-           Get All Orders */
+        /* Get All Orders */
         [HttpGet]
         public IEnumerable<Order> GetAllOrders()
         {
@@ -28,8 +26,7 @@ namespace RGBay.api.Controllers
             return orders;
         }
 
-        /* GET: order/OrderId
-           Get an Order by "OrderId" */
+        /* Get an Order by "OrderId" */
         [HttpGet("orderId/{orderId:int}")]
         public ActionResult<Order> GetOrderByOrderId(int orderId)
         {
@@ -38,8 +35,7 @@ namespace RGBay.api.Controllers
             return order;
         }
 
-        /* GET: order/CustomerId
-           Get all Orders related to CustomerId */
+        /* Get all Orders related to CustomerId */
         [HttpGet("customerId/{customerId:int}")]
         public IEnumerable<Order> GetOrdersByCustomerId(int customerId)
         {
@@ -47,11 +43,12 @@ namespace RGBay.api.Controllers
             var customerOrders = repo.GetOrdersByCustomerId(customerId);
             return customerOrders;
         }
+        
+
 
         // POST //
 
-        /* POST: api/Order
-           Add New Order (DateTime calculated here) */
+        /* Add New Order (DateTime calculated here) */
         [HttpPost]
         public IActionResult CreateOrder(AddOrderCommand newOrderCommand)
         {
@@ -69,11 +66,11 @@ namespace RGBay.api.Controllers
             return Created($"api/Order/{orderToBeAdded.Id}", orderToBeAdded);
         }
 
+
+
         // PUT //
 
-        /* PUT: Order/OrderId
-           Update Order Status by OrderId */
-
+        /* Update Order Status by OrderId */
         [HttpPut("status/{orderId}")]
         public IActionResult UpdateOrderStatus(UpdateOrderCommand updatedOrderCommand, int orderId)
         {
@@ -94,6 +91,7 @@ namespace RGBay.api.Controllers
             return Ok(orderToBeUpdated);
         }
 
+        /* Update Order Total by OrderId*/
         [HttpPut("total/{orderId}")]
         public IActionResult UpdateOrderTotal(UpdateOrderCommand updatedOrderCommand, int orderId)
         {
@@ -112,13 +110,37 @@ namespace RGBay.api.Controllers
             }
 
             return Ok(orderToBeUpdated);
-        } 
+        }
+
+        /* Update Order Total/Status (Need to go over with team/instructors)*/
+        [HttpPut]
+        public IActionResult UpdateFullOrder(UpdateOrderCommand updatedOrderCommand)
+        {
+            var repo = new OrderRepository();
+
+            var updatedOrder = new Order
+            {
+                Id = updatedOrderCommand.Id,
+                Total = updatedOrderCommand.Total,
+                CustomerId = updatedOrderCommand.CustomerId,
+                Status = updatedOrderCommand.Status,
+            };
+
+            var orderToBeUpdated = repo.UpdateFullOrder(updatedOrder);
+
+            if (orderToBeUpdated == null)
+            {
+                return NotFound("Order Status Could Not Be Updated... Are CustomerId & OrderId related?");
+            }
+
+            return Ok(orderToBeUpdated);
+        }
+
+
 
         // DELETE //
 
-        /* DELETE: Order/OrderId
-           Delete Order by OrderId */
-
+        /* Delete Order by OrderId */
         [HttpDelete("{orderId}")]
         public IActionResult DeleteOrderByOrderId(int orderId)
         {
