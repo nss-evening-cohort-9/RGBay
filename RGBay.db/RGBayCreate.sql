@@ -89,13 +89,13 @@ VALUES
 )
 GO
 
--- Create a new table called '[Category]' in schema '[dbo]'
+-- Create a new table called '[ProductCategory]' in schema '[dbo]'
 -- Drop the table if it already exists
-IF OBJECT_ID('[dbo].[Category]', 'U') IS NOT NULL
-DROP TABLE [dbo].[Category]
+IF OBJECT_ID('[dbo].[ProductCategory]', 'U') IS NOT NULL
+DROP TABLE [dbo].[ProductCategory]
 GO
 -- Create the table in the specified schema
-CREATE TABLE [dbo].[Category]
+CREATE TABLE [dbo].[ProductCategory]
 (
     [Id] int identity(1,1) not null primary key,
     -- Primary Key column
@@ -104,8 +104,8 @@ CREATE TABLE [dbo].[Category]
 );
 GO
 
--- Insert rows into table 'Category' in schema '[dbo]'
-INSERT INTO [dbo].[Category]
+-- Insert rows into table 'ProductCategory' in schema '[dbo]'
+INSERT INTO [dbo].[ProductCategory]
     ( -- Columns to insert data into
     [Name]
     )
@@ -136,9 +136,9 @@ CREATE TABLE [dbo].[Product]
     [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     -- Primary Key column
     [Title] NVARCHAR(255) NOT NULL,
-    [Category] INT NOT NULL
-        FOREIGN KEY (Category)
-        REFERENCES [Category] (Id),
+    [ProductCategory] INT NOT NULL
+        FOREIGN KEY (ProductCategory)
+        REFERENCES [ProductCategory] (Id),
     [RentalPrice] INT NOT NULL,
     [SalesPrice] INT NOT NULL,
     [IsForSale] BIT NOT NULL,
@@ -154,7 +154,7 @@ GO
 -- Insert rows into table 'Product' in schema '[dbo]'
 INSERT INTO [dbo].[Product]
     ( -- Columns to insert data into
-    [Title], [Category], [RentalPrice], [SalesPrice], [IsForSale], [IsRgb], [Description], [ImageUrl], [OwnerId]
+    [Title], [ProductCategory], [RentalPrice], [SalesPrice], [IsForSale], [IsRgb], [Description], [ImageUrl], [OwnerId]
     )
 VALUES
     ( -- First row: values for the columns in the list above
