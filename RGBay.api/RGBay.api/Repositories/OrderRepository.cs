@@ -14,6 +14,8 @@ namespace RGBay.api.Repositories
                                      Database=RGBay;
                                      Trusted_Connection=True;";
 
+
+        /* GET */
         public IEnumerable<Order> GetAllOrders()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -38,6 +40,86 @@ namespace RGBay.api.Repositories
                 };
                 var selectedOrder = db.QueryFirst<Order>(sql, parameters);
                 return selectedOrder;
+            }
+        }
+
+        public IEnumerable<Order> GetOrdersByCustomerId(int customerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Order]
+                            WHERE CustomerId = @CustomerId";
+                var parameters = new
+                {
+                    CustomerId = customerId
+                };
+                var customerOrders = db.Query<Order>(sql, parameters);
+                return customerOrders;
+            }
+        }
+
+
+        /* POST */
+        public Order CreateOrder(Order newOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [Order]
+                                ([CustomerId], [Date], [Total], [Status])
+                            OUTPUT INSERTED.*
+                            VALUES
+                                (@customerId, @date, @total, @status)";
+                return db.QueryFirst<Order>(sql, newOrder);
+            }
+        }
+
+        /* DELETE */
+        public bool DeleteByOrderId(int orderId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE FROM [Order]
+                                WHERE Id = @orderId";
+
+                var parameters = new {orderId};
+
+                return db.Execute(sql, parameters) == 1;
+            }
+        }
+
+        /* PUT */
+        public Order UpdateOrderStatus(Order updatedOrder, int orderId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Order]
+                                SET [Status] = @status
+                            OUTPUT INSERTED.*
+                                WHERE [Id] = @id";
+
+                updatedOrder.Id = orderId;
+
+                var order = db.QueryFirst<Order>(sql, updatedOrder);
+
+                return order;
+            }
+        }
+
+        public Order UpdateOrderTotal(Order updatedOrder, int orderId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [ORDER] 
+                                SET [Total] = @total
+                            OUTPUT INSERTED.*
+                                WHERE [Id] = @id";
+
+                updatedOrder.Id = orderId;
+
+                var order = db.QueryFirst<Order>(sql, updatedOrder);
+
+                return order;
             }
         }
 
