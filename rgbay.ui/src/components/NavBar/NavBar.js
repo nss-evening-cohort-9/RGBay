@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
+  Input,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -27,9 +28,15 @@ class NavBar extends React.Component {
     const buildNavbar = () => {
       if (authed) {
         return (
-          <Nav className="ml-auto" navbar>
+          <Nav navbar>
             <NavItem>
               <NavLink tag={RRNavLink} to='/home'>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/account'>Account</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to='/apitest'>API Test Page</NavLink>
@@ -37,7 +44,7 @@ class NavBar extends React.Component {
           </Nav>
         );
       }
-      return <Nav className="ml-auto" navbar />;
+      return <Nav navbar />;
     };
 
     return (
