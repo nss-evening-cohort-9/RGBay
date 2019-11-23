@@ -79,7 +79,6 @@ namespace RGBay.api.Repositories
                     bio = updatedUser.Bio
                 };
 
-
                 var user = connection.Query<User>(sql, updateUser).SingleOrDefault();
                 return user;
             }
