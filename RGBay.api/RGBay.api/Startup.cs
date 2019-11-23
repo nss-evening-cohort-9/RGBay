@@ -30,7 +30,7 @@ namespace RGBay.api
 
             //configure dependencies we write
             services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            services.AddCors(o => o.AddPolicy("AllowAllPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
@@ -51,7 +51,7 @@ namespace RGBay.api
                 app.UseHsts();
             }
 
-            app.UseCors("MyPolicy");
+            app.UseCors("AllowAllPolicy");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -6,7 +6,7 @@ class Product extends React.Component {
   render() {
     const { product } = this.props;
     return (
-      <div className="Product col-12 mb-4">
+      <div className="Product col-12">
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between">
