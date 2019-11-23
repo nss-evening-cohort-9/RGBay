@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './APITest.scss';
 
 import PaymentTypeTable from './PaymentType/PaymentTypeTable/PaymentTypeTable';
+import ProductView from '../ProductView/ProductView';
 
 class APITest extends Component {
   state = {
@@ -16,11 +17,11 @@ class APITest extends Component {
         </div>
         {/* <div className="card">
           <UserTable />
-        </div>
+        </div> */}
         <div className="card">
-          <ProductTable />
+          <ProductView />
         </div>
-        <div className="card">
+        {/* <div className="card">
           <OrderTable />
         </div> */}
       </div>

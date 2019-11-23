@@ -41,7 +41,7 @@ class App extends React.Component {
         <Router>
           <NavBar authed={authed} />
           <div className="container mt-5 mb-5">
-            <div className="row">
+            <div className="">
               <Switch>
                 {/* <PublicRoute path="/auth" component={Auth} authed={authed} /> */}
                 <PrivateRoute path="/home" exact component={Home} authed={authed} />
