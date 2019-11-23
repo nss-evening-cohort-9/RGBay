@@ -20,7 +20,6 @@ class PaymentTypeTable extends React.Component {
     paymentTypeData.getAllPaymentTypes()
       .then((paymentTypes) => {
         let freshPaymentTypes = [...paymentTypes];
-        console.log(freshPaymentTypes);
         this.setState({ paymentTypes: freshPaymentTypes })
       })
       .catch(error => console.error(`could not get paymentTypes`, error));
