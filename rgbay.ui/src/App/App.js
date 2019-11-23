@@ -33,7 +33,7 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <div className="container mt-5 mb-5">
-            <div className="row">
+            <div className="">
               <Switch>
                 {/* <PublicRoute path="/auth" component={Auth} authed={authed} /> */}
                 <PrivateRoute path="/" exact component={Home} authed={authed} />
