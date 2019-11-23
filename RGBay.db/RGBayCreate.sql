@@ -129,3 +129,39 @@ VALUES
  'Nvidia GTX 1080', 'part', '0', '4036700', 1, 0, 'Top notch graphics card', 'https://i.imgur.com/Mo75nLO.jpg', 2
 )
 GO
+
+
+IF OBJECT_ID('[dbo].[Order]', 'U') IS NOT NULL
+DROP TABLE [dbo].[Order]
+GO
+CREATE TABLE [dbo].[Order]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [CustomerId] INT
+        FOREIGN KEY
+        REFERENCES [User] (Id),
+    [Date] DATETIME,
+    [Total] INT NOT NULL,
+    [Status] NVARCHAR(50)
+);
+GO
+
+INSERT INTO [dbo].[Order]
+(
+    [CustomerId], [Date], [Total], [Status]
+)
+VALUES
+-- DATETIME FORMAT = YYYYMMDD HH:MM:SS AM/PM
+(
+    1, '20001231 11:59:59 PM', 1000, 'Status 1'
+),
+(
+    2, '20120710 12:00:00 PM', 2000, 'Status 2'
+),
+(
+    3, '20180418 07:11:30 AM', 3000, 'Status 3'
+),
+(
+    4, '20191120 6:00:00 AM', 4000, 'Status 4'
+)
+GO
