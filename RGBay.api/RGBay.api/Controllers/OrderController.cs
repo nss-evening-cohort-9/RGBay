@@ -38,6 +38,7 @@ namespace RGBay.api.Controllers
         // GET || READ//
 
         /* Get All Orders */
+        // api/Order
         [HttpGet]
         public IEnumerable<Order> GetAllOrders()
         {
@@ -47,7 +48,8 @@ namespace RGBay.api.Controllers
         }
 
         /* Get an Order by "OrderId" */
-        [HttpGet("orderId/{orderId:int}")]
+        // api/Order/{OrderId}
+        [HttpGet("{orderId:int}")]
         public ActionResult<Order> GetOrderByOrderId(int orderId)
         {
             var repo = new OrderRepository();
@@ -56,7 +58,8 @@ namespace RGBay.api.Controllers
         }
 
         /* Get all Orders related to CustomerId */
-        [HttpGet("customerId/{customerId:int}")]
+        // api/Order/Customer/{CustomerId}
+        [HttpGet("customer/{customerId:int}")]
         public IEnumerable<Order> GetOrdersByCustomerId(int customerId)
         {
             var repo = new OrderRepository();
@@ -70,25 +73,26 @@ namespace RGBay.api.Controllers
         // PUT || UPDATE//
 
         /*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
-        [HttpPut]
-        public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder)
+        // api/Order/{OrderId}
+        [HttpPut("{orderId:int}")]
+        public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder, int orderId)
         {
             var repo = new OrderRepository();
 
 
             var newOrder = new Order
             {
-                Id = incomingOrder.Id,
+                Id = orderId,
                 Total = incomingOrder.Total,
                 CustomerId = incomingOrder.CustomerId,
                 Status = incomingOrder.Status,
             };
 
-            var matchedOrder = repo.GetOrderByOrderId(incomingOrder.Id);
+            var matchedOrder = repo.GetOrderByOrderId(orderId);
 
             if (incomingOrder.CustomerId == matchedOrder.CustomerId)
             {
-
+                //Update ONLY Order Total
                 if (incomingOrder.Total != matchedOrder.Total
                     && (incomingOrder.Status == null
                         || incomingOrder.Status == matchedOrder.Status))
@@ -98,7 +102,7 @@ namespace RGBay.api.Controllers
                     return Ok(updatedOrderTotal);
                 }
 
-
+                //Update ONLY Order Status
                 else if (incomingOrder.Status != matchedOrder.Status
                          && (incomingOrder.Total == matchedOrder.Total
                              || incomingOrder.Total == 0))
@@ -107,11 +111,11 @@ namespace RGBay.api.Controllers
                     return Ok(updatedOrderStatus);
                 }
 
-
+                // Update BOTH Status & Total
                 else if (incomingOrder.Total != matchedOrder.Total
                          && incomingOrder.Status != matchedOrder.Status
-                         && (incomingOrder.Total != 0 
-                             && incomingOrder.Status != null))
+                         &&incomingOrder.Total != 0 
+                         && incomingOrder.Status != null)
                 {
                     var updatedFullOrder = repo.UpdateFullOrder(newOrder, newOrder.Id);
                     return Ok(updatedFullOrder);
