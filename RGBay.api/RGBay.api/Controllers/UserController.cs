@@ -7,7 +7,7 @@ using RGBay.api.Repositories;
 
 namespace RGBay.api.Controllers
 {
-    [Route("rgbay/user")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
