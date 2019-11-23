@@ -18,11 +18,11 @@ namespace RGBay.api.Controllers
             return userRepo.GetAll();
         }
 
-        [HttpGet("{username}")]
-        public ActionResult<User> GetByUserName(string username)
+        [HttpGet("{id}")]
+        public ActionResult<User> GetByUserName(int id)
         {
             var userRepo = new UserRepository();
-            return userRepo.Get(username);
+            return userRepo.Get(id);
         }
 
         [HttpPost]
@@ -48,11 +48,11 @@ namespace RGBay.api.Controllers
             return Created($"rgbay/user/{userCreated}", userCreated);
         }
 
-        [HttpDelete("{username}")]
-        public IActionResult RemoveUser(string username)
+        [HttpDelete("{id}")]
+        public IActionResult RemoveUser(int id)
         {
             var repo = new UserRepository();
-            repo.Delete(username);
+            repo.Delete(id);
 
             return Ok();
         }

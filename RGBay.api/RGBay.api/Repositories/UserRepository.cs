@@ -20,23 +20,24 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public User Get(string username) 
+        public User Get(int id) 
         { 
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "";
-                var user = db.QueryFirst<User>(sql, new { userName = username });
+                var sql = @"select * from [User]
+                            where id = @id";
+                var user = db.QueryFirst<User>(sql, new { Id = id });
                 return user;
 
             }
         }
 
-        public bool Delete(string username)
+        public bool Delete(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete from [User] where [Username] = @Username";
-                return db.Execute(sql, new { username }) == 1;
+                var sql = @"delete from [User] where [Id] = @id";
+                return db.Execute(sql, new { id }) == 1;
             }
         }
 
