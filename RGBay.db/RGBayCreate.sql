@@ -21,32 +21,33 @@ GO
 
 CREATE TABLE [dbo].[User]
 (
-    [Id] int identity(1,1) not null primary key,
-    [Username] nvarchar(50) not null,
-    [Email] nvarchar(320) not null,
-    [City] nvarchar (50) not null,
-    [State] nvarchar (50) not null
+	[Id] int identity(1,1) not null primary key, 
+	[Username] nvarchar(50) not null,
+	[Email] nvarchar(320) not null,
+	[City] nvarchar (50) not null,
+	[State] nvarchar (50) not null,
+	[Bio] nvarchar (1200) not null
 )
 
 GO
 
 -- Insert rows into table 'User' in schema '[dbo]'
 INSERT INTO [dbo].[User]
-    ( -- Columns to insert data into
-    [Username], [Email], [City], [State]
-    )
+( -- Columns to insert data into
+ [Username], [Email], [City], [State], [Bio]
+)
 VALUES
-    ( -- First row: values for the columns in the list above
-        'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN'
+( -- First row: values for the columns in the list above
+'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'This is my bio 1'
 ),
-    ( -- Second row: values for the columns in the list above
-        'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN'
+( -- Second row: values for the columns in the list above
+ 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'This is my bio 2'
 ),
-    ( -- Third row: values for the columns in the list above
-        'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN'
+( -- Third row: values for the columns in the list above
+ 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'This is my bio 3'
 ),
-    ( -- Fourth row: values for the columns in the list above
-        'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN'
+( -- Fourth row: values for the columns in the list above
+ 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
 )
 GO
 
