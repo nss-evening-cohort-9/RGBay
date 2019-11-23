@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './Home.scss';
 
-import PaymentTypeTable from '../APITest/PaymentType/PaymentTypeTable/PaymentTypeTable';
-
 class Home extends Component {
   state = {
     displayValues: []
@@ -11,18 +9,11 @@ class Home extends Component {
   render() {
     return (
       <div className="Home col">
-        <div className="card">
-          <PaymentTypeTable />
-        </div>
-        {/* <div className="card">
-          <UserTable />
-        </div>
-        <div className="card">
-          <ProductTable />
-        </div>
-        <div className="card">
-          <OrderTable />
-        </div> */}
+        <ul>
+          <li>
+            Home
+          </li>
+        </ul>
       </div>
     );
   }
