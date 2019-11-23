@@ -15,7 +15,27 @@ namespace RGBay.api.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        // GET //
+        // POST  || CREATE//
+
+        /* Add New Order (DateTime calculated here) */
+        [HttpPost]
+        public IActionResult CreateOrder(AddOrderCommand newOrderCommand)
+        {
+            var newOrder = new Order
+            {
+                CustomerId = newOrderCommand.CustomerId,
+                Date = DateTime.Now,
+                Total = newOrderCommand.Total,
+                Status = newOrderCommand.Status
+            };
+
+            var repo = new OrderRepository();
+            var orderToBeAdded = repo.CreateOrder(newOrder);
+
+            return Created($"api/Order/{orderToBeAdded.Id}", orderToBeAdded);
+        }
+
+        // GET || READ//
 
         /* Get All Orders */
         [HttpGet]
@@ -46,96 +66,69 @@ namespace RGBay.api.Controllers
         
 
 
-        // POST //
 
-        /* Add New Order (DateTime calculated here) */
-        [HttpPost]
-        public IActionResult CreateOrder(AddOrderCommand newOrderCommand)
+        // PUT || UPDATE//
+
+        /*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
+        [HttpPut]
+        public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder)
         {
+            var repo = new OrderRepository();
+
+
             var newOrder = new Order
             {
-                CustomerId = newOrderCommand.CustomerId,
-                Date = DateTime.Now,
-                Total = newOrderCommand.Total,
-                Status = newOrderCommand.Status
+                Id = incomingOrder.Id,
+                Total = incomingOrder.Total,
+                CustomerId = incomingOrder.CustomerId,
+                Status = incomingOrder.Status,
             };
 
-            var repo = new OrderRepository();
-            var orderToBeAdded = repo.CreateOrder(newOrder);
+            var matchedOrder = repo.GetOrderByOrderId(incomingOrder.Id);
 
-            return Created($"api/Order/{orderToBeAdded.Id}", orderToBeAdded);
-        }
-
-
-
-        // PUT //
-
-        /* Update Order Status by OrderId */
-        [HttpPut("status/{orderId}")]
-        public IActionResult UpdateOrderStatus(UpdateOrderCommand updatedOrderCommand, int orderId)
-        {
-            var repo = new OrderRepository();
-
-            var updatedOrder = new Order
+            if (incomingOrder.CustomerId == matchedOrder.CustomerId)
             {
-                Status = updatedOrderCommand.Status
-            };
 
-            var orderToBeUpdated = repo.UpdateOrderStatus(updatedOrder, orderId);
+                if (incomingOrder.Total != matchedOrder.Total
+                    && (incomingOrder.Status == null
+                        || incomingOrder.Status == matchedOrder.Status))
+                {
+                    var updatedOrderTotal = repo.UpdateOrderTotal(newOrder, newOrder.Id);
 
-            if (orderToBeUpdated == null)
-            {
-                return NotFound("Order Status Could Not Be Updated");
+                    return Ok(updatedOrderTotal);
+                }
+
+
+                else if (incomingOrder.Status != matchedOrder.Status
+                         && (incomingOrder.Total == matchedOrder.Total
+                             || incomingOrder.Total == 0))
+                {
+                    var updatedOrderStatus = repo.UpdateOrderStatus(newOrder, newOrder.Id);
+                    return Ok(updatedOrderStatus);
+                }
+
+
+                else if (incomingOrder.Total != matchedOrder.Total
+                         && incomingOrder.Status != matchedOrder.Status
+                         && (incomingOrder.Total != 0 
+                             && incomingOrder.Status != null))
+                {
+                    var updatedFullOrder = repo.UpdateFullOrder(newOrder, newOrder.Id);
+                    return Ok(updatedFullOrder);
+                }
+
+                else if (incomingOrder.Total == matchedOrder.Total && incomingOrder.Status == matchedOrder.Status)
+                {
+                    return Ok();
+                }
+
+                else return NotFound("Order matched, but didn't update... Are values The same?");
             }
-
-            return Ok(orderToBeUpdated);
-        }
-
-        /* Update Order Total by OrderId*/
-        [HttpPut("total/{orderId}")]
-        public IActionResult UpdateOrderTotal(UpdateOrderCommand updatedOrderCommand, int orderId)
-        {
-            var repo = new OrderRepository();
-
-            var updatedOrder = new Order
-            {
-                Total = updatedOrderCommand.Total
-            };
-
-            var orderToBeUpdated = repo.UpdateOrderTotal(updatedOrder, orderId);
-
-            if (orderToBeUpdated == null)
-            {
-                return NotFound("Order Total Could Not Be Updated");
-            }
-
-            return Ok(orderToBeUpdated);
-        }
-
-        /* Update Order Total/Status (Need to go over with team/instructors)*/
-        [HttpPut]
-        public IActionResult UpdateFullOrder(UpdateOrderCommand updatedOrderCommand)
-        {
-            var repo = new OrderRepository();
-
-            var updatedOrder = new Order
-            {
-                Id = updatedOrderCommand.Id,
-                Total = updatedOrderCommand.Total,
-                CustomerId = updatedOrderCommand.CustomerId,
-                Status = updatedOrderCommand.Status,
-            };
-
-            var orderToBeUpdated = repo.UpdateFullOrder(updatedOrder);
-
-            if (orderToBeUpdated == null)
+            else
             {
                 return NotFound("Order Status Could Not Be Updated... Are CustomerId & OrderId related?");
             }
-
-            return Ok(orderToBeUpdated);
         }
-
 
 
         // DELETE //

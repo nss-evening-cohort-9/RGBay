@@ -15,7 +15,24 @@ namespace RGBay.api.Repositories
                                      Trusted_Connection=True;";
 
 
-        /* GET */
+
+        /* POST || CREATE */
+
+        public Order CreateOrder(Order newOrder)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [Order]
+                                ([CustomerId], [Date], [Total], [Status])
+                            OUTPUT INSERTED.*
+                            VALUES
+                                (@customerId, @date, @total, @status)";
+                return db.QueryFirst<Order>(sql, newOrder);
+            }
+        }
+
+
+        /* GET || READ */
 
         public IEnumerable<Order> GetAllOrders()
         {
@@ -62,24 +79,7 @@ namespace RGBay.api.Repositories
 
 
 
-        /* POST */
-
-        public Order CreateOrder(Order newOrder)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"INSERT INTO [Order]
-                                ([CustomerId], [Date], [Total], [Status])
-                            OUTPUT INSERTED.*
-                            VALUES
-                                (@customerId, @date, @total, @status)";
-                return db.QueryFirst<Order>(sql, newOrder);
-            }
-        }
-
-
-
-        /* PUT */
+        /* PUT || UPDATE */
 
         public Order UpdateOrderStatus(Order updatedOrder, int orderId)
         {
@@ -115,38 +115,21 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public Order UpdateFullOrder(Order updatedOrder)
+        public Order UpdateFullOrder(Order updatedOrder, int orderId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var fullQuery = @"UPDATE [ORDER] 
+                var sql = @"UPDATE [ORDER] 
                                     SET [Total] = @total,
                                         [Status] = @status
                             OUTPUT INSERTED.*
                                 WHERE [Id] = @id";
 
-                var statusQuery = @"UPDATE [ORDER] 
-                                        SET [Status] = @status
-                                    OUTPUT INSERTED.*
-                                        WHERE [Id] = @id";
+                updatedOrder.Id = orderId;
 
-                var matchedOrder = GetOrderByOrderId(updatedOrder.Id);
+                var returningOrder = db.QueryFirst<Order>(sql, updatedOrder);
 
-                if (matchedOrder.CustomerId == updatedOrder.CustomerId)
-                {
-                    if (updatedOrder.Total == 0 && updatedOrder.Status != null)
-                    {
-                        updatedOrder.Total = matchedOrder.Total;
-                        var orderStatusUpdate = db.QueryFirst<Order>(statusQuery, updatedOrder);
-                        return orderStatusUpdate;
-                    }
-                    else
-                    {
-                        var fullOrderUpdate = db.QueryFirst<Order>(fullQuery, updatedOrder);
-                        return fullOrderUpdate;
-                    }
-                }
-                else return null;
+                return returningOrder;
             }
         }
 
@@ -166,6 +149,5 @@ namespace RGBay.api.Repositories
                 return db.Execute(sql, parameters) == 1;
             }
         }
-
     }
 }
