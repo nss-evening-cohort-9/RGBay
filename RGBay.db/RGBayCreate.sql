@@ -34,20 +34,20 @@ GO
 -- Insert rows into table 'PaymentType' in schema '[dbo]'
 INSERT INTO [dbo].[User]
 ( -- Columns to insert data into
- [Username], [Email], [City], [State]
+ [Username], [Email], [City], [State], [Bio]
 )
 VALUES
 ( -- First row: values for the columns in the list above
-'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN'
+'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'This is my bio 1'
 ),
 ( -- Second row: values for the columns in the list above
- 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN'
+ 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'This is my bio 2'
 ),
 ( -- Third row: values for the columns in the list above
- 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN'
+ 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'This is my bio 3'
 ),
 ( -- Fourth row: values for the columns in the list above
- 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN'
+ 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
 )
 GO
 
