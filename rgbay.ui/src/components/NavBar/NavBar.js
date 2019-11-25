@@ -3,6 +3,7 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
   Input,
+  Form,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -21,6 +22,11 @@ class NavBar extends React.Component {
 
   toggle() {
     this.setState({ isOpen: !this.state.isOpen });
+  }
+
+  test(event) {
+    event.preventDefault();
+    console.error('test')
   }
 
   render() {
@@ -49,10 +55,13 @@ class NavBar extends React.Component {
 
     return (
       <div className="NavBar">
-        <Navbar color="dark" dark expand="md">
+        <Navbar color="dark" dark expand="md" className="justify-content-between">
           <NavbarBrand href="/">RGBay</NavbarBrand>
+          <Form className="w-25" onSubmit={this.test}>
+            <Input placeholder="What you want!"/>
+          </Form>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>
         </Navbar>

@@ -50,6 +50,7 @@ class App extends React.Component {
                 <PrivateRoute path="/account" exact component={Account} authed={authed} />
                 <PrivateRoute path="/orders" exact component={Orders} authed={authed} />
                 <PrivateRoute path="/apitest" exact component={APITest} authed={authed} />
+                <Redirect from="*" to="/home" />
               </Switch>
             </div>
           </div>
