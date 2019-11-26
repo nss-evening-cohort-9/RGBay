@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RGBay.api.DataModels;
-using RGBay.api.Commands;
-using RGBay.api.Repositories;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using RGBay.api.Commands;
+using RGBay.api.DataModels;
+using RGBay.api.Repositories;
 
 namespace RGBay.api.Controllers
 {
@@ -14,14 +14,7 @@ namespace RGBay.api.Controllers
     [ApiController]
     public class PaymentTypeController : ControllerBase
     {
-        private readonly ILogger<PaymentTypeController> _logger;
-        private readonly IPaymentTypeRepository _repo;
-
-        public PaymentTypeController(ILogger<PaymentTypeController> logger, IPaymentTypeRepository repo)
-        {
-            _logger = logger;
-            _repo = repo;
-        }
+        private readonly PaymentTypeRepository _repo = new PaymentTypeRepository();
 
         [HttpGet]
         public IEnumerable<PaymentType> GetAll()
@@ -29,38 +22,29 @@ namespace RGBay.api.Controllers
             return _repo.GetAllPaymentTypes();
         }
 
-        [HttpGet("{paymentTypeId}")]
-        public PaymentType Get(int paymentTypeId)
+        [HttpGet("{id}")]
+        public PaymentType GetPaymentType(int id)
         {
-            return _repo.GetAllPaymentTypes().FirstOrDefault(paymentType => paymentType.Id == paymentTypeId);
+            return _repo.GetPaymentType(id);
         }
 
         [HttpPost]
-        public void Add(AddPaymentTypeCommand newPaymentType)
+        public void Add(AddPaymentTypeCommand newPaymentTypeCommand)
         {
-            _repo.AddPaymentType(newPaymentType);
+            _repo.AddPaymentType(newPaymentTypeCommand);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePaymentType(UpdatePaymentTypeCommand updatedPaymentTypeCommand, int id)
+        public bool UpdatePaymentType(UpdatePaymentTypeCommand updatePaymentTypeCommand, int id)
         {
-            var repo = new PaymentTypeRepository();
-
-            var updatedPaymentType = new UpdatePaymentTypeCommand
-            {
-                ServiceName = updatedPaymentTypeCommand.ServiceName,
-                ProfileName = updatedPaymentTypeCommand.ProfileName
-            };
-
-            var trainerThatGotUpdated = repo.UpdatePaymentType(updatedPaymentType, id);
-
-            return Ok(trainerThatGotUpdated);
+            updatePaymentTypeCommand.Id = id;
+            return _repo.UpdatePaymentType(updatePaymentTypeCommand, id);
         }
 
-        [HttpDelete("{paymentTypeIdToDelete}/delete")]
-        public void Delete(int paymentTypeIdToDelete)
+        [HttpDelete("{id}")]
+        public bool DeletePaymentType(int id)
         {
-            _repo.DeletePaymentType(paymentTypeIdToDelete);
+            return _repo.DeletePaymentType(id);
         }
     }
 }
