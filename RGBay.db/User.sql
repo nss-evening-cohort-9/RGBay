@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[User]
 	[Username] nvarchar(50) not null,
 	[Email] nvarchar(320) not null,
 	[City] nvarchar (50) not null,
-	[State] nvarchar (50) not null
+	[State] nvarchar (50) not null,
 	[Bio] nvarchar (1200) null
 )
 
