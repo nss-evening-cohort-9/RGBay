@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[User]
 	[Email] nvarchar(320) not null,
 	[City] nvarchar (50) not null,
 	[State] nvarchar (50) not null,
-	[Bio] nvarchar (1200) not null
+	[Bio] nvarchar (1200) null
 )
 
 GO
@@ -38,16 +38,16 @@ INSERT INTO [dbo].[User]
 )
 VALUES
 ( -- First row: values for the columns in the list above
-'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'This is my bio 1'
+'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'Bio info'
 ),
 ( -- Second row: values for the columns in the list above
- 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'This is my bio 2'
+ 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'Bio info'
 ),
 ( -- Third row: values for the columns in the list above
- 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'This is my bio 3'
+ 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'Bio info'
 ),
 ( -- Fourth row: values for the columns in the list above
- 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
+ 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'Bio info'
 )
 GO
 

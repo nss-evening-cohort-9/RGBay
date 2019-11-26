@@ -29,10 +29,10 @@ class ProductView extends React.Component {
 
   render() {
     return (
-      <div className="ProductView mt-5">
-        <div>ProductView</div>
+      <div className="ProductView container">
+        <h2>ProductView</h2>
 
-        <div className="row mt-5">
+        <div className="row">
           {this.buildProducts()}
         </div>
       </div>
