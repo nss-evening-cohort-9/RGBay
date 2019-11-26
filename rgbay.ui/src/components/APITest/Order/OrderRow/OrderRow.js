@@ -1,8 +1,15 @@
 import React from 'react';
-
+import { Button } from 'reactstrap';
 import './OrderRow.scss';
+import orderData from '../../../../data/orderData';
+import OrderTable from '../OrderTable/OrderTable';
 
 class OrderRow extends React.Component {
+
+    deleteOrder = () => {
+        orderData.deleteOrder(this.props.orderProp.id);
+    }
+
     render() {
         const { orderProp } = this.props;
         return (
@@ -12,8 +19,9 @@ class OrderRow extends React.Component {
             <td>{orderProp.date}</td>
             <td>{orderProp.total}</td>
             <td>{orderProp.status}</td>
-            <button>Cancel this order</button>
-            <button>Delete Order</button>
+            <td><Button>Cancel this order</Button></td>
+            <td><Button>Resume this order</Button></td>
+            <td><Button onClick={this.deleteOrder} >Delete Order</Button></td>
             </tr>
         )
     }

@@ -1,9 +1,9 @@
 import Axios from 'axios';
 
-const baseUrl = 'https://localhost:44305';
+const baseUrl = 'https://localhost:44305/api/order';
 
 const getOrderData = () => new Promise((resolve, reject) => {
-    Axios.get(`${baseUrl}/api/order`)
+    Axios.get(`${baseUrl}`)
     .then((resp)=> {
         const orderData = resp.data;
         resolve(orderData);
@@ -11,4 +11,8 @@ const getOrderData = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 })
 
-export default { getOrderData }
+const addNewOrder = order => Axios.post(`${baseUrl}`, order);
+
+const deleteOrder = orderId => Axios.delete(`${baseUrl}/${orderId}`);
+
+export default { getOrderData, addNewOrder, deleteOrder }
