@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
+  Input,
+  Form,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -22,14 +24,25 @@ class NavBar extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
+  test(event) {
+    event.preventDefault();
+    console.error('test')
+  }
+
   render() {
     const { authed } = this.props;
     const buildNavbar = () => {
       if (authed) {
         return (
-          <Nav className="ml-auto" navbar>
+          <Nav navbar>
             <NavItem>
               <NavLink tag={RRNavLink} to='/home'>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/account'>Account</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to='/apitest'>API Test Page</NavLink>
@@ -37,15 +50,18 @@ class NavBar extends React.Component {
           </Nav>
         );
       }
-      return <Nav className="ml-auto" navbar />;
+      return <Nav navbar />;
     };
 
     return (
       <div className="NavBar">
-        <Navbar color="dark" dark expand="md">
-          <NavbarBrand href="/">RGBay</NavbarBrand>
+        <Navbar color="dark" dark expand="md" className="justify-content-between">
+          <NavbarBrand href="/home">RGBay</NavbarBrand>
+          <Form className="w-25" onSubmit={this.test}>
+            <Input placeholder="What you want!"/>
+          </Form>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>
         </Navbar>
