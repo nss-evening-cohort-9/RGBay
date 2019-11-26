@@ -23,7 +23,7 @@ namespace RGBay.api.Controllers
         }
 
         [HttpGet("{productCategoryId}")]
-        public ProductCategory GetProduct(int productCategoryId)
+        public ProductCategory GetProductCategory(int productCategoryId)
         {
             return _repo.GetProductCategory(productCategoryId);
         }
@@ -42,7 +42,7 @@ namespace RGBay.api.Controllers
         }
 
         [HttpDelete("{productCategoryId}")]
-        public bool DeleteProduct(int productCategoryId)
+        public bool DeleteProductCategory(int productCategoryId)
         {
             return _repo.DeleteProductCategory(productCategoryId);
         }

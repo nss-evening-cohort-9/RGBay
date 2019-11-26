@@ -7,7 +7,7 @@ using Dapper;
 
 namespace RGBay.api.Repositories
 {
-    public class PaymentTypeRepository : IPaymentTypeRepository
+    public class PaymentTypeRepository
     {
         string _connectionString = "Server=localhost; Database=RGBay; Trusted_Connection=True;";
 
@@ -15,15 +15,25 @@ namespace RGBay.api.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
-
-                var allPaymentTypes = connection.Query<PaymentType>("Select * from [PaymentType]");
-
-                return allPaymentTypes.AsList();
+                var sql = "Select * from [PaymentType]";
+                var allPaymentTypes = connection.Query<PaymentType>(sql);
+                return allPaymentTypes;
             }
         }
 
-        public bool AddPaymentType(AddPaymentTypeCommand newPaymentType)
+        public PaymentType GetPaymentType(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"select * from PaymentType
+                            where [id] = @id";
+                var parameters = new { id };
+                var paymentType = db.QueryFirstOrDefault<PaymentType>(sql, parameters);
+                return paymentType;
+            }
+        }
+
+        public bool AddPaymentType(AddPaymentTypeCommand newPaymentTypeCommand)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -35,8 +45,7 @@ namespace RGBay.api.Repositories
                             (@userId
                             ,@serviceName
                             ,@profileName)";
-
-                return connection.Execute(sql, newPaymentType) == 1;
+                return connection.Execute(sql, newPaymentTypeCommand) == 1;
             }
         }
 
@@ -48,25 +57,17 @@ namespace RGBay.api.Repositories
                             SET [ServiceName] = @serviceName
                                 ,[ProfileName] = @profileName
                             WHERE Id = @id";
-                //output inserted.*
-
-                var parameters = new {id = idOfPaymentTypeToUpdate
-                                     ,serviceName = updatedPaymentTypeCommand.ServiceName
-                                     ,profileName = updatedPaymentTypeCommand.ProfileName};
-
-                return connection.Execute(sql, parameters) == 1;
+                return connection.Execute(sql, updatedPaymentTypeCommand) == 1;
             }
         }
 
-        public bool DeletePaymentType(int paymentTypeIdToDelete)
+        public bool DeletePaymentType(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 var sql = @"DELETE FROM [dbo].[PaymentType]
-                            WHERE [Id] = @paymentTypeId";
-
-                var parameters = new { paymentTypeId = paymentTypeIdToDelete };
-
+                            WHERE [Id] = @id";
+                var parameters = new { id };
                 return connection.Execute(sql, parameters) == 1;
             }
         }
