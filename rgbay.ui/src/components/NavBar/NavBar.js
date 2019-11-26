@@ -56,7 +56,7 @@ class NavBar extends React.Component {
     return (
       <div className="NavBar">
         <Navbar color="dark" dark expand="md" className="justify-content-between">
-          <NavbarBrand href="/">RGBay</NavbarBrand>
+          <NavbarBrand href="/home">RGBay</NavbarBrand>
           <Form className="w-25" onSubmit={this.test}>
             <Input placeholder="What you want!"/>
           </Form>
