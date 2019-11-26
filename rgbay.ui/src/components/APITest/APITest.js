@@ -20,7 +20,7 @@ class APITest extends Component {
           <UserProfile />
         </div>
         <div className="card">
-          <ProductView />
+          <ProductView testMode={true} />
         </div>
         {/* <div className="card">
           <OrderTable />
