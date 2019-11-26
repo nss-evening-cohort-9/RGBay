@@ -29,7 +29,6 @@ namespace RGBay.api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //configure dependencies we write
-            services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
             services.AddCors(o => o.AddPolicy("AllowAllPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
