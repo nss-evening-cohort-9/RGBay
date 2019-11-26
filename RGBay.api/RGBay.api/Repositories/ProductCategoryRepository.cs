@@ -56,13 +56,13 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public bool DeleteProductCategory(int productCategoryIdToDelete)
+        public bool DeleteProductCategory(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"DELETE FROM [dbo].[ProductCategory]
                             WHERE [Id] = @id";
-                var parameters = new { productCategoryIdToDelete };
+                var parameters = new { id };
                 return db.Execute(sql, parameters) == 1;
             }
         }
