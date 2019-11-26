@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RGBay.api.DataModels
+namespace RGBay.api.Commands
 {
-    public class User
+    public class AddUserCommand
     {
         public int Id { get; set; }
         public string Username { get; set; }
