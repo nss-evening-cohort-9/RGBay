@@ -14,37 +14,37 @@ namespace RGBay.api.Controllers
     [ApiController]
     public class ProductCategoryController : ControllerBase
     {
-        private readonly ProductRepository _repo = new ProductRepository();
+        private readonly ProductCategoryRepository _repo = new ProductCategoryRepository();
 
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductCategory> GetProductCategories()
         {
-            return _repo.GetProducts();
+            return _repo.GetAllProductCategories();
         }
 
-        [HttpGet("{productId}")]
-        public Product GetProduct(int productId)
+        [HttpGet("{productCategoryId}")]
+        public ProductCategory GetProduct(int productCategoryId)
         {
-            return _repo.GetProduct(productId);
+            return _repo.GetProductCategory(productCategoryId);
         }
 
         [HttpPost]
-        public bool PostProduct(AddProductCommand addProductCommand)
+        public bool AddProductCategory(AddProductCategoryCommand addProductCategoryCommand)
         {
-            return _repo.PostProduct(addProductCommand);
+            return _repo.AddProductCategory(addProductCategoryCommand);
         }
 
-        [HttpPut("{productId}")]
-        public bool UpdateProduct(UpdateProductCommand updateProductCommand, int productId)
+        [HttpPut("{productCategoryId}")]
+        public bool UpdateProductCategory(UpdateProductCategoryCommand updateProductCategoryCommand, int productCategoryId)
         {
-            updateProductCommand.Id = productId;
-            return _repo.UpdateProduct(updateProductCommand);
+            updateProductCategoryCommand.Id = productCategoryId;
+            return _repo.UpdateProductCategory(updateProductCategoryCommand);
         }
 
-        [HttpDelete("{productId}")]
-        public bool DeleteProduct(int productId)
+        [HttpDelete("{productCategoryId}")]
+        public bool DeleteProduct(int productCategoryId)
         {
-            return _repo.DeleteProduct(productId);
+            return _repo.DeleteProductCategory(productCategoryId);
         }
     }
 }
