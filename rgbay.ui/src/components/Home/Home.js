@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Jumbotron } from 'reactstrap';
+
 import './Home.scss';
 
 class Home extends Component {
@@ -10,11 +12,12 @@ class Home extends Component {
   render() {
     return (
       <div className="Home col">
-        <ul>
-          <li>
-            Home
-          </li>
-        </ul>
+        <Jumbotron>
+          <h1 className="display-3">Welcome to RGBay!</h1>
+          <p className="lead">"We bring the gaming to you!"</p>
+          <hr className="my-2" />
+          {/* <p>...</p> */}
+        </Jumbotron>
       </div>
     );
   }
