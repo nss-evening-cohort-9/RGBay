@@ -4,6 +4,7 @@ import './APITest.scss';
 import PaymentTypeTable from './PaymentType/PaymentTypeTable/PaymentTypeTable';
 import ProductView from '../ProductView/ProductView';
 import UserProfile from '../Profile/Profile';
+import OrderTable from './Order/OrderTable/OrderTable';
 
 class APITest extends Component {
   state = {
@@ -22,9 +23,9 @@ class APITest extends Component {
         <div className="card">
           <ProductView />
         </div>
-        {/* <div className="card">
+        <div className="card">
           <OrderTable />
-        </div> */}
+        </div>
       </div>
     );
   }
