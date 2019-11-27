@@ -2,12 +2,32 @@ import React from 'react';
 import { Button } from 'reactstrap';
 import './OrderRow.scss';
 import orderData from '../../../../data/orderData';
-import OrderTable from '../OrderTable/OrderTable';
 
 class OrderRow extends React.Component {
 
     deleteOrder = () => {
-        orderData.deleteOrder(this.props.orderProp.id);
+        orderData.deleteOrder(this.props.orderProp.id).then(this.props.getOrders);
+    }
+
+    cancelOrder = () => {
+        const updatedOrder = {
+            Id: this.props.orderProp.id,
+            CustomerId: this.props.orderProp.customerId,
+            Total: this.props.orderProp.Total,
+            Status: "Cancelled"
+        };
+
+        orderData.updateOrder(this.props.orderProp.id, updatedOrder).then(this.props.getOrders);
+    }
+
+    resumeOrder = () => {
+        const updatedOrder = {
+            Id: this.props.orderProp.id,
+            CustomerId: this.props.orderProp.customerId,
+            Status: "In Progress"
+        };
+
+        orderData.updateOrder(this.props.orderProp.id, updatedOrder).then(this.props.getOrders);
     }
 
     render() {
@@ -19,8 +39,8 @@ class OrderRow extends React.Component {
             <td>{orderProp.date}</td>
             <td>{orderProp.total}</td>
             <td>{orderProp.status}</td>
-            <td><Button>Cancel this order</Button></td>
-            <td><Button>Resume this order</Button></td>
+            <td><Button onClick={this.cancelOrder} >Cancel Order</Button></td>
+            <td><Button onClick={this.resumeOrder}>Resume this order</Button></td>
             <td><Button onClick={this.deleteOrder} >Delete Order</Button></td>
             </tr>
         )
@@ -28,9 +48,3 @@ class OrderRow extends React.Component {
 }
 
 export default OrderRow;
-
-// [Id] INT NOT NULL,
-// [CustomerId] INT
-// [Date] DATETIME,
-// [Total] INT NOT NULL,
-// [Status] NVARCHAR(50)

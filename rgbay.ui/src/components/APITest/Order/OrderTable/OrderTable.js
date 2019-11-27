@@ -9,15 +9,6 @@ import './OrderTable.scss';
 import orderData from '../../../../data/orderData';
 import OrderRow from '../OrderRow/OrderRow';
 
-
-const defaultOrderId = {
-    name: '',
-    imgUrl: '',
-    dateCreated: '',
-    description: '',
-    uid: '',
-};
-
 class OrderTable extends React.Component {
     state = {
         orderState: [],
@@ -49,7 +40,7 @@ class OrderTable extends React.Component {
             Total: total,
             Status: status
         }
-        orderData.addNewOrder(newOrder).then(this.getOrders());
+        orderData.addNewOrder(newOrder).then(this.getOrders);
     }
 
 
@@ -63,6 +54,7 @@ class OrderTable extends React.Component {
             <OrderRow
             key={orderProp.id}
             orderProp={orderProp}
+            getOrders={this.getOrders}
             />
         ));
 

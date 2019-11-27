@@ -15,4 +15,6 @@ const addNewOrder = order => Axios.post(`${baseUrl}`, order);
 
 const deleteOrder = orderId => Axios.delete(`${baseUrl}/${orderId}`);
 
-export default { getOrderData, addNewOrder, deleteOrder }
+const updateOrder = (orderId, updatedOrder) => Axios.put(`${baseUrl}/${orderId}`, updatedOrder);
+
+export default { getOrderData, addNewOrder, deleteOrder, updateOrder }
