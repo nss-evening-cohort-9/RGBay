@@ -8,4 +8,11 @@ const getUserInfo = () => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-export default { getUserInfo }
+const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
+const removeUser = userId => axios.delete(`${baseUrl}`, {userId});
+
+export default { 
+    getUserInfo,
+    postNewUser,
+    removeUser 
+}
