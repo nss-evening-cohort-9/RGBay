@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button,
+  // Button,
   Table
 } from 'reactstrap';
 
@@ -40,7 +40,7 @@ class PaymentTypeTable extends React.Component {
     return (
       <div>
         <h2>PaymentType Data</h2>
-        <Button onClick={() => this.updateData()}>Update Data</Button>
+        {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
         <Table striped responsive>
           <thead>
             <tr>
