@@ -10,25 +10,22 @@ class UserProfile extends React.Component {
     }
     
     getProfileInfo = () => {
-        ProfileReq.getUserInfo()
-        .then((info) => {
-            let myInfo = [...info];
-            this.setState({info: myInfo})
-        })
+        ProfileReq
+        .getUserInfo()
+        .then((info) => this.setState({ info }))
         .catch(err => console.log("No information: ", err));
     }
 
     removeUser = (userId) => {
         ProfileReq
         .removeUser(userId)
-        console.log(userId)
         .then((res) => this.getProfileInfo(res))
         .catch(err => console.log("Unable to delete user", err));
     }
     
     buildProfile = () => {
     return this.state.info.map((info) => (
-        <UserCard key={info.id} info={info} />
+        <UserCard key={info.id} info={info} removeUser={this.removeUser}/>
         ));
     }
 

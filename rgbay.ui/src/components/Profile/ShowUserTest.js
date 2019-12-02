@@ -8,6 +8,12 @@ import {
 
 class UserCard extends React.Component {
 
+  removeUser = (e) => {
+    e.preventDefault();
+    const { info, removeUser } = this.props;
+    removeUser(info.id);
+  }
+
 render() {
     const { info } = this.props;
     return (
