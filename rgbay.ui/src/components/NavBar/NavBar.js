@@ -18,16 +18,19 @@ class NavBar extends React.Component {
 
   state = {
     isOpen: false,
+    search: '',
   }
 
   toggle() {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
-  test(event) {
+  showProducts = (event) => {
     event.preventDefault();
-    console.error('test')
+    
   }
+
+  updateSearch = (event) => this.setState({ search: event.target.value });
 
   render() {
     const { authed } = this.props;
@@ -55,13 +58,13 @@ class NavBar extends React.Component {
 
     return (
       <div className="NavBar">
-        <Navbar color="dark" dark expand="md" className="justify-content-between">
-          <NavbarBrand href="/home">RGBay</NavbarBrand>
-          <Form className="w-25" onSubmit={this.test}>
-            <Input placeholder="What you want!"/>
+        <Navbar color="dark" dark expand="md" className="row">
+          <NavbarBrand className="col-4 text-left" href="/home">RGBay</NavbarBrand>
+          <Form className="col-4 w-25" onSubmit={this.showProducts}>
+            <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
+          <Collapse className="col-4" style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>
         </Navbar>
