@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import './APITest.scss';
 
 import PaymentTypeTable from './PaymentType/PaymentTypeTable/PaymentTypeTable';
+import ProductCategoryContainer from './ProductCategory/ProductCategoryContainer/ProductCategoryContainer';
 import ProductView from '../ProductView/ProductView';
 import UserProfile from '../Profile/Profile';
+import OrderTable from './Order/OrderTable/OrderTable';
 
 class APITest extends Component {
   state = {
@@ -16,15 +18,18 @@ class APITest extends Component {
         <div className="card">
           <PaymentTypeTable />
         </div>
+        <div>
+          <ProductCategoryContainer />
+        </div>
         <div className="card">
           <UserProfile />
         </div>
         <div className="card">
           <ProductView testMode={true} />
         </div>
-        {/* <div className="card">
+        <div className="card">
           <OrderTable />
-        </div> */}
+        </div>
       </div>
     );
   }
