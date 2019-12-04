@@ -7,12 +7,23 @@ import productData from '../../data/product-data';
 
 import './ProductView.scss';
 
+const defaultProduct = {
+  title: '',
+  category: '',
+  rentalPrice: '',
+  salesPrice: '',
+  isForSale: false,
+  isRgb: false,
+  description: '',
+  imageUrl: '',
+}
+
 class ProductView extends React.Component {
   state = {
     products: [],
+    product: defaultProduct,
     editState: false,
     isSeller: true,
-    product: defaultProduct,
   }
 
   submitForm = (event) => {
@@ -29,7 +40,7 @@ class ProductView extends React.Component {
     this.setState({ product, editState: true });
   }
 
-  cancelEdit = () => this.setState({ editState: !this.state.editState, product: defaultProduct });
+  cancelEdit = () => this.setState({ product: defaultProduct, editState: false });
 
   updateProductForm = (field, event) => {
     const { value, type, checked } = event.target;
@@ -84,7 +95,7 @@ class ProductView extends React.Component {
 
   editProduct = () => {
     const updatedProduct = { ...this.state.product };
-    this.setState({ product: defaultProduct });
+    this.cancelEdit();
     productData.updateProduct(updatedProduct.id, updatedProduct)
       .then(() => this.getProducts())
       .catch(error => console.error(error));
@@ -95,13 +106,27 @@ class ProductView extends React.Component {
   }
 
   render() {
-    const { product, editState } = this.state;
-    const cancelButton = editState ? (<Button type="button" onClick={this.cancelEdit}>Cancel</Button>) : ('');
+    const { product, editState, isSeller } = this.state;
+    const productSellerForm = isSeller ?
+      (<ProductForm 
+        product={product}
+        editState={editState}
+        updateTitle={this.updateTitle}
+        updateCategory={this.updateCategory}
+        updateRentalPrice={this.updateRentalPrice}
+        updateSalesPrice={this.updateSalesPrice}
+        updateRgb={this.updateRgb}
+        updateIsForSale={this.updateIsForSale}
+        updateDescription={this.updateDescription}
+        updateImageUrl={this.updateImageUrl}
+        cancelEdit={this.cancelEdit}
+        submitForm={this.submitForm}
+      />) : ('');
     return (
       <div className="ProductView container">
         <div className="mt-3">
           <h2 className="d-inline">ProductView</h2>
-
+          {productSellerForm}
         </div>
         <div className="row">
           {this.buildProducts()}
