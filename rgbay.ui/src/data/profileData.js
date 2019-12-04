@@ -18,7 +18,10 @@ const getUserInfo = () => new Promise((resolve, reject) => {
 });
 
 const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
-const removeUser = userId => axios.delete(`${baseUrl}`, userId);
+
+const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
+
+
 
 export default { 
     getUserInfo,

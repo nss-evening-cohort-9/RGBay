@@ -1,6 +1,7 @@
 import React from 'react';
 import userData from '../../data/profileData';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import orderData from '../../data/orderData';
 
 const defaultUserInfo = {
     username: '',
@@ -42,13 +43,13 @@ class AddUser extends React.Component {
         userData.postNewUser(saveNewUser)
         .then(() => this.getProfileInfo())
         this.setState({
-            newUser: defaultUserInfo
+            newUser: saveNewUser
         })
     };
 
-    componentDidMount() {
-        this.getProfileInfo();
-    }
+    // componentDidMount() {
+    //     this.getProfileInfo();
+    // }
 
     render() {
         return (

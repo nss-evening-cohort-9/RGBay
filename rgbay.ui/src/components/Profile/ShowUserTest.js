@@ -1,4 +1,5 @@
 import React from 'react';
+// import userData from '../../data/userData';
 import {
   CardBody, 
   CardTitle, 
@@ -8,11 +9,13 @@ import {
 
 class UserCard extends React.Component {
 
-  removeUser = (e) => {
-    e.preventDefault();
-    const { info, removeUser } = this.props;
-    removeUser(info.id);
-  }
+removeUser = (e) => {
+  e.preventDefault();
+  const { info, removeUser } = this.props;
+  removeUser(info.id)
+  // console.error("Delete button")
+  
+}
 
 render() {
     const { info } = this.props;

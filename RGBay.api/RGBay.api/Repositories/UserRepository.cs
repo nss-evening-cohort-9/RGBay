@@ -36,8 +36,10 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete from [User] where [Id] = @id";
-                return db.Execute(sql, new { id }) == 1;
+                var sql = @"DELETE FROM [User] WHERE [Id] = @Id";
+                var parameters = new { id };
+
+                return db.Execute(sql, parameters) == 1;
             }
         }
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import ProfileReq from '../../data/profileData';
+import userData from '../../data/profileData';
 import AddUser from '../Profile/AddUserTest';
-import UserCard from './ShowUserTest';
+import ShowUserTest from './ShowUserTest';
 // import { ListGroup, ListGroupItem } from 'reactstrap';
 
 class UserProfile extends React.Component {
@@ -10,35 +10,38 @@ class UserProfile extends React.Component {
     }
     
     getProfileInfo = () => {
-        ProfileReq
+        userData
         .getUserInfo()
         .then((info) => this.setState({ info }))
         .catch(err => console.log("No information: ", err));
     }
 
-    removeUser = (userId) => {
-        ProfileReq
-        .removeUser(userId)
-        .then((res) => this.getProfileInfo(res))
-        .catch(err => console.log("Unable to delete user", err));
-    }
-    
-    buildProfile = () => {
-    return this.state.info.map((info) => (
-        <UserCard key={info.id} info={info} removeUser={this.removeUser}/>
-        ));
-    }
-
     componentDidMount() {
         this.getProfileInfo();
     }
+
+    removeUser = (userId) => {
+        userData
+        .removeUser(userId)
+        .then(() => this.getProfileInfo())
+        .catch(err => console.error("Unable to remove the user", err));
+    };
     
     render() {
+        const buildProfile = this.state.info.map((info) => (
+            <ShowUserTest 
+            key={info.id} 
+            info={info}
+            getProfileInfo={this.getProfileInfo}
+            removeUser={this.removeUser}
+            />
+        ));
+
         return(
             <div className="Profile">
                 <h4>User Profile</h4>
                 <AddUser />
-                {this.buildProfile()}
+                {buildProfile}
             </div>
         )
     }
