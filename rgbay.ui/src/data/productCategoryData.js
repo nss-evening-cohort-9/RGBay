@@ -12,6 +12,11 @@ const getAllProductCategories = () => new Promise((resolve, reject) => {
     });
 });
 
+const postProductCategory = newProductCategory => axios.post(`${baseUrl}/api/productCategory`, newProductCategory);
+const deleteProductCategory = productCategoryToDelete => axios.delete(`${baseUrl}/api/productCategory/${productCategoryToDelete.id}`,productCategoryToDelete);
+
 export default {
-  getAllProductCategories
+  getAllProductCategories,
+  postProductCategory,
+  deleteProductCategory,
 }
