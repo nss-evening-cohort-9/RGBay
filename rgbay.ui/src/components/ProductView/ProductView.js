@@ -41,7 +41,7 @@ class ProductView extends React.Component {
     this.setState({ product, editState: true });
   }
 
-  cancelEdit = () => this.setState({ editState: !this.state.editState });
+  cancelEdit = () => this.setState({ editState: !this.state.editState, product: defaultProduct });
 
   updateProductForm = (field, event) => {
     const { value, type, checked } = event.target;
@@ -87,6 +87,7 @@ class ProductView extends React.Component {
 
   addProduct = () => {
     const newProduct = { ...this.state.product };
+    this.setState({ product: defaultProduct });
     newProduct.ownerId = 1;
     productData.addProduct(newProduct)
       .then(() => this.getProducts())
@@ -95,6 +96,7 @@ class ProductView extends React.Component {
 
   editProduct = () => {
     const updatedProduct = { ...this.state.product };
+    this.setState({ product: defaultProduct });
     productData.updateProduct(updatedProduct.id, updatedProduct)
       .then(() => this.getProducts())
       .catch(error => console.error(error));
