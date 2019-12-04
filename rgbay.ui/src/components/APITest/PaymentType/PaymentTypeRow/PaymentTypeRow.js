@@ -4,7 +4,7 @@ import './PaymentTypeRow.scss';
 
 class PaymentTypeRow extends React.Component {
 
-  render () {
+  render() {
     const { paymentType } = this.props;
     return (
       <tr>
