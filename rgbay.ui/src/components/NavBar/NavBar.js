@@ -28,7 +28,8 @@ class NavBar extends React.Component {
 
   showSearchedProducts = (event) => {
     event.preventDefault();
-    this.props.history.push('/store');
+    console.error(this.state.search);
+    this.props.history.push(`/store/${this.state.search}`);
   }
 
   updateSearch = (event) => this.setState({ search: event.target.value });

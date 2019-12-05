@@ -67,9 +67,14 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
-    return this.state.products.map((product) => (
-      <Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />
-    ));
+    return this.state.products.map((product) => {
+      if (this.props.match) {
+        console.error(this.props.match.params.searchCriteria);
+        return (<Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />);
+      } else {
+        return (<Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />);
+      }
+    });
   }
 
   getProducts = () => {
