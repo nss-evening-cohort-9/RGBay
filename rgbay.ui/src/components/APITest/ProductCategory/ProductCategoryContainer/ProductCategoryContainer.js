@@ -5,6 +5,7 @@ import React from 'react';
 
 import './ProductCategoryContainer.scss';
 import productCategoryData from '../../../../data/productCategoryData';
+import ProductCategoryForm from '../ProductCategoryForm/ProductCategoryForm';
 import TestProductCategory from '../TestProductCategory/TestProductCategory';
 
 class ProductCategoryContainer extends React.Component {
@@ -37,9 +38,11 @@ class ProductCategoryContainer extends React.Component {
       />
     ));
     return (
-      <div className="ProductCategoryContainer card">
+      <div className="ProductCategoryContainer card container">
         <h2>ProductCategory Data</h2>
         {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
+        <ProductCategoryForm key={`productCategoryForm`}
+          update={this.updateData} />
         <div className="row">
           {testProductCategories}
         </div>
