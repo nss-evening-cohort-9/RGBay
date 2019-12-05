@@ -19,17 +19,19 @@ class Product extends React.Component {
   }
 
   render() {
-    const { product } = this.props;
+    const { product, isSeller } = this.props;
+    const editIcons = isSeller ?
+      (<div>
+        <i className="fas fa-pencil-alt pointer" onClick={this.updateProduct}></i>
+        <i className="fas fa-times pointer pl-2" onClick={this.deleteProduct}></i>
+      </div>) : (<div></div>);
     return (
       <div className="Product col-12">
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between">
               <div>{product.title}</div>
-              <div>
-                <i className="fas fa-pencil-alt pointer" onClick={this.updateProduct}></i>
-                <i className="fas fa-times pointer pl-2" onClick={this.deleteProduct}></i>
-              </div>
+              {editIcons}
             </div>
             <div>{product.title}</div>
             <div>{product.description}</div>

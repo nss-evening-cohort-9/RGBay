@@ -12,6 +12,7 @@ import Home from '../components/Home/Home';
 import Account from '../components/Account/Account';
 import Orders from '../components/OrderView/OrdersView';
 import NavBar from '../components/NavBar/NavBar';
+import ProductView from '../components/ProductView/ProductView';
 import './App.scss';
 
 
@@ -49,6 +50,7 @@ class App extends React.Component {
                 <PrivateRoute path="/home" exact component={Home} authed={authed} />
                 <PrivateRoute path="/account" exact component={Account} authed={authed} />
                 <PrivateRoute path="/orders" exact component={Orders} authed={authed} />
+                <PrivateRoute path="/store" exact component={ProductView} authed={authed} isSeller={false} />
                 <PrivateRoute path="/apitest" exact component={APITest} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>

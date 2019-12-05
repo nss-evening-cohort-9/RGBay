@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router";
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
@@ -25,9 +26,9 @@ class NavBar extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
-  showProducts = (event) => {
+  showSearchedProducts = (event) => {
     event.preventDefault();
-    
+    this.props.history.push('/store');
   }
 
   updateSearch = (event) => this.setState({ search: event.target.value });
@@ -60,7 +61,7 @@ class NavBar extends React.Component {
       <div className="NavBar">
         <Navbar color="dark" dark expand="md" className="row">
           <NavbarBrand className="col-4 text-left" href="/home">RGBay</NavbarBrand>
-          <Form className="col-4 w-25" onSubmit={this.showProducts}>
+          <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>
           <NavbarToggler onClick={this.toggle} />
@@ -73,4 +74,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

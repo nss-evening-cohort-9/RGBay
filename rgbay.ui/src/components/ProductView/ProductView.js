@@ -23,7 +23,7 @@ class ProductView extends React.Component {
     products: [],
     product: defaultProduct,
     editState: false,
-    isSeller: true,
+    isSeller: false,
   }
 
   submitForm = (event) => {
@@ -68,7 +68,7 @@ class ProductView extends React.Component {
 
   buildProducts = () => {
     return this.state.products.map((product) => (
-      <Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} />
+      <Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />
     ));
   }
 
