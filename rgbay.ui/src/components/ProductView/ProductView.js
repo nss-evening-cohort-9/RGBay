@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Product from '../Product/Product';
-import ProductForm from './ProductForm';
+import Product from './ProductViewCard';
+import ProductForm from './ProductViewForm';
 
 import productData from '../../data/product-data';
 
@@ -24,6 +24,10 @@ class ProductView extends React.Component {
     product: defaultProduct,
     editState: false,
     isSeller: false,
+  }
+
+  showProduct = (productId) => {
+    this.props.history.push(`/product/${productId}`);
   }
 
   submitForm = (event) => {
@@ -68,11 +72,19 @@ class ProductView extends React.Component {
 
   buildProducts = () => {
     return this.state.products.map((product) => {
+      const productToBuild = (
+        <Product
+          key={product.id}
+          product={product}
+          deleteProduct={this.deleteProduct}
+          stageEdit={this.stageEdit}
+          isSeller={this.state.isSeller}
+          showProduct={this.showProduct} />);
       if (this.props.match) {
-        console.error(this.props.match.params.searchCriteria);
-        return (<Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />);
+        // console.error(this.props.match.params.searchCriteria);
+        return productToBuild
       } else {
-        return (<Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} isSeller={this.state.isSeller} />);
+        return productToBuild
       }
     });
   }

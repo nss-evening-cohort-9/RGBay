@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, CardBody, Card, Form, FormGroup, Input, Label } from 'reactstrap';
 
 
-class ProductForm extends React.Component {
+class ProductViewForm extends React.Component {
   render() {
     const {
       product,
@@ -61,4 +61,4 @@ class ProductForm extends React.Component {
   }
 }
 
-export default ProductForm
+export default ProductViewForm;
