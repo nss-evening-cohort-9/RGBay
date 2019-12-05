@@ -27,8 +27,12 @@ class ProductView extends React.Component {
   }
 
   showProduct = (productId) => {
-    if (this.props.testMode) return;
-    this.props.history.push(`/product/${productId}`);
+    const { isChildComponent, showProduct } = this.props;
+    if (isChildComponent) {
+      showProduct(productId);
+    } else {
+      this.props.history.push(`/product/${productId}`);
+    }
   }
 
   submitForm = (event) => {
