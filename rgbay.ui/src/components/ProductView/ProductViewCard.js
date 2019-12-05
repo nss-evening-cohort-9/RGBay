@@ -9,7 +9,7 @@ class ProductViewCard extends React.Component {
   }
 
   showProduct = () => {
-    this.props.showProduct(this.state.product.id);
+    this.props.showProduct(this.props.product.id);
   }
 
   deleteProduct = () => {
@@ -30,7 +30,7 @@ class ProductViewCard extends React.Component {
         <i className="fas fa-times pointer pl-2" onClick={this.deleteProduct}></i>
       </div>) : (<div></div>);
     return (
-      <div className="Product col-12">
+      <div className="ProductViewCard col-12">
         <div className="card pointer" onClick={this.showProduct}>
           <div className="card-body">
             <div className="d-flex justify-content-between">

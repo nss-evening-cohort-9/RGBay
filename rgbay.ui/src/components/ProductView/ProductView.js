@@ -27,6 +27,7 @@ class ProductView extends React.Component {
   }
 
   showProduct = (productId) => {
+    if (this.props.testMode) return;
     this.props.history.push(`/product/${productId}`);
   }
 
