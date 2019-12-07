@@ -88,6 +88,42 @@ VALUES
 )
 GO
 
+-- Create a new table called '[ProductCategory]' in schema '[dbo]'
+-- Drop the table if it already exists
+IF OBJECT_ID('[dbo].[ProductCategory]', 'U') IS NOT NULL
+DROP TABLE [dbo].[ProductCategory]
+GO
+-- Create the table in the specified schema
+CREATE TABLE [dbo].[ProductCategory]
+(
+    [Id] int identity(1,1) not null primary key,
+    -- Primary Key column
+    [Name] NVARCHAR(50) NOT NULL
+    -- Specify more columns here
+);
+GO
+
+-- Insert rows into table 'ProductCategory' in schema '[dbo]'
+INSERT INTO [dbo].[ProductCategory]
+    ( -- Columns to insert data into
+    [Name]
+    )
+VALUES
+    (
+        'Part'
+),
+    (
+        'Peripheral'
+),
+    (
+        'Space'
+),
+    (
+        'System'
+)
+-- Add more rows here
+GO
+
 -- Create a new table called '[Product]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[Product]', 'U') IS NOT NULL
@@ -98,7 +134,9 @@ CREATE TABLE [dbo].[Product]
 (
     [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, -- Primary Key column
     [Title] NVARCHAR(255) NOT NULL,
-	[Category] NVARCHAR(255) NOT NULL,
+	[Category] INT NOT NULL
+        FOREIGN KEY (Category)
+        REFERENCES [ProductCategory] (Id),
 	[RentalPrice] INT NOT NULL,
 	[SalesPrice] INT NOT NULL,
 	[IsForSale] BIT NOT NULL,
@@ -118,16 +156,16 @@ INSERT INTO [dbo].[Product]
 )
 VALUES
 ( -- First row: values for the columns in the list above
- 'Corsair Mouse', 'peripheral', '103200', '236700', 1, 1, 'This is a cool rgb mouse', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHPKJOHDk6uKF0_a-pcD4ik_lEPBLd1KyNJMLmYvh3ZXk4J6uTjw&s', 2
+ 'Corsair Mouse', 2, '103200', '236700', 1, 1, 'This is a cool rgb mouse', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHPKJOHDk6uKF0_a-pcD4ik_lEPBLd1KyNJMLmYvh3ZXk4J6uTjw&s', 2
 ),
 ( -- Second row: values for the columns in the list above
- 'Logitech Keyboard', 'peripheral', '133200', '256700', 1, 0, 'Awsome ergonomic keyboard', 'https://c1.neweggimages.com/ProductImage/23-126-076-07.jpg', 1
+ 'Logitech Keyboard', 2, '133200', '256700', 1, 0, 'Awsome ergonomic keyboard', 'https://c1.neweggimages.com/ProductImage/23-126-076-07.jpg', 1
 ),
 ( -- Third row: values for the columns in the list above
- 'RGB Crib', 'space', '2033200', '0', 0, 1, 'Nice crib with all rgb stuff', 'https://i.pinimg.com/originals/70/ff/99/70ff998f92d899c8206254985e43f143.jpg', 3
+ 'RGB Crib', 3, '2033200', '0', 0, 1, 'Nice crib with all rgb stuff', 'https://i.pinimg.com/originals/70/ff/99/70ff998f92d899c8206254985e43f143.jpg', 3
 ),
 ( -- Fourth row: values for the columns in the list above
- 'Nvidia GTX 1080', 'part', '0', '4036700', 1, 0, 'Top notch graphics card', 'https://i.imgur.com/Mo75nLO.jpg', 2
+ 'Nvidia GTX 1080', 1, '0', '4036700', 1, 0, 'Top notch graphics card', 'https://i.imgur.com/Mo75nLO.jpg', 2
 )
 GO
 
@@ -165,40 +203,4 @@ VALUES
 (
     4, '20191120 6:00:00 AM', 4000, 'Status 4'
 )
-GO
-
--- Create a new table called '[ProductCategory]' in schema '[dbo]'
--- Drop the table if it already exists
-IF OBJECT_ID('[dbo].[ProductCategory]', 'U') IS NOT NULL
-DROP TABLE [dbo].[ProductCategory]
-GO
--- Create the table in the specified schema
-CREATE TABLE [dbo].[ProductCategory]
-(
-    [Id] int identity(1,1) not null primary key,
-    -- Primary Key column
-    [Name] NVARCHAR(50) NOT NULL
-    -- Specify more columns here
-);
-GO
-
--- Insert rows into table 'ProductCategory' in schema '[dbo]'
-INSERT INTO [dbo].[ProductCategory]
-    ( -- Columns to insert data into
-    [Name]
-    )
-VALUES
-    (
-        'Part'
-),
-    (
-        'Peripheral'
-),
-    (
-        'Space'
-),
-    (
-        'System'
-)
--- Add more rows here
 GO

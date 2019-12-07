@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { Collapse, Button, CardBody, Card, Form, FormGroup, Input, Label } from 'reactstrap';
-
-import Product from '../Product/Product';
+import Product from './ProductViewCard';
+import ProductForm from './ProductViewForm';
 
 import productData from '../../data/product-data';
 
@@ -22,9 +21,18 @@ const defaultProduct = {
 class ProductView extends React.Component {
   state = {
     products: [],
-    editState: false,
-    isSeller: true,
     product: defaultProduct,
+    editState: false,
+    isSeller: false,
+  }
+
+  showProduct = (productId) => {
+    const { isChildComponent, showProduct } = this.props;
+    if (isChildComponent) {
+      showProduct(productId);
+    } else {
+      this.props.history.push(`/product/${productId}`);
+    }
   }
 
   submitForm = (event) => {
@@ -41,7 +49,7 @@ class ProductView extends React.Component {
     this.setState({ product, editState: true });
   }
 
-  cancelEdit = () => this.setState({ editState: !this.state.editState, product: defaultProduct });
+  cancelEdit = () => this.setState({ product: defaultProduct, editState: false });
 
   updateProductForm = (field, event) => {
     const { value, type, checked } = event.target;
@@ -68,9 +76,22 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
-    return this.state.products.map((product) => (
-      <Product key={product.id} product={product} deleteProduct={this.deleteProduct} stageEdit={this.stageEdit} />
-    ));
+    return this.state.products.map((product) => {
+      const productToBuild = (
+        <Product
+          key={product.id}
+          product={product}
+          deleteProduct={this.deleteProduct}
+          stageEdit={this.stageEdit}
+          isSeller={this.state.isSeller}
+          showProduct={this.showProduct} />);
+      if (this.props.match) {
+        // console.error(this.props.match.params.searchCriteria);
+        return productToBuild
+      } else {
+        return productToBuild
+      }
+    });
   }
 
   getProducts = () => {
@@ -96,7 +117,7 @@ class ProductView extends React.Component {
 
   editProduct = () => {
     const updatedProduct = { ...this.state.product };
-    this.setState({ product: defaultProduct });
+    this.cancelEdit();
     productData.updateProduct(updatedProduct.id, updatedProduct)
       .then(() => this.getProducts())
       .catch(error => console.error(error));
@@ -107,48 +128,27 @@ class ProductView extends React.Component {
   }
 
   render() {
-    const { product, editState } = this.state;
-    const cancelButton = editState ? (<Button type="button" onClick={this.cancelEdit}>Cancel</Button>) : ('');
+    const { product, editState, isSeller } = this.state;
+    const productSellerForm = isSeller ?
+      (<ProductForm 
+        product={product}
+        editState={editState}
+        updateTitle={this.updateTitle}
+        updateCategory={this.updateCategory}
+        updateRentalPrice={this.updateRentalPrice}
+        updateSalesPrice={this.updateSalesPrice}
+        updateRgb={this.updateRgb}
+        updateIsForSale={this.updateIsForSale}
+        updateDescription={this.updateDescription}
+        updateImageUrl={this.updateImageUrl}
+        cancelEdit={this.cancelEdit}
+        submitForm={this.submitForm}
+      />) : ('');
     return (
       <div className="ProductView container">
         <div className="mt-3">
           <h2 className="d-inline">ProductView</h2>
-          <Card>
-            <CardBody>
-              <Form onSubmit={this.submitForm} >
-                <FormGroup>
-                  <Label for="product-title">Title</Label>
-                  <Input id="product-title" type="text" placeholder="Title" value={product.title} onChange={this.updateTitle} />
-                  <Label for="product-category">Category</Label>
-                  <Input id="product-category" type="text" placeholder="Category" value={product.category} onChange={this.updateCategory} />
-                  <Label for="product-rentalprice">Rental Price</Label>
-                  <Input id="product-rentalprice" type="text" placeholder="Rental Price" value={product.rentalPrice} onChange={this.updateRentalPrice} />
-                  <Label for="product-salesprice">Sales Price</Label>
-                  <Input id="product-salesprice" type="text" placeholder="Sales Price" value={product.salesPrice} onChange={this.updateSalesPrice} />
-                </FormGroup>
-                <FormGroup check>
-                  <Label for="product-rbg" className="mr-5">
-                    <Input id="product-rbg" type="checkbox" placeholder="RGB" value={product.isRgb} onChange={this.updateRgb} />
-                    RGB
-                  </Label>
-                  <Label for="product-forsale">
-                    <Input id="product-forsale" type="checkbox" placeholder="For Sale?" value={product.isForSale} onChange={this.updateIsForSale} />
-                    For Sale?
-                  </Label>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="product-description">Description</Label>
-                  <Input id="product-description" type="textarea" placeholder="Description" value={product.description} onChange={this.updateDescription} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="product-image">Image</Label>
-                  <Input id="product-image" type="text" placeholder="Image URL" value={product.imageUrl} onChange={this.updateImageUrl} />
-                </FormGroup>
-                <Button type="submit">Submit</Button>
-                { cancelButton }
-              </Form>
-            </CardBody>
-          </Card>
+          {productSellerForm}
         </div>
         <div className="row">
           {this.buildProducts()}
