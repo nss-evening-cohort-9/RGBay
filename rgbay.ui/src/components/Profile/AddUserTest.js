@@ -38,14 +38,15 @@ class AddUser extends React.Component {
     addUser = (e) => {
         e.preventDefault();
         const saveNewUser = { ...this.state.newUser };
-        console.log(saveNewUser)
         userData
         .postNewUser(saveNewUser)
         .then(() => {
         this.props.getProfileInfo();
         this.setState({ 
             newUser: defaultUserInfo })
+            console.log(saveNewUser)
         })
+
     };
 
     componentDidMount() {

@@ -16,6 +16,8 @@ class UserProfile extends React.Component {
         .catch(err => console.log("No information: ", err));
     }
 
+    
+
     componentDidMount() {
         this.getProfileInfo();
     }
