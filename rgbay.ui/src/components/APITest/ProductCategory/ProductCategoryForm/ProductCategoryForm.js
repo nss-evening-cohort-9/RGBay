@@ -9,7 +9,6 @@ import {
   Row,
 } from 'reactstrap';
 import './ProductCategoryForm.scss';
-import productCategoryData from '../../../../data/productCategoryData';
 
 const defaultProductCategory = {
   id: '',
@@ -30,19 +29,16 @@ class ProductCategoryForm extends React.Component {
 
   nameChange = e => this.formFieldStringState('name', e);
 
-  formSubmit = (e) => {
+  saveCategory = (e) => {
     e.preventDefault();
-    const saveMe = { ...this.state.newProductCategory };
+    this.props.formSubmit(this.state.newProductCategory);
     this.setState({newProductCategory: defaultProductCategory});
-    productCategoryData.postProductCategory(saveMe)
-      .then(this.props.update)
-      .catch(error => console.error('unable to save productCategory', error));
   }
 
   render() {
     const { newProductCategory } = this.state;
     return (
-      <Form onSubmit={this.formSubmit}>
+      <Form onSubmit={this.saveCategory}>
         <Row form>
           <Col>
             <FormGroup>

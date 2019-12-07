@@ -10,23 +10,56 @@ import TestProductCategory from '../TestProductCategory/TestProductCategory';
 
 class ProductCategoryContainer extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { productCategories: [] };
-    this.updateData = this.updateData.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { productCategories: [] };
+  //   this.updateData = this.updateData.bind(this);
+  // }
 
-  updateData() {
-    productCategoryData.getAllProductCategories()
-      .then((productCategories) => {
-        let freshProductCategories = [...productCategories];
-        this.setState({ productCategories: freshProductCategories });
-      })
-      .catch(error => console.error(`could not get ProductCategories`, error));
+  state = {
+    productCategories: [],
+    isEditing: false,
   }
 
   componentDidMount() {
     this.updateData();
+  }
+
+  formSubmit = (freshProductCategory) => {
+    if (this.state.isEditing) {
+      // this.updateCategory
+    } else {
+      this.addCategory(freshProductCategory);
+    }
+  }
+
+  addCategory = (newProductCategory) => {
+    productCategoryData.postProductCategory(newProductCategory)
+      .then(() => this.updateData())
+      .catch(error => console.error('unable to add ProductCategory', error));
+  }
+
+  updateCategory = (updatedProductCategory) => {
+    this.setState({isEditing: false});
+    productCategoryData.updateProductCategory(updatedProductCategory.id, updatedProductCategory)
+      .then(() => this.updateData())
+      .catch(error => console.error('unable to update ProductCategory', error));
+  }
+
+  deleteProductCategory = (id) => {
+    productCategoryData.deleteProductCategory(id)
+      .then(() => this.updateData())
+      .catch(error => console.error('unable to delete ProductCategory', error));
+  }
+
+  updateData() {
+    productCategoryData.getAllProductCategories()
+      // .then((productCategories) => {
+      //   let freshProductCategories = [...productCategories];
+      //   this.setState({ productCategories: freshProductCategories });
+      // })
+      .then(productCategories => this.setState({ productCategories }))
+      .catch(error => console.error(`could not get ProductCategories`, error));
   }
 
   render() {
@@ -35,6 +68,7 @@ class ProductCategoryContainer extends React.Component {
         key={`productCategory${productCategory.id}`}
         productCategory={productCategory}
         update={this.updateData}
+        deleteProductCategory={this.deleteProductCategory}
       />
     ));
     return (
@@ -42,7 +76,7 @@ class ProductCategoryContainer extends React.Component {
         <h2>ProductCategory Data</h2>
         {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
         <ProductCategoryForm key={`productCategoryForm`}
-          update={this.updateData} />
+          formSubmit={this.formSubmit} />
         <div className="row">
           {testProductCategories}
         </div>
