@@ -1,13 +1,7 @@
 import React from 'react';
 
-<<<<<<< HEAD
-import { Button, CardBody, Card, Form, FormGroup, Input, Label } from 'reactstrap';
-
-import Product from '../Product/Product';
-=======
 import Product from './ProductViewCard';
 import ProductForm from './ProductViewForm';
->>>>>>> master
 
 import productData from '../../data/product-data';
 

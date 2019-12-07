@@ -25,8 +25,8 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"select * from [User]
-                            where id = @id";
-                var user = db.QueryFirst<User>(sql, new { Id = id });
+                            where [Id] = @id";
+                var user = db.QuerySingle<User>(sql, new { Id = id });
                 return user;
 
             }

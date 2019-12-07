@@ -55,11 +55,8 @@ class App extends React.Component {
                 <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} />
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/apitest" component={APITest} authed={authed} />
-<<<<<<< HEAD
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/edituser/:id" component={EditUser} authed={authed} />
-=======
->>>>>>> master
                 <Redirect from="*" to="/home" />
               </Switch>
             </div>

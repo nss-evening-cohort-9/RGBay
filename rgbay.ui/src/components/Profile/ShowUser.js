@@ -7,7 +7,7 @@ import {
   Card
 } from 'reactstrap';
 
-class UserCard extends React.Component {
+class ShowUser extends React.Component {
 
 removeUser = (e) => {
   e.preventDefault();
@@ -38,4 +38,4 @@ render() {
   }
 }
 
-export default UserCard;
+export default ShowUser;

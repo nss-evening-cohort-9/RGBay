@@ -1,7 +1,7 @@
 import React from 'react'
 import userData from '../../data/profileData';
 import AddUser from './AddUser';
-import ShowUserTest from './ShowUser';
+import ShowUser from './ShowUser';
 // import { ListGroup, ListGroupItem } from 'reactstrap';
 
 class UserProfile extends React.Component {
@@ -12,11 +12,12 @@ class UserProfile extends React.Component {
     getProfileInfo = () => {
         userData
         .getUserInfo()
-        .then((info) => this.setState({ info }))
+        .then((info) => {
+            this.setState({ info })
+            }
+        )
         .catch(err => console.log("No information: ", err));
-    }
-
-    
+    }  
 
     componentDidMount() {
         this.getProfileInfo();
@@ -35,7 +36,7 @@ class UserProfile extends React.Component {
     
     render() {
         const buildProfile = this.state.info.map((info) => (
-            <ShowUserTest 
+            <ShowUser 
             key={info.id} 
             info={info}
             getProfileInfo={this.getProfileInfo}

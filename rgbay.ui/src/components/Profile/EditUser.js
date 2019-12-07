@@ -17,9 +17,9 @@ class EditUser extends React.Component {
     }
 
     stringStateField = (name, e) => {
-        const makeNewUser = { ...this.state.newUser };
-        makeNewUser[name] = e.target.value;
-        this.setState({ newUser: makeNewUser });
+        const copyUser = { ...this.state.editedUser };
+        copyUser[name] = e.target.value;
+        this.setState({ editedUser: copyUser });
     }
 
     usernameChange = e => this.stringStateField('username', e);
@@ -28,40 +28,27 @@ class EditUser extends React.Component {
     stateChange = e => this.stringStateField('state', e);
     bioChange = e => this.stringStateField('bio', e);
 
-    updateProfileInfo = (e) => {
-        e.preventDefault();
-        const updateTheUser = { ...this.state.editUser };
-        const userId = this.props.match.params.id;
-        userData
-        .updateUser(updateTheUser, userId)
-        .then(() => this.props.history("/profile/:id"))
-        .catch(err => console.log("No information: ", err));
-    }
-
-    // addUser = (e) => {
-    //     e.preventDefault();
-    //     const saveNewUser = { ...this.state.newUser };
-    //     userData
-    //     .postNewUser(saveNewUser)
-    //     .then(() => {
-    //     this.props.getProfileInfo();
-    //     this.setState({ 
-    //         newUser: defaultUserInfo })
-    //         console.log(saveNewUser)
-    //     })
-
-    // };
-
     // gets data back for the form in edit
     componentDidMount() {
     const userId = this.props.match.params.id;
     userData
-      .updateUser(userId)
+      .getSingleUser(userId)
       .then(userStuff => this.setState({ editedUser: userStuff.data }))
       .catch(err => console.error("could not edit profile", err));
-  }
+    }
+
+    updateProfileInfo = (e) => {
+        e.preventDefault();
+        const updateTheUser = { ...this.state.editedUser };
+        const userId = this.props.match.params.id;
+        userData
+            .updateUser(updateTheUser, userId)
+            .then(() => this.props.history.push("/apitest"))
+            .catch(err => console.log("No information: ", err));
+    }
 
     render() {
+        const {editedUser} = this.state;
         return (
             <div className="editUserForm">
                 <h1>Edit you profile</h1>
@@ -74,7 +61,7 @@ class EditUser extends React.Component {
                         className="username"
                         id="userName"
                         placeholder="Enter A Username"
-                        value={this.state.editedUser.username}
+                        value={editedUser.username}
                         onChange={this.usernameChange}
                         />
                     </FormGroup>
@@ -85,7 +72,7 @@ class EditUser extends React.Component {
                         className="email"
                         id="userEmail"
                         placeholder="Enter Email Address"
-                        value={this.state.editedUser.email}
+                        value={editedUser.email}
                         onChange={this.emailChange}
                         />
                     </FormGroup>
@@ -96,7 +83,7 @@ class EditUser extends React.Component {
                         className="city"
                         id="userCity"
                         placeholder="Enter Your City"
-                        value={this.state.editedUser.city}
+                        value={editedUser.city}
                         onChange={this.cityChange}
                         />
                     </FormGroup>
@@ -107,7 +94,7 @@ class EditUser extends React.Component {
                         className="state"
                         id="userState"
                         placeholder="Enter Your State (ex: AZ)"
-                        value={this.state.editedUser.state}
+                        value={editedUser.state}
                         onChange={this.stateChange}
                         />
                     </FormGroup>
@@ -118,7 +105,7 @@ class EditUser extends React.Component {
                         className="bio" 
                         id="userBio"
                         placeholder="Explain yourself! (optional)"
-                        value={this.state.editedUser.bio}
+                        value={editedUser.bio}
                         onChange={this.bioChange} />
                     </FormGroup>
                     <Button type="submit" className="btn btn-success">Update User</Button>
