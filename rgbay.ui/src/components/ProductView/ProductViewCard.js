@@ -31,10 +31,10 @@ class ProductViewCard extends React.Component {
       </div>) : (<div></div>);
     return (
       <div className="ProductViewCard col-12">
-        <div className="card pointer" onClick={this.showProduct}>
+        <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between">
-              <div>{product.title}</div>
+              <div className="pointer font-weight-bold" onClick={this.showProduct}>{product.title}</div>
               {editIcons}
             </div>
             <div>{product.title}</div>
