@@ -12,6 +12,9 @@ const getAllProductCategories = () => new Promise((resolve, reject) => {
     });
 });
 
+const getProductCategoryById = (productCategoryId) => axios.get(`${baseUrl}/api/ProductCategory/${productCategoryId}`);
+
 export default {
-  getAllProductCategories
+  getAllProductCategories,
+  getProductCategoryById,
 }
