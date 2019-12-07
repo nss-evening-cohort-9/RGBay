@@ -41,7 +41,7 @@ class UserProfile extends React.Component {
 
         return(
             <div className="Profile">
-                <h4>User Profile</h4>
+                <h4>Create Profile</h4>
                 <AddUser
                 getProfileInfo={this.getProfileInfo}
                 />

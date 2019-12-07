@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Collapse, Button, CardBody, Card, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, CardBody, Card, Form, FormGroup, Input, Label } from 'reactstrap';
 
 import Product from '../Product/Product';
 
