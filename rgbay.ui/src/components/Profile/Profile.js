@@ -1,7 +1,7 @@
 import React from 'react'
 import userData from '../../data/profileData';
-import AddUser from '../Profile/AddUserTest';
-import ShowUserTest from './ShowUserTest';
+import AddUser from './AddUser';
+import ShowUserTest from './ShowUser';
 // import { ListGroup, ListGroupItem } from 'reactstrap';
 
 class UserProfile extends React.Component {
@@ -28,6 +28,10 @@ class UserProfile extends React.Component {
         .then(() => this.getProfileInfo())
         .catch(err => console.error("Unable to remove the user", err));
     };
+
+    updateUser = (userId) => {
+        return userId;
+    };
     
     render() {
         const buildProfile = this.state.info.map((info) => (
@@ -36,6 +40,7 @@ class UserProfile extends React.Component {
             info={info}
             getProfileInfo={this.getProfileInfo}
             removeUser={this.removeUser}
+            updateUser={this.updateUser}
             />
         ));
 

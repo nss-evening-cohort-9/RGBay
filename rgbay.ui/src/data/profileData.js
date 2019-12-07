@@ -19,12 +19,18 @@ const getUserInfo = () => new Promise((resolve, reject) => {
 
 const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
 
+const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
+
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
+
+const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
 
 
 
 export default { 
     getUserInfo,
     postNewUser,
-    removeUser 
+    removeUser,
+    updateUser,
+    getSingleUser 
 }

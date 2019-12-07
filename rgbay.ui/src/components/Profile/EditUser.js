@@ -10,10 +10,10 @@ const defaultUserInfo = {
     bio: ''
 }
 
-class AddUser extends React.Component {
+class EditUser extends React.Component {
     state = {
         user: [],
-        newUser: defaultUserInfo
+        editedUser: defaultUserInfo
     }
 
     stringStateField = (name, e) => {
@@ -28,37 +28,45 @@ class AddUser extends React.Component {
     stateChange = e => this.stringStateField('state', e);
     bioChange = e => this.stringStateField('bio', e);
 
-    getProfileInfo = () => {
-        userData
-        .getUserInfo()
-        .then(user => this.setState({ user }))
-        .catch(err => console.log("No information: ", err));
-    };
-
-    addUser = (e) => {
+    updateProfileInfo = (e) => {
         e.preventDefault();
-        const saveNewUser = { ...this.state.newUser };
+        const updateTheUser = { ...this.state.editUser };
+        const userId = this.props.match.params.id;
         userData
-        .postNewUser(saveNewUser)
-        .then(() => {
-        this.props.getProfileInfo();
-        this.setState({ 
-            newUser: defaultUserInfo })
-            console.log(saveNewUser)
-        })
-
-    };
-
-    componentDidMount() {
-        this.getProfileInfo();
+        .updateUser(updateTheUser, userId)
+        .then(() => this.props.history("/profile/:id"))
+        .catch(err => console.log("No information: ", err));
     }
+
+    // addUser = (e) => {
+    //     e.preventDefault();
+    //     const saveNewUser = { ...this.state.newUser };
+    //     userData
+    //     .postNewUser(saveNewUser)
+    //     .then(() => {
+    //     this.props.getProfileInfo();
+    //     this.setState({ 
+    //         newUser: defaultUserInfo })
+    //         console.log(saveNewUser)
+    //     })
+
+    // };
+
+    // gets data back for the form in edit
+    componentDidMount() {
+    const userId = this.props.match.params.id;
+    userData
+      .updateUser(userId)
+      .then(userStuff => this.setState({ editedUser: userStuff.data }))
+      .catch(err => console.error("could not edit profile", err));
+  }
 
     render() {
         return (
             <div className="editUserForm">
                 <h1>Edit you profile</h1>
                 <div className="container">
-                    <Form className="col-8 offset-2" onSubmit={this.addUser}>
+                    <Form className="col-8 offset-2" onSubmit={this.updateProfileInfo}>
                     <FormGroup>
                         <Label for="username">Username</Label>
                         <Input
@@ -66,7 +74,7 @@ class AddUser extends React.Component {
                         className="username"
                         id="userName"
                         placeholder="Enter A Username"
-                        value={this.state.newUser.username}
+                        value={this.state.editedUser.username}
                         onChange={this.usernameChange}
                         />
                     </FormGroup>
@@ -77,7 +85,7 @@ class AddUser extends React.Component {
                         className="email"
                         id="userEmail"
                         placeholder="Enter Email Address"
-                        value={this.state.newUser.email}
+                        value={this.state.editedUser.email}
                         onChange={this.emailChange}
                         />
                     </FormGroup>
@@ -88,7 +96,7 @@ class AddUser extends React.Component {
                         className="city"
                         id="userCity"
                         placeholder="Enter Your City"
-                        value={this.state.newUser.city}
+                        value={this.state.editedUser.city}
                         onChange={this.cityChange}
                         />
                     </FormGroup>
@@ -99,7 +107,7 @@ class AddUser extends React.Component {
                         className="state"
                         id="userState"
                         placeholder="Enter Your State (ex: AZ)"
-                        value={this.state.newUser.state}
+                        value={this.state.editedUser.state}
                         onChange={this.stateChange}
                         />
                     </FormGroup>
@@ -110,10 +118,10 @@ class AddUser extends React.Component {
                         className="bio" 
                         id="userBio"
                         placeholder="Explain yourself! (optional)"
-                        value={this.state.newUser.bio}
+                        value={this.state.editedUser.bio}
                         onChange={this.bioChange} />
                     </FormGroup>
-                    <Button type="submit" className="btn btn-success">Add User</Button>
+                    <Button type="submit" className="btn btn-success">Update User</Button>
                     </Form>
                 </div>
             </div>

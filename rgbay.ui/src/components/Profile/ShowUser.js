@@ -1,5 +1,5 @@
 import React from 'react';
-// import userData from '../../data/userData';
+import { Link } from 'react-router-dom';
 import {
   CardBody, 
   CardTitle, 
@@ -19,6 +19,7 @@ removeUser = (e) => {
 
 render() {
     const { info } = this.props;
+    const editLink = `edituser/${info.id}`;
     return (
     <div className="col-4 offset-4">
       <Card>
@@ -28,6 +29,7 @@ render() {
         <CardText>{info.city}</CardText>
         <CardText>{info.state}</CardText>
         <CardText>{info.bio}</CardText>
+        <Link className="btn btn-success" to={editLink}>Edit</Link>
         <button type="submit" className="btn btn-danger" onClick={this.removeUser}>Delete User</button>
         </CardBody>
       </Card>
