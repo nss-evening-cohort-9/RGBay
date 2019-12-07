@@ -8,4 +8,6 @@ const getUserInfo = () => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-export default { getUserInfo }
+const getUserById = (userId) => axios.get(`${baseUrl}/${userId}`);
+
+export default { getUserInfo, getUserById }

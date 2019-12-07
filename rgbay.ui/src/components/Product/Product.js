@@ -1,30 +1,36 @@
 import React from 'react';
 
 import productData from '../../data/product-data';
-
-// {
-//   "product": {
-//     "id": 1,
-//     "title": "Corsair Mouse",
-//     "category": 0,
-//     "rentalPrice": 103200,
-//     "salesPrice": 236700,
-//     "isForSale": true,
-//     "isRgb": true,
-//     "description": "This is a cool rgb mouse",
-//     "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHPKJOHDk6uKF0_a-pcD4ik_lEPBLd1KyNJMLmYvh3ZXk4J6uTjw&s",
-//     "ownerId": 2
-//   }
-// }
+import categoryData from '../../data/productCategoryData';
+import sellerData from '../../data/profileData';
 
 class Product extends React.Component {
   state = {
     product: {},
+    category: {},
+    seller: {},
+    rentalPrice: 0,
+    salesPrice: 0,
   }
+
+  getProductDetails = (product) => {
+    this.setState({ product });
+    
+    categoryData.getProductCategoryById(product.category)
+      .then(categoryData => this.setState({ category: categoryData.data }))
+      .catch(error => console.error(error));
+
+    sellerData.getUserById(product.ownerId)
+      .then(sellerData => this.setState({ seller: sellerData.data }))
+      .catch(error => console.error(error));
+
+      this.setState({ rentalPrice: product.rentalPrice / 100 });
+      this.setState({ salesPrice: product.salesPrice / 100 });
+    }
 
   getProduct = () => {
     productData.getProductById(this.props.match.params.productId)
-      .then(singleProduct => this.setState({ product: singleProduct.data }))
+      .then(product => this.getProductDetails(product.data))
       .catch(error => console.error(error));
   }
 
@@ -33,18 +39,25 @@ class Product extends React.Component {
   }
 
   render() {
-    const { product } = this.state;
+    const { product, category, seller, rentalPrice, salesPrice } = this.state;
     return (
-      <div className="Product">
-        <h2>{product.title}</h2>
-        <div>category: {product.category}</div>
-        <div>rentalPrice: {product.rentalPrice}</div>
-        <div>salesPrice: {product.salesPrice}</div>
-        <div>isForSale: {product.isForSale}</div>
-        <div>isRgb: {product.isRgb}</div>
-        <div>description: {product.description}</div>
-        <div>imageUrl: {product.imageUrl}</div>
-        <div>ownerId: {product.ownerId}</div>
+      <div className="Product text-left">
+        <div className="row">
+          <div className="col-6">
+            <img src={product.imageUrl} className="" alt="product" />
+          </div>
+
+          <div className="col-6">
+              <h2>{product.title}</h2>
+              <div>by: {seller.username}</div>
+              <div>category: {category.name}</div>
+              <div>Rent for: ${rentalPrice}/day</div>
+              <div>Buy: ${salesPrice}</div>
+              <div>isForSale: {product.isForSale}</div>
+              <div>isRgb: {product.isRgb}</div>
+              <div className="">{product.description}</div>
+          </div>
+        </div>
       </div>
     );
   }
