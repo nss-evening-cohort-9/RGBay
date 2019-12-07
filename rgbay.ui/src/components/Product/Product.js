@@ -44,6 +44,7 @@ class Product extends React.Component {
       <div className="Product text-left">
         <div className="row">
           <div className="col-6">
+            {/* <div className="bg-dark h-100"></div> */}
             <img src={product.imageUrl} className="" alt="product" />
           </div>
 

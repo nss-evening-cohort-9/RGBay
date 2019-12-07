@@ -88,6 +88,42 @@ VALUES
 )
 GO
 
+-- Create a new table called '[ProductCategory]' in schema '[dbo]'
+-- Drop the table if it already exists
+IF OBJECT_ID('[dbo].[ProductCategory]', 'U') IS NOT NULL
+DROP TABLE [dbo].[ProductCategory]
+GO
+-- Create the table in the specified schema
+CREATE TABLE [dbo].[ProductCategory]
+(
+    [Id] int identity(1,1) not null primary key,
+    -- Primary Key column
+    [Name] NVARCHAR(50) NOT NULL
+    -- Specify more columns here
+);
+GO
+
+-- Insert rows into table 'ProductCategory' in schema '[dbo]'
+INSERT INTO [dbo].[ProductCategory]
+    ( -- Columns to insert data into
+    [Name]
+    )
+VALUES
+    (
+        'Part'
+),
+    (
+        'Peripheral'
+),
+    (
+        'Space'
+),
+    (
+        'System'
+)
+-- Add more rows here
+GO
+
 -- Create a new table called '[Product]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[Product]', 'U') IS NOT NULL
@@ -167,40 +203,4 @@ VALUES
 (
     4, '20191120 6:00:00 AM', 4000, 'Status 4'
 )
-GO
-
--- Create a new table called '[ProductCategory]' in schema '[dbo]'
--- Drop the table if it already exists
-IF OBJECT_ID('[dbo].[ProductCategory]', 'U') IS NOT NULL
-DROP TABLE [dbo].[ProductCategory]
-GO
--- Create the table in the specified schema
-CREATE TABLE [dbo].[ProductCategory]
-(
-    [Id] int identity(1,1) not null primary key,
-    -- Primary Key column
-    [Name] NVARCHAR(50) NOT NULL
-    -- Specify more columns here
-);
-GO
-
--- Insert rows into table 'ProductCategory' in schema '[dbo]'
-INSERT INTO [dbo].[ProductCategory]
-    ( -- Columns to insert data into
-    [Name]
-    )
-VALUES
-    (
-        'Part'
-),
-    (
-        'Peripheral'
-),
-    (
-        'Space'
-),
-    (
-        'System'
-)
--- Add more rows here
 GO
