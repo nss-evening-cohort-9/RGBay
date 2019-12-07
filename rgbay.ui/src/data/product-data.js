@@ -8,13 +8,16 @@ const getProducts = () => new Promise((resolve, reject) => {
     .catch(error => reject(error));
 });
 
+const getProductById = (productId) => axios.get(`${baseUrl}/${productId}`);
+
 const deleteProduct = (productId) => axios.delete(`${baseUrl}/${productId}`);
 const updateProduct = (productId, updatedProduct) => axios.put(`${baseUrl}/${productId}`, updatedProduct);
 const addProduct = (product) => axios.post(`${baseUrl}`, product);
 
 export default {
   getProducts,
+  getProductById,
   deleteProduct,
   updateProduct,
-  addProduct
+  addProduct,
 };

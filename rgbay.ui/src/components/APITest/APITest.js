@@ -12,6 +12,10 @@ class APITest extends Component {
     displayValues: []
   }
 
+  showProduct = (productId) => {
+    this.props.history.push(`/product/${productId}`);
+  }
+
   render() {
     return (
       <div className="APITest col">
@@ -25,7 +29,7 @@ class APITest extends Component {
           <UserProfile />
         </div>
         <div className="card">
-          <ProductView testMode={true} />
+          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} />
         </div>
         <div className="card">
           <OrderTable />
