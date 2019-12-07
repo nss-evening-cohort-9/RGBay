@@ -59,7 +59,7 @@ class NavBar extends React.Component {
 
     return (
       <div className="NavBar">
-        <Navbar color="dark" dark expand="md" className="row">
+        <Navbar color="dark" dark expand="md">
           <NavbarBrand className="col-4 text-left" href="/home">RGBay</NavbarBrand>
           <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
