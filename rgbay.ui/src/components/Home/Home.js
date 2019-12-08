@@ -19,7 +19,10 @@ class Home extends Component {
       userData.getUserByUid(123)
         .then(response => {
           if (!response.data) {
-           this.props.history.push('/auth'); 
+            console.error('profile not found');
+            this.props.history.push('/register'); 
+          } else {
+            console.error('profile found');
           }
         })
         .catch(error => console.error(error));

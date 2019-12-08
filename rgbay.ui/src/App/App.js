@@ -11,6 +11,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import APITest from '../components/APITest/APITest';
+import Register from '../components/Register/Register';
 import Home from '../components/Home/Home';
 import Account from '../components/Account/Account';
 import Orders from '../components/OrderView/OrdersView';
@@ -72,6 +73,7 @@ class App extends React.Component {
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
                 {/* <PrivateRoute path="/login" authed={authed} component={Login} /> */}
+                <PrivateRoute path="/register" component={Register} authed={authed} />
                 <PrivateRoute path="/home" component={Home} authed={authed} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
