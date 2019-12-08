@@ -9,5 +9,6 @@ const getUserInfo = () => new Promise((resolve, reject) => {
 });
 
 const getUserById = (userId) => axios.get(`${baseUrl}/${userId}`);
+const getUserByUid = (firbaseUid) => axios.get(`${baseUrl}/uid/${firbaseUid}`);
 
-export default { getUserInfo, getUserById }
+export default { getUserInfo, getUserById, getUserByUid };

@@ -7,6 +7,9 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 import APITest from '../components/APITest/APITest';
 import Home from '../components/Home/Home';
 import Account from '../components/Account/Account';
@@ -14,8 +17,12 @@ import Orders from '../components/OrderView/OrdersView';
 import NavBar from '../components/NavBar/NavBar';
 import ProductView from '../components/ProductView/ProductView';
 import Product from '../components/Product/Product';
+
+import firebaseConnection from '../requests/connection';
+
 import './App.scss';
 
+firebaseConnection();
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
@@ -33,19 +40,38 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 
 class App extends React.Component {
   state = {
-    authed: true,
+    authed: false,
   };
+
+  logout = () => {
+    this.setState({authenticated: false});
+  }
+
+  componentDidMount () {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authed: true });
+      } else {
+        this.setState({ authed: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeListener();
+  }
 
   render() {
     const { authed } = this.state;
     return (
       <div className="App">
         <Router>
-          <NavBar authed={authed} />
+          <NavBar authed={authed} logout={this.logout} />
           <div className="container mt-5 mb-5">
             <div className="">
               <Switch>
-                {/* <PublicRoute path="/auth" component={Auth} authed={authed} /> */}
+                <PublicRoute path="/auth" component={Home} authed={authed} />
+                {/* <PrivateRoute path="/login" authed={authed} component={Login} /> */}
                 <PrivateRoute path="/home" component={Home} authed={authed} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />

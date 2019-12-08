@@ -13,6 +13,8 @@ import {
   NavLink,
 } from 'reactstrap';
 
+import authRequests from '../../requests/auth';
+
 import './NavBar.scss';
 
 class NavBar extends React.Component {
@@ -26,12 +28,27 @@ class NavBar extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
+  // auth
+  loginClickEvent = (event) => {
+    event.preventDefault();
+    authRequests.loginUser()
+      .then(() => this.props.history.push('/home'))
+      .catch(error => console.error('there was an error in registering', error));
+  };
+
+  logoutClickEvent = () => {
+    authRequests.logoutUser();
+    this.props.logout();
+  };
+
+  // navbar product search
+  updateSearch = (event) => this.setState({ search: event.target.value });
+
   showSearchedProducts = (event) => {
     event.preventDefault();
     this.props.history.push(`/store/${this.state.search}`);
   }
 
-  updateSearch = (event) => this.setState({ search: event.target.value });
 
   render() {
     const { authed } = this.props;
@@ -51,10 +68,26 @@ class NavBar extends React.Component {
             <NavItem>
               <NavLink tag={RRNavLink} to='/apitest'>API Test Page</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink className="pointer" onClick={this.logoutClickEvent} >
+                <i className="fab fa-google"></i> Logout
+              </NavLink>
+            </NavItem>
           </Nav>
         );
       }
-      return <Nav navbar />;
+      return (
+        <Nav navbar>
+        <NavItem>
+          <NavLink tag={RRNavLink} to='/home'>Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink className="pointer" onClick={this.loginClickEvent} >
+            <i className="fab fa-google"></i> Login
+          </NavLink>
+        </NavItem>
+      </Nav>
+      );
     };
 
     return (

@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 import { Jumbotron } from 'reactstrap';
+
+import userData from '../../data/profileData';
 
 import './Home.scss';
 
 class Home extends Component {
   state = {
-    displayValues: []
+    displayValues: [],
+  }
+
+  profileCheck = () => {
+    if (this.props.authed) {
+      const { uid } = firebase.auth().currentUser;
+      userData.getUserByUid(123)
+        .then(response => {
+          if (!response.data) {
+           this.props.history.push('/auth'); 
+          }
+        })
+        .catch(error => console.error(error));
+    }
+
+  }
+
+  componentDidMount() {
+    this.profileCheck();
   }
 
   render() {
@@ -16,7 +38,6 @@ class Home extends Component {
           <h1 className="display-3">Welcome to RGBay!</h1>
           <p className="lead">"We bring the gaming to you!"</p>
           <hr className="my-2" />
-          {/* <p>...</p> */}
         </Jumbotron>
       </div>
     );

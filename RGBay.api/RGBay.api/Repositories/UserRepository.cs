@@ -32,6 +32,16 @@ namespace RGBay.api.Repositories
             }
         }
 
+        public User GetByUid(string firebaseUid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "select * from [User] where FirebaseUid = @firebaseUid";
+                var user = db.QueryFirstOrDefault<User>(sql, new { firebaseUid });
+                return user;
+            }
+        }
+
         public bool Delete(int id)
         {
             using (var db = new SqlConnection(_connectionString))

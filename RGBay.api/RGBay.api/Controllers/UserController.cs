@@ -25,6 +25,13 @@ namespace RGBay.api.Controllers
             return userRepo.Get(id);
         }
 
+        [HttpGet("uid/{firebaseUid}")]
+        public ActionResult<User> GetByUid(string firebaseUid)
+        {
+            var userRepo = new UserRepository();
+            return userRepo.GetByUid(firebaseUid);
+        }
+
         [HttpPost]
         public IActionResult CreateUser(AddUserCommand newUserCommand)
         {
