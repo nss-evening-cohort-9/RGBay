@@ -10,7 +10,7 @@ const defaultUserInfo = {
     bio: ''
 }
 
-class AddUser extends React.Component {
+class UserProfile extends React.Component {
     state = {
         user: [],
         newUser: defaultUserInfo
@@ -46,6 +46,7 @@ class AddUser extends React.Component {
             newUser: defaultUserInfo })
             console.log(saveNewUser)
         })
+
     };
 
     componentDidMount() {
@@ -56,9 +57,9 @@ class AddUser extends React.Component {
         return (
             <div className="newUserForm">
                 <div className="container">
-                    <Form className="col-8 offset-2" onSubmit={this.addUser}>
+                    <Form className="col-4 offset-4" onSubmit={this.addUser}>
                     <FormGroup>
-                        <Label for="username"><h5>Username</h5></Label>
+                        <Label for="username">Username</Label>
                         <Input
                         type="text"
                         className="username"
@@ -69,7 +70,7 @@ class AddUser extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="email"><h5>Email</h5></Label>
+                        <Label for="email">Email</Label>
                         <Input
                         type="email"
                         className="email"
@@ -80,7 +81,7 @@ class AddUser extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="city"><h5>City</h5></Label>
+                        <Label for="city">City</Label>
                         <Input
                         type="text"
                         className="city"
@@ -91,7 +92,7 @@ class AddUser extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="state"><h5>State</h5></Label>
+                        <Label for="state">State</Label>
                         <Input
                         type="text"
                         className="state"
@@ -102,7 +103,7 @@ class AddUser extends React.Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="exampleText"><h5>Bio</h5></Label>
+                        <Label for="exampleText">Bio</Label>
                         <Input 
                         type="textarea" 
                         className="bio" 
@@ -111,7 +112,7 @@ class AddUser extends React.Component {
                         value={this.state.newUser.bio}
                         onChange={this.bioChange} />
                     </FormGroup>
-                    <Button type="submit" className="btn btn-success">Add User</Button>
+                    <Button type="submit" className="btn btn-success">Sign Up</Button> 
                     </Form>
                 </div>
             </div>
@@ -119,4 +120,4 @@ class AddUser extends React.Component {
     }
 }
 
-export default AddUser;
+export default UserProfile;

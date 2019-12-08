@@ -21,18 +21,26 @@ render() {
     const { info } = this.props;
     const editLink = `edituser/${info.id}`;
     return (
-    <div className="col-4 offset-4">
-      <Card>
-        <CardBody>
-        <CardTitle>{info.username}</CardTitle>
-        <CardText>{info.email}</CardText>
-        <CardText>{info.city}</CardText>
-        <CardText>{info.state}</CardText>
-        <CardText>{info.bio}</CardText>
-        <Link className="btn btn-success" to={editLink}>Edit</Link>
-        <button type="submit" className="btn btn-danger" onClick={this.removeUser}>Delete User</button>
-        </CardBody>
-      </Card>
+    <div className="container">
+      <div className="row">
+        <Card className="col-4 offset-4">
+          <CardBody>
+          <CardTitle><h6>{info.username}</h6></CardTitle>
+          <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="bio-pic"></img>
+          <h6>Profile Info:</h6>
+          <h6>Email:</h6>
+          <CardText>{info.email}</CardText>
+          <h6>City:</h6>
+          <CardText>{info.city}</CardText>
+          <h6>State:</h6>
+          <CardText>{info.state}</CardText>
+          <h6>Bio:</h6>
+          <CardText>{info.bio}</CardText>
+          <Link className="btn btn-success" to={editLink}>Edit</Link>
+          <button type="submit" className="btn btn-danger" onClick={this.removeUser}>Delete User</button>
+          </CardBody>
+        </Card>
+      </div>
     </div>
     )
   }
