@@ -58,6 +58,8 @@ class NavBar extends React.Component {
     this.props.history.push(`/store/${this.state.search}`);
   }
 
+  toHome = () => this.props.history.push('/home');
+
 
   render() {
     const { authed, profile } = this.props;
@@ -72,11 +74,9 @@ class NavBar extends React.Component {
               <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/apitest'>API Test Page</NavLink>
-            </NavItem>
-            <NavItem>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-                <DropdownToggle className="nav-link btn-dark" caret>Account</DropdownToggle>
+                <DropdownToggle className="nav-link btn-dark" caret>
+                  {this.props.profile ? (this.props.profile.username) : ('')}</DropdownToggle>
                 <DropdownMenu>
                   {profile ? (
                     <DropdownItem>
@@ -91,6 +91,11 @@ class NavBar extends React.Component {
                       </NavItem>
                     </DropdownItem>
                   )}
+                  <DropdownItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to='/apitest' className="text-dark p-0">API Test</NavLink>
+                    </NavItem>
+                  </DropdownItem>
                   <DropdownItem>
                     <NavItem>
                       <NavLink className="text-dark p-0" onClick={this.logoutClickEvent}>Logout</NavLink>
@@ -119,9 +124,7 @@ class NavBar extends React.Component {
     return (
       <div className="NavBar">
         <Navbar color="dark" dark expand="md">
-          <NavLink tag={RRNavLink} to='/home' className="col-4 text-left text-light" >
-            <NavbarBrand>RGBay</NavbarBrand>
-          </NavLink>
+          <NavbarBrand className="col-4 text-left text-light pointer" onClick={this.toHome}>RGBay</NavbarBrand>
           <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>

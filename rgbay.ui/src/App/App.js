@@ -82,9 +82,13 @@ class App extends React.Component {
             <div className="">
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
-                <PrivateRoute path="/home" component={Home} authed={authed}
-                  isRegFormFirstLoad={isRegFormFirstLoad} setIsRegFormFirstLoadToTrue={this.setIsRegFormFirstLoadToTrue} setProfile={this.setProfile} />
-                
+                <PrivateRoute path="/home"
+                  component={Home}
+                  authed={authed}
+                  profile={profile}
+                  isRegFormFirstLoad={isRegFormFirstLoad}
+                  setIsRegFormFirstLoadToTrue={this.setIsRegFormFirstLoadToTrue}
+                  setProfile={this.setProfile} />
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
