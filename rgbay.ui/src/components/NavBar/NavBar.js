@@ -3,6 +3,10 @@ import { withRouter } from "react-router";
 import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Input,
   Form,
   Navbar,
@@ -21,11 +25,16 @@ class NavBar extends React.Component {
 
   state = {
     isOpen: false,
+    dropdownOpen: false,
     search: '',
   }
 
-  toggle() {
+  toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  }
+
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
   }
 
   // auth
@@ -60,18 +69,27 @@ class NavBar extends React.Component {
               <NavLink tag={RRNavLink} to='/home'>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/account'>Account</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to='/apitest'>API Test Page</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="pointer" onClick={this.logoutClickEvent} >
-                <i className="fab fa-google"></i> Logout
-              </NavLink>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+                <DropdownToggle className="nav-link btn-dark" caret>Account</DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to='/register' className="text-dark p-0">Register</NavLink>
+                    </NavItem>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavItem>
+                      <NavLink className="text-dark p-0" onClick={this.logoutClickEvent}>Logout</NavLink>
+                    </NavItem>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </NavItem>
           </Nav>
         );
@@ -97,7 +115,7 @@ class NavBar extends React.Component {
           <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler onClick={this.toggleCollapse} />
           <Collapse className="col-4" style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>

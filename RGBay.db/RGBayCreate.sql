@@ -54,7 +54,7 @@ VALUES
  'PkhVyqmQLTgObjj6znZ1aT226zf2', 'STrejo', 'trejomsamuel@gmail.com', 'Nashville', 'TN', 'I like space!'
 ),
 (
- '000000000000000005', 'SBrown', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
+ '000000000000000005', 'SDavis', 'sean.d.davis86@gmail.com', 'Memphis', 'TN', 'This is my bio 4'
 ),
 (
  '000000000000000006', 'KGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'

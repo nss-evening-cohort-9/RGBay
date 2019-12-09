@@ -18,11 +18,10 @@ class Home extends Component {
       const { uid } = firebase.auth().currentUser;
       userData.getUserByUid(123)
         .then(response => {
-          if (!response.data) {
-            console.error('profile not found');
+          if (!response.data && !this.props.isRegFormFirstLoad) {
             this.props.history.push('/register'); 
           } else {
-            console.error('profile found');
+            this.props.setProfile(response.data);
           }
         })
         .catch(error => console.error(error));

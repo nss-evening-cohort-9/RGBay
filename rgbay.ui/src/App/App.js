@@ -42,11 +42,13 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 class App extends React.Component {
   state = {
     authed: false,
+    isRegFormFirstLoad: false,
+    profile: null,
   };
 
-  logout = () => {
-    this.setState({authenticated: false});
-  }
+  logout = () => this.setState({authenticated: false});
+
+  setProfile = profile => this.setState({ profile });
 
   componentDidMount () {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
@@ -63,7 +65,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { authed } = this.state;
+    const { authed, isRegFormFirstLoad } = this.state;
     return (
       <div className="App">
         <Router>
@@ -72,9 +74,8 @@ class App extends React.Component {
             <div className="">
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
-                {/* <PrivateRoute path="/login" authed={authed} component={Login} /> */}
-                <PrivateRoute path="/register" component={Register} authed={authed} />
-                <PrivateRoute path="/home" component={Home} authed={authed} />
+                <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
+                <PrivateRoute path="/home" component={Home} authed={authed} isRegFormFirstLoad={isRegFormFirstLoad} setProfile={this.setProfile} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
                 <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} />
