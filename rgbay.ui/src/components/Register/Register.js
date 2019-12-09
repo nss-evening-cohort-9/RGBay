@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
 import profileData from '../../data/profileData';
 
@@ -50,18 +50,15 @@ class Auth extends React.Component {
       <div className="row justify-content-center pt-5 text-left">
         <Form className="col-6" onSubmit={this.submitAddUserForm}>
           <FormGroup>
+            <div className="lead">Looks like you don't have an account yet. Please register below!</div>
+          </FormGroup>
+          <FormGroup>
             <Label for="user-username">Username</Label>
             <Input type="text" name="username" id="user-username" placeholder="Username" value={profile.username} onChange={this.updateUsername} />
-          </FormGroup>
-          <FormGroup>
             <Label for="user-email">Email</Label>
             <Input type="email" name="email" id="user-email" placeholder="Email" value={profile.email} onChange={this.updateEmail} />
-          </FormGroup>
-          <FormGroup>
             <Label for="user-city">City</Label>
             <Input type="text" name="city" id="user-city" placeholder="City" value={profile.city} onChange={this.updateCity} />
-          </FormGroup>
-          <FormGroup>
             <Label for="user-state">State</Label>
             <Input type="text" name="state" id="user-state" placeholder="Username" value={profile.state} onChange={this.updateState} />
           </FormGroup>
@@ -69,6 +66,7 @@ class Auth extends React.Component {
             <Label for="user-bio">Bio</Label>
             <Input type="textarea" name="bio" id="user-bio" placeholder="Bio" value={profile.bio} onChange={this.updateBio} />
           </FormGroup>
+          <Button type="submit" >Register</Button>
         </Form>
       </div>
     );

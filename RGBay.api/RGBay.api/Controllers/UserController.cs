@@ -38,6 +38,7 @@ namespace RGBay.api.Controllers
             var newUser = new User
             {
                 Id = 1,
+                FirebaseUid = newUserCommand.FirebaseUid,
                 Username = newUserCommand.Username,
                 Email = newUserCommand.Email,
                 City = newUserCommand.City,

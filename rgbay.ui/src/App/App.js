@@ -27,14 +27,14 @@ firebaseConnection();
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
-    ? (<Component authed={authed} {...props} />)
+    ? (<Component authed={authed} {...props} {...rest} />)
     : (<Redirect to={{ pathname: '/home', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === true
-    ? (<Component authed={authed} {...props} />)
+    ? (<Component authed={authed} {...props} {...rest} />)
     : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
@@ -46,9 +46,16 @@ class App extends React.Component {
     profile: null,
   };
 
-  logout = () => this.setState({authenticated: false});
+  logout = () => this.setState({ authed: false, profile: null });
 
   setProfile = profile => this.setState({ profile });
+
+  setIsRegFormFirstLoadToTrue = () => {
+    console.error(this.state.isRegFormFirstLoad);
+    this.setState({ isRegFormFirstLoad: true });
+    console.error(this.state.isRegFormFirstLoad);
+
+  }
 
   componentDidMount () {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
@@ -61,21 +68,24 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
+    console.error('test');
     this.removeListener();
   }
 
   render() {
-    const { authed, isRegFormFirstLoad } = this.state;
+    const { authed, isRegFormFirstLoad, profile } = this.state;
     return (
       <div className="App">
         <Router>
-          <NavBar authed={authed} logout={this.logout} />
+          <NavBar authed={authed} profile={profile} logout={this.logout} />
           <div className="container mt-5 mb-5">
             <div className="">
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
+                <PrivateRoute path="/home" component={Home} authed={authed}
+                  isRegFormFirstLoad={isRegFormFirstLoad} setIsRegFormFirstLoadToTrue={this.setIsRegFormFirstLoadToTrue} setProfile={this.setProfile} />
+                
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
-                <PrivateRoute path="/home" component={Home} authed={authed} isRegFormFirstLoad={isRegFormFirstLoad} setProfile={this.setProfile} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
                 <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} />

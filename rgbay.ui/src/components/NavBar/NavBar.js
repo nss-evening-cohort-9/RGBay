@@ -60,7 +60,7 @@ class NavBar extends React.Component {
 
 
   render() {
-    const { authed } = this.props;
+    const { authed, profile } = this.props;
     const buildNavbar = () => {
       if (authed) {
         return (
@@ -78,11 +78,19 @@ class NavBar extends React.Component {
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
                 <DropdownToggle className="nav-link btn-dark" caret>Account</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to='/register' className="text-dark p-0">Register</NavLink>
-                    </NavItem>
-                  </DropdownItem>
+                  {profile ? (
+                    <DropdownItem>
+                      <NavItem>
+                        <NavLink  tag={RRNavLink} to='/account' className="text-dark p-0">Profile</NavLink>
+                      </NavItem>
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem>
+                      <NavItem>
+                        <NavLink tag={RRNavLink} to='/register' className="text-dark p-0">Register</NavLink>
+                      </NavItem>
+                    </DropdownItem>
+                  )}
                   <DropdownItem>
                     <NavItem>
                       <NavLink className="text-dark p-0" onClick={this.logoutClickEvent}>Logout</NavLink>
@@ -111,7 +119,9 @@ class NavBar extends React.Component {
     return (
       <div className="NavBar">
         <Navbar color="dark" dark expand="md">
-          <NavbarBrand className="col-4 text-left" href="/home">RGBay</NavbarBrand>
+          <NavLink tag={RRNavLink} to='/home' className="col-4 text-left text-light" >
+            <NavbarBrand>RGBay</NavbarBrand>
+          </NavLink>
           <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>

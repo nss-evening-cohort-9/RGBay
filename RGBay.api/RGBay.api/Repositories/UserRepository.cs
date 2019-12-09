@@ -55,8 +55,9 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"INSERT INTO [dbo].[User]([Username], [Email], [City], [State], [Bio])
+                var sql = @"INSERT INTO [dbo].[User]([FirebaseUid], [Username], [Email], [City], [State], [Bio])
                             VALUES (
+                              @FirebaseUid,
                               @Username,
                               @Email,
                               @City,

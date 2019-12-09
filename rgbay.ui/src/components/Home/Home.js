@@ -16,9 +16,11 @@ class Home extends Component {
   profileCheck = () => {
     if (this.props.authed) {
       const { uid } = firebase.auth().currentUser;
-      userData.getUserByUid(123)
+      userData.getUserByUid(uid)
         .then(response => {
           if (!response.data && !this.props.isRegFormFirstLoad) {
+            console.error(this.props.isRegFormFirstLoad);
+            this.props.setIsRegFormFirstLoadToTrue();
             this.props.history.push('/register'); 
           } else {
             this.props.setProfile(response.data);
