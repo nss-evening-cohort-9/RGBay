@@ -5,7 +5,6 @@ GO
 -- Create the new database if it does not exist already
 IF EXISTS (
     SELECT [name]
-<<<<<<< HEAD
     FROM sys.databases
     WHERE [name] = N'RGBAY'
 )
@@ -18,10 +17,6 @@ IF NOT EXISTS (
 SELECT [name]
 FROM sys.databases
 WHERE [name] = N'RGBay'
-=======
-        FROM sys.databases
-        WHERE [name] = N'RGBay'
->>>>>>> master
 )
 CREATE DATABASE RGBay
 GO
@@ -238,4 +233,41 @@ CREATE TABLE [dbo].[OrderProduct]
         REFERENCES [Product] (Id),
     [Duration] INT
 );
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+(
+    [OrderId], [ProductId], [Duration]
+)
+VALUES
+(
+    1, 4, 7
+),
+(
+    1, 3, 14
+),
+(
+    2, 1, 4
+),
+(
+    2, 2, 6
+),
+(
+    3, 1, 8
+),
+(
+    3, 4, 10
+),
+(
+    4, 1, 12
+),
+(
+    4, 2, 15
+),
+(
+    4, 3, 15
+),
+(
+    4, 4, 15
+)
 GO
