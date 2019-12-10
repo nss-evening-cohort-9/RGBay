@@ -10,9 +10,9 @@ const getUserInfo = () => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 });
 
-const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
-
 const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
+
+const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
 
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
 

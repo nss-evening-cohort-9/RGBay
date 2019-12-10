@@ -17,6 +17,7 @@ import Product from '../components/Product/Product';
 import './App.scss';
 import Profile from '../components/Profile/Profile'
 import EditUser from '../components/Profile/EditUser';
+import SingleUser from '../components/Profile/SingleUser';
 
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -57,6 +58,7 @@ class App extends React.Component {
                 <PrivateRoute path="/apitest" component={APITest} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/edituser/:id" component={EditUser} authed={authed} />
+                <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
             </div>

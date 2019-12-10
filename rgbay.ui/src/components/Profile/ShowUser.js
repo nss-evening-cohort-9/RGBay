@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  CardBody, 
-  CardTitle, 
+  CardBody,
   CardText, 
   Card
 } from 'reactstrap';
@@ -20,22 +19,23 @@ removeUser = (e) => {
 render() {
     const { info } = this.props;
     const editLink = `edituser/${info.id}`;
+    const singleUser = `profileview/${info.id}`;
     return (
     <div className="container">
       <div className="row">
         <Card className="col-4 offset-4">
           <CardBody>
-          <CardTitle><h6>{info.username}</h6></CardTitle>
+          <Link className="btn" id={info.id} to={singleUser} onClick={this.singleUserProfile}>{info.username}</Link>
           <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="bio-pic"></img>
           <h6>Profile Info:</h6>
           <h6>Email:</h6>
-          <CardText>{info.email}</CardText>
+          <CardText className="card-text">{info.email}</CardText>
           <h6>City:</h6>
-          <CardText>{info.city}</CardText>
+          <CardText className="card-text">{info.city}</CardText>
           <h6>State:</h6>
-          <CardText>{info.state}</CardText>
+          <CardText className="card-text">{info.state}</CardText>
           <h6>Bio:</h6>
-          <CardText>{info.bio}</CardText>
+          <CardText className="card-text">{info.bio}</CardText>
           <Link className="btn btn-success" to={editLink}>Edit</Link>
           <button type="submit" className="btn btn-danger" onClick={this.removeUser}>Delete User</button>
           </CardBody>
