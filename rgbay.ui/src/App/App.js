@@ -51,10 +51,7 @@ class App extends React.Component {
   setProfile = profile => this.setState({ profile });
 
   setIsRegFormFirstLoadToTrue = () => {
-    console.error(this.state.isRegFormFirstLoad);
     this.setState({ isRegFormFirstLoad: true });
-    console.error(this.state.isRegFormFirstLoad);
-
   }
 
   componentDidMount () {

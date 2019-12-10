@@ -19,7 +19,6 @@ class Home extends Component {
       userData.getUserByUid(uid)
         .then(response => {
           if (!response.data && !this.props.isRegFormFirstLoad) {
-            console.error(this.props.isRegFormFirstLoad);
             this.props.setIsRegFormFirstLoadToTrue();
             this.props.history.push('/register'); 
           } else {

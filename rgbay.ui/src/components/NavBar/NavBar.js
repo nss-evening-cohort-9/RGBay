@@ -76,7 +76,7 @@ class NavBar extends React.Component {
             <NavItem>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
                 <DropdownToggle className="nav-link btn-dark" caret>
-                  {this.props.profile ? (this.props.profile.username) : ('')}</DropdownToggle>
+                  {this.props.profile ? (this.props.profile.username) : ('Account')}</DropdownToggle>
                 <DropdownMenu>
                   {profile ? (
                     <DropdownItem>

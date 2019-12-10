@@ -1,6 +1,6 @@
 import React from 'react';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
 
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
@@ -22,7 +22,7 @@ class Auth extends React.Component {
   submitAddUserForm = (event) => {
     event.preventDefault();
     const newProfile = this.state.profile;
-    newProfile.firebaseUid = firebase.auth().currentUser.uid;
+    // newProfile.firebaseUid = firebase.auth().currentUser.uid;
     this.setState({ profile: defaultProfile });
     profileData.addUser(newProfile)
       .then((response) => {

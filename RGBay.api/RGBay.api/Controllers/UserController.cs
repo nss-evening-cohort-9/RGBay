@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using RGBay.api.Commands;
 using RGBay.api.DataModels;
 using RGBay.api.Repositories;
@@ -8,10 +9,10 @@ using RGBay.api.Repositories;
 namespace RGBay.api.Controllers
 {
     [Route("api/user")]
-    [ApiController]
-    public class UserController : ControllerBase
+    [ApiController, Authorize]
+    public class UserController : FirebaseEnabledController
     {
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public ActionResult<IEnumerable<User>> GetAllUsers()
         {
             var userRepo = new UserRepository();
@@ -35,19 +36,10 @@ namespace RGBay.api.Controllers
         [HttpPost]
         public IActionResult CreateUser(AddUserCommand newUserCommand)
         {
-            var newUser = new User
-            {
-                Id = 1,
-                FirebaseUid = newUserCommand.FirebaseUid,
-                Username = newUserCommand.Username,
-                Email = newUserCommand.Email,
-                City = newUserCommand.City,
-                State = newUserCommand.State,
-                Bio = newUserCommand.Bio
-            };
+            newUserCommand.FirebaseUid = UserId;
 
             var repo = new UserRepository();
-            var userCreated = repo.Add(newUser);
+            var userCreated = repo.Add(newUserCommand);
 
             if (userCreated == null)
             {

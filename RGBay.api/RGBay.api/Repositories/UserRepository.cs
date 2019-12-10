@@ -51,7 +51,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public int Add(User newUser)
+        public int Add(AddUserCommand newUser)
         {
             using (var db = new SqlConnection(_connectionString))
             {
