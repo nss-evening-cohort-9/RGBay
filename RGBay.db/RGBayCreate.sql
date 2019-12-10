@@ -3,19 +3,29 @@
 USE master
 GO
 -- Create the new database if it does not exist already
-IF NOT EXISTS (
+IF EXISTS (
     SELECT [name]
-        FROM sys.databases
-        WHERE [name] = N'RGBay'
+    FROM sys.databases
+    WHERE [name] = N'RGBAY'
+)
+ALTER DATABASE [RGBay] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+USE master
+DROP DATABASE [RGBay]
+GO
+
+IF NOT EXISTS (
+SELECT [name]
+FROM sys.databases
+WHERE [name] = N'RGBay'
 )
 CREATE DATABASE RGBay
 GO
 
 USE RGBay
-
 -- Create a new table called '[User]' in schema '[dbo]'
 -- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[User]', 'U') IS NOT NULL
+
 DROP TABLE [dbo].[User]
 GO
 
@@ -215,5 +225,62 @@ VALUES
 ),
 (
     4, '20191120 6:00:00 AM', 4000, 'Status 4'
+)
+GO
+
+
+    ------------------------------------------------------------
+IF OBJECT_ID('[dbo].[OrderProduct]', 'U') IS NOT NULL
+DROP TABLE [dbo].[OrderProduct]
+GO
+    ------------------------------------------------------------
+
+CREATE TABLE [dbo].[OrderProduct]
+(
+    [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
+    [OrderId] INT NOT NULL
+        FOREIGN KEY
+        REFERENCES [Order] (Id),
+    [ProductId] INT NOT NULL
+        FOREIGN KEY
+        REFERENCES [Product] (Id),
+    [Duration] INT
+);
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+(
+    [OrderId], [ProductId], [Duration]
+)
+VALUES
+(
+    1, 4, 7
+),
+(
+    1, 3, 14
+),
+(
+    2, 1, 4
+),
+(
+    2, 2, 6
+),
+(
+    3, 1, 8
+),
+(
+    3, 4, 10
+),
+(
+    4, 1, 12
+),
+(
+    4, 2, 15
+),
+(
+    4, 3, 15
+),
+(
+    4, 4, 15
 )
 GO
