@@ -11,7 +11,7 @@ class UserProfile extends React.Component {
     
     getProfileInfo = () => {
         userData
-        .getUserInfo()
+        .getAllUsers()
         .then((info) => {
             this.setState({ info })
             }

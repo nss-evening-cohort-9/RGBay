@@ -25,7 +25,7 @@ render() {
       <div className="row">
         <Card className="col-4 offset-4">
           <CardBody>
-          <Link className="btn" id={info.id} to={singleUser} onClick={this.singleUserProfile}>{info.username}</Link>
+          <Link className="btn" id={info.id} to={singleUser} params={{ user: info }} onClick={this.singleUserProfile}>{info.username}</Link>
           <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="bio-pic"></img>
           <h6>Profile Info:</h6>
           <h6>Email:</h6>

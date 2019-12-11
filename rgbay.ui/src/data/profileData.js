@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'https://localhost:44305/api/user'
 
-const getUserInfo = () => new Promise((resolve, reject) => {
+const getAllUsers = () => new Promise((resolve, reject) => {
     axios.get(baseUrl)
         .then((res) => {
             resolve(res.data)
@@ -21,7 +21,7 @@ const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, up
 
 
 export default { 
-    getUserInfo,
+    getAllUsers,
     postNewUser,
     removeUser,
     updateUser,

@@ -1,0 +1,12 @@
+body {
+  /* background-color: green; */
+}
+
+.container {
+  flex-wrap: wrap;
+}
+.textables {
+  font-size: 23px;
+  float: right;
+  text-align: center;
+}
