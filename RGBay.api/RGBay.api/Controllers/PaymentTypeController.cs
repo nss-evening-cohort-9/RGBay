@@ -12,7 +12,7 @@ namespace RGBay.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentTypeController : ControllerBase
+    public class PaymentTypeController : FirebaseEnabledController
     {
         private readonly PaymentTypeRepository _repo = new PaymentTypeRepository();
 

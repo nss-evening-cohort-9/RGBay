@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using RGBay.api.Commands;
 using RGBay.api.DataModels;
 using RGBay.api.Repositories;
@@ -9,7 +10,7 @@ namespace RGBay.api.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : FirebaseEnabledController
     {
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetAllUsers()
@@ -25,21 +26,20 @@ namespace RGBay.api.Controllers
             return userRepo.Get(id);
         }
 
+        [HttpGet("uid/{firebaseUid}")]
+        public ActionResult<User> GetByUid(string firebaseUid)
+        {
+            var userRepo = new UserRepository();
+            return userRepo.GetByUid(firebaseUid);
+        }
+
         [HttpPost]
         public IActionResult CreateUser(AddUserCommand newUserCommand)
         {
-            var newUser = new User
-            {
-                Id = 1,
-                Username = newUserCommand.Username,
-                Email = newUserCommand.Email,
-                City = newUserCommand.City,
-                State = newUserCommand.State,
-                Bio = newUserCommand.Bio
-            };
+            newUserCommand.FirebaseUid = UserId;
 
             var repo = new UserRepository();
-            var userCreated = repo.Add(newUser);
+            var userCreated = repo.Add(newUserCommand);
 
             if (userCreated == null)
             {
@@ -48,11 +48,11 @@ namespace RGBay.api.Controllers
             return Created($"rgbay/user/{userCreated}", userCreated);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult RemoveUser(int id)
+        [HttpDelete("{userId}")]
+        public IActionResult RemoveUser(int userId)
         {
             var repo = new UserRepository();
-            repo.Delete(id);
+            repo.Delete(userId);
 
             return Ok();
         }

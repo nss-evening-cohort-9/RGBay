@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RGBay.api.DataModels;
-using RGBay.api.Dtos;
+using RGBay.api.Commands;
 using RGBay.api.Repositories;
 
 namespace RGBay.api.Controllers
