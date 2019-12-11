@@ -1,0 +1,11 @@
+body {
+  /* background-color: #962349; */
+}
+
+.editUserForm {
+  border: 1px solid black;
+  border-radius: 7px;
+  padding: 15px;
+  float: left;
+  margin: 0;
+}

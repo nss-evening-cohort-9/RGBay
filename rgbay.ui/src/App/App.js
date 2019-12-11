@@ -22,6 +22,9 @@ import Product from '../components/Product/Product';
 import firebaseConnection from '../requests/connection';
 
 import './App.scss';
+import Profile from '../components/Profile/Profile'
+import EditUser from '../components/Profile/EditUser';
+import SingleUser from '../components/Profile/SingleUser';
 
 firebaseConnection();
 
@@ -93,6 +96,9 @@ class App extends React.Component {
                 <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} />
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/apitest" component={APITest} authed={authed} />
+                <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
+                <PrivateRoute path="/edituser/:id" component={EditUser} authed={authed} />
+                <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
             </div>

@@ -1,6 +1,8 @@
 import React from 'react'
-import ProfileReq from '../../data/profileData';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import userData from '../../data/profileData';
+import AddUser from './AddUser';
+import ShowUser from './ShowUser';
+// import { ListGroup, ListGroupItem } from 'reactstrap';
 
 class UserProfile extends React.Component {
     state = {
@@ -8,36 +10,48 @@ class UserProfile extends React.Component {
     }
     
     getProfileInfo = () => {
-        ProfileReq.getUserInfo()
+        userData
+        .getAllUsers()
         .then((info) => {
-            let myInfo = [...info];
-            this.setState({info: myInfo})
-        })
+            this.setState({ info })
+            }
+        )
         .catch(err => console.log("No information: ", err));
-    }
-    
-    showInfo = () => {
-        const profileInfo = [...this.state.info];
-        return profileInfo.map(info => (<div className="user" key={info.id}>
-        <ListGroup>
-            <ListGroupItem><h5>{info.username}</h5></ListGroupItem>
-            <ListGroupItem><p>{info.email}</p></ListGroupItem>
-            <ListGroupItem><p>{info.city}</p></ListGroupItem>
-            <ListGroupItem><p>{info.state}</p></ListGroupItem>
-            <ListGroupItem><p>{info.bio}</p></ListGroupItem>
-        </ListGroup>
-        </div>));
-    }
+    }  
 
     componentDidMount() {
         this.getProfileInfo();
     }
+
+    removeUser = (userId) => {
+        userData
+        .removeUser(userId)
+        .then(() => this.getProfileInfo())
+        .catch(err => console.error("Unable to remove the user", err));
+    };
+
+    updateUser = (userId) => {
+        return userId;
+    };
     
     render() {
+        const buildProfile = this.state.info.map((info) => (
+            <ShowUser 
+            key={info.id} 
+            info={info}
+            getProfileInfo={this.getProfileInfo}
+            removeUser={this.removeUser}
+            updateUser={this.updateUser}
+            />
+        ));
+
         return(
             <div className="Profile">
-                <h4>User Profile</h4>
-                <div>{this.showInfo()}</div>
+                <h4>Create Profile</h4>
+                <AddUser
+                getProfileInfo={this.getProfileInfo}
+                />
+                {buildProfile}
             </div>
         )
     }
