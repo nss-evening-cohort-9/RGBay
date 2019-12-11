@@ -8,6 +8,11 @@ import productCategoryData from '../../../../data/productCategoryData';
 import ProductCategoryForm from '../ProductCategoryForm/ProductCategoryForm';
 import TestProductCategory from '../TestProductCategory/TestProductCategory';
 
+const defaultProductCategory = {
+  id: '',
+  name: ''
+};
+
 class ProductCategoryContainer extends React.Component {
 
   // constructor(props) {
@@ -19,6 +24,7 @@ class ProductCategoryContainer extends React.Component {
   state = {
     productCategories: [],
     isEditing: false,
+    changingProductCategory: defaultProductCategory,
   }
 
   componentDidMount() {
@@ -37,6 +43,10 @@ class ProductCategoryContainer extends React.Component {
     productCategoryData.postProductCategory(newProductCategory)
       .then(() => this.updateData())
       .catch(error => console.error('unable to add ProductCategory', error));
+  }
+
+  editProductCategory = (productCategoryToEdit) => {
+    this.setState({isEditing: true, changingProductCategory: productCategoryToEdit});
   }
 
   updateCategory = (updatedProductCategory) => {
@@ -63,20 +73,26 @@ class ProductCategoryContainer extends React.Component {
   }
 
   render() {
+    const productCategoryString = 'productCategory';
     const testProductCategories = this.state.productCategories.map(productCategory => (
       <TestProductCategory
-        key={`productCategory${productCategory.id}`}
+        key={productCategoryString + productCategory.id}
         productCategory={productCategory}
         update={this.updateData}
         deleteProductCategory={this.deleteProductCategory}
+        editProductCategory={this.editProductCategory}
       />
     ));
+    const changingProductCategory = this.state.changingProductCategory;
     return (
       <div className="ProductCategoryContainer card container">
         <h2>ProductCategory Data</h2>
         {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
-        <ProductCategoryForm key={`productCategoryForm`}
-          formSubmit={this.formSubmit} />
+        <ProductCategoryForm
+          key={`productCategoryForm`}
+          formSubmit={this.formSubmit}
+          changingProductCategory={this.state.changingProductCategory}
+        />
         <div className="row">
           {testProductCategories}
         </div>

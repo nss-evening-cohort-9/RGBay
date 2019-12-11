@@ -18,25 +18,29 @@ const defaultProductCategory = {
 class ProductCategoryForm extends React.Component {
 
   state = {
-    newProductCategory: defaultProductCategory,
+    productCategory: defaultProductCategory,
+  }
+
+  componentDidMount() {
+    this.setState({ productCategory: this.props.changingProductCategory })
   }
 
   formFieldStringState = (name, e) => {
-    const tempProductCategory = { ...this.state.newProductCategory };
+    const tempProductCategory = { ...this.state.productCategory };
     tempProductCategory[name] = e.target.value;
-    this.setState({ newProductCategory: tempProductCategory });
+    this.setState({ productCategory: tempProductCategory });
   }
 
   nameChange = e => this.formFieldStringState('name', e);
 
   saveCategory = (e) => {
     e.preventDefault();
-    this.props.formSubmit(this.state.newProductCategory);
-    this.setState({newProductCategory: defaultProductCategory});
+    this.props.formSubmit(this.state.productCategory);
+    this.setState({ productCategory: defaultProductCategory });
   }
 
   render() {
-    const { newProductCategory } = this.state;
+    const productCategory = { ...this.props.changingProductCategory };
     return (
       <Form onSubmit={this.saveCategory}>
         <Row form>
@@ -46,7 +50,7 @@ class ProductCategoryForm extends React.Component {
               <Input
                 id="name"
                 placeholder="ex: Game"
-                value={newProductCategory.name}
+                value={productCategory.name}
                 onChange={this.nameChange}
               />
             </FormGroup>
