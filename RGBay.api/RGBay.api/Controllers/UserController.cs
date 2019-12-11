@@ -9,10 +9,10 @@ using RGBay.api.Repositories;
 namespace RGBay.api.Controllers
 {
     [Route("api/user")]
-    [ApiController, Authorize]
+    [ApiController]
     public class UserController : FirebaseEnabledController
     {
-        [HttpGet, AllowAnonymous]
+        [HttpGet]
         public ActionResult<IEnumerable<User>> GetAllUsers()
         {
             var userRepo = new UserRepository();

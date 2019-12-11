@@ -20,7 +20,7 @@ class Home extends Component {
         .then(response => {
           if (!response.data && !this.props.isRegFormFirstLoad) {
             this.props.setIsRegFormFirstLoadToTrue();
-            this.props.history.push('/register'); 
+            this.props.history.push('/register');
           } else {
             this.props.setProfile(response.data);
           }
