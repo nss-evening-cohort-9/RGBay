@@ -12,7 +12,7 @@ namespace RGBay.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductCategoryController : ControllerBase
+    public class ProductCategoryController : FirebaseEnabledController
     {
         private readonly ProductCategoryRepository _repo = new ProductCategoryRepository();
 
