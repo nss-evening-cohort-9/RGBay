@@ -2,12 +2,28 @@ import axios from 'axios'
 
 const baseUrl = 'https://localhost:44305/api/user'
 
-const getUserInfo = () => new Promise((resolve, reject) => {
+const getAllUsers = () => new Promise((resolve, reject) => {
     axios.get(baseUrl)
-        .then(res => resolve(res.data))
+        .then((res) => {
+            resolve(res.data)
+        })
         .catch(err => reject(err));
 });
 
-const getUserById = (userId) => axios.get(`${baseUrl}/${userId}`);
+const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
 
-export default { getUserInfo, getUserById }
+const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
+
+const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
+
+const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
+
+
+
+export default { 
+    getAllUsers,
+    postNewUser,
+    removeUser,
+    updateUser,
+    getSingleUser 
+}

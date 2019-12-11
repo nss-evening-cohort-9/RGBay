@@ -48,11 +48,11 @@ namespace RGBay.api.Controllers
             return Created($"rgbay/user/{userCreated}", userCreated);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult RemoveUser(int id)
+        [HttpDelete("{userId}")]
+        public IActionResult RemoveUser(int userId)
         {
             var repo = new UserRepository();
-            repo.Delete(id);
+            repo.Delete(userId);
 
             return Ok();
         }
