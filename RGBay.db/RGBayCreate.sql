@@ -31,7 +31,8 @@ GO
 
 CREATE TABLE [dbo].[User]
 (
-	[Id] int identity(1,1) not null primary key, 
+	[Id] int identity(1,1) not null primary key,
+	[FirebaseUid] nvarchar(50) not null,
 	[Username] nvarchar(50) not null,
 	[Email] nvarchar(320) not null,
 	[City] nvarchar (50) not null,
@@ -44,20 +45,23 @@ GO
 -- Insert rows into table 'User' in schema '[dbo]'
 INSERT INTO [dbo].[User]
 ( -- Columns to insert data into
- [Username], [Email], [City], [State], [Bio]
+ [FirebaseUid], [Username], [Email], [City], [State], [Bio]
 )
 VALUES
 ( -- First row: values for the columns in the list above
-'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'This is my bio 1'
+'000000000000000001', 'rOCKsTEADY', 'steadyrockin@underwhelms.com', 'Nashville', 'TN', 'This is my bio 1'
 ),
 ( -- Second row: values for the columns in the list above
- 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'This is my bio 2'
+ '000000000000000002', 'BeeBop', 'beeboppin@underwhelms.com', 'Chattanooga', 'TN', 'This is my bio 2'
 ),
 ( -- Third row: values for the columns in the list above
- 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'This is my bio 3'
+ '000000000000000003', 'JankyPromo', 'screechin@cowmilk.com', 'Nashville', 'TN', 'This is my bio 3'
 ),
 ( -- Fourth row: values for the columns in the list above
- 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
+ '000000000000000004', 'iLLGates', 'smokingsauasge@coolkids.com', 'Memphis', 'TN', 'This is my bio 4'
+),
+(
+ 'PkhVyqmQLTgObjj6znZ1aT226zf2', 'STrejo', 'trejomsamuel@gmail.com', 'Nashville', 'TN', 'I like space!'
 )
 GO
 

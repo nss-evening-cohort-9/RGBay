@@ -25,10 +25,20 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"select * from [User]
-                            where id = @id";
-                var user = db.QueryFirst<User>(sql, new { Id = id });
+                            where [Id] = @id";
+                var user = db.QuerySingle<User>(sql, new { Id = id });
                 return user;
 
+            }
+        }
+
+        public User GetByUid(string firebaseUid)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "select * from [User] where FirebaseUid = @firebaseUid";
+                var user = db.QueryFirstOrDefault<User>(sql, new { firebaseUid });
+                return user;
             }
         }
 
@@ -36,17 +46,20 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"delete from [User] where [Id] = @id";
-                return db.Execute(sql, new { id }) == 1;
+                var sql = @"DELETE FROM [User] WHERE [Id] = @Id";
+                var parameters = new { id };
+
+                return db.Execute(sql, parameters) == 1;
             }
         }
 
-        public int Add(User newUser)
+        public int Add(AddUserCommand newUser)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"INSERT INTO [dbo].[User]([Username], [Email], [City], [State], [Bio])
+                var sql = @"INSERT INTO [dbo].[User]([FirebaseUid], [Username], [Email], [City], [State], [Bio])
                             VALUES (
+                              @FirebaseUid,
                               @Username,
                               @Email,
                               @City,

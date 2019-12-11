@@ -13,7 +13,7 @@ namespace RGBay.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController : FirebaseEnabledController
     {
         // POST  || CREATE//
 
