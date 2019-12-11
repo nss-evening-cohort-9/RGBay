@@ -33,8 +33,33 @@ namespace RGBay.api.Controllers
         [HttpGet("cart/{customerId:int}")]
         public Cart GetCart(int customerId)
         {
+            var orderRepo = new OrderRepository();
+            var productRepo = new ProductRepository();
+            var orderProductRepo = new OrderProductRepository();
+            var productList = new List<Product>();
 
-            return new Cart();
+            var cartOrder = orderRepo.GetCartOrder(customerId);
+
+            if (cartOrder == null)
+            {
+                return new Cart();
+            }
+            else
+            {
+                var cartOrderProducts = orderProductRepo.GetOrderProductsByOrderId(cartOrder.Id);
+                foreach (var product in cartOrderProducts)
+                {
+                    var productMatch = productRepo.GetProduct(product.ProductId);
+                    productList.Add(productMatch);
+                }
+
+                var cart = new Cart
+                {
+                    CartOrder = cartOrder,
+                    CartProducts = productList
+                };
+                return cart;
+            }
         }
             // get shopping cart (order id)
             // get order products for order id (cart)

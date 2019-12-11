@@ -77,7 +77,23 @@ namespace RGBay.api.Repositories
             }
         }
 
-        //public Order GetCartOrder
+        public Order GetCartOrder(int customerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Order]
+                            WHERE CustomerId = @CustomerId
+                            AND Status = @Status";
+                var parameters = new
+                {
+                    CustomerId = customerId,
+                    Status = "Cart"
+                };
+                var cart = db.QueryFirst<Order>(sql, parameters);
+                return cart;
+            }
+        }
 
 
 
