@@ -14,7 +14,7 @@ namespace RGBay.api.Repositories
                                      Database=RGBay;
                                      Trusted_Connection=True;";
 
-        public IEnumerable<Order> GetOrderProductsByOrderId(int orderId)
+        public IEnumerable<OrderProduct> GetOrderProductsByOrderId(int orderId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -25,7 +25,23 @@ namespace RGBay.api.Repositories
                 {
                     OrderId = orderId
                 };
-                var orderProducts = db.Query<Order>(sql, parameters);
+                var orderProducts = db.Query<OrderProduct>(sql, parameters);
+                return orderProducts;
+            }
+        }
+
+        public IEnumerable<OrderProduct> GetOrderProductsByCustomerId(int customerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [OrderProduct]
+                            WHERE CustomerId = @CustomerId";
+                var parameters = new
+                {
+                    CustomerId = customerId
+                };
+                var orderProducts = db.Query<OrderProduct>(sql, parameters);
                 return orderProducts;
             }
         }
