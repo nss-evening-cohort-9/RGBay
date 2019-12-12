@@ -31,6 +31,17 @@ namespace RGBay.api.Repositories
             }
         }
 
+        public Order CreateCartOrder(int customerId, int duration, Product productToAdd)
+        {
+            var newOrder = new Order
+            {
+                CustomerId = customerId,
+                Date = DateTime.Now,
+                Status = "Cart"
+            };
+            return CreateOrder(newOrder);
+        }
+
 
         /* GET || READ */
 
@@ -90,7 +101,7 @@ namespace RGBay.api.Repositories
                     CustomerId = customerId,
                     Status = "Cart"
                 };
-                var cart = db.QueryFirst<Order>(sql, parameters);
+                var cart = db.QueryFirstOrDefault<Order>(sql, parameters);
                 return cart;
             }
         }

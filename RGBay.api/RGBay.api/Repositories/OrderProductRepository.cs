@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using RGBay.api.DataModels;
 
 namespace RGBay.api.Repositories
@@ -43,6 +44,19 @@ namespace RGBay.api.Repositories
                 };
                 var orderProducts = db.Query<OrderProduct>(sql, parameters);
                 return orderProducts;
+            }
+        }
+
+        public OrderProduct AddOrderProduct(OrderProduct orderProduct)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"INSERT INTO [OrderProduct]
+                            ([OrderId], [ProductId], [Duration])
+                            OUTPUT INSERTED.*
+                            VALUES
+                            (@orderId, @productId, @duration)";
+                return db.QueryFirst<OrderProduct>(sql, orderProduct);
             }
         }
     }

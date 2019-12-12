@@ -61,8 +61,41 @@ namespace RGBay.api.Controllers
                 return cart;
             }
         }
-            // get shopping cart (order id)
-            // get order products for order id (cart)
-            // get product details for each product id
+
+        [HttpPost("{customerId}")]
+        public IActionResult CreateOrderProduct(AddOrderProductCommand addOrderProductCommand, int customerId)
+        {
+            var orderRepo = new OrderRepository();
+            var productRepo = new ProductRepository();
+            var orderProductRepo = new OrderProductRepository();
+            var product = productRepo.GetProduct(addOrderProductCommand.ProductId);
+
+            var cartOrder = orderRepo.GetCartOrder(customerId);
+
+            if (cartOrder == null)
+            {
+                var createdOrder = orderRepo.CreateCartOrder(customerId, addOrderProductCommand.Duration, product);
+                var orderId = createdOrder.Id;
+                var orderProduct = new OrderProduct
+                {
+                    OrderId = orderId,
+                    ProductId = addOrderProductCommand.ProductId,
+                    Duration = addOrderProductCommand.Duration
+                };
+                var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
+                return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
+            }
+            else
+            {
+                var orderProduct = new OrderProduct
+                {
+                    OrderId = cartOrder.Id,
+                    ProductId = addOrderProductCommand.ProductId,
+                    Duration = addOrderProductCommand.Duration
+                };
+                var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
+                return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
+            }
+        }
     }
 }
