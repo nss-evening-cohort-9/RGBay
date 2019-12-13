@@ -74,7 +74,7 @@ class NavBar extends React.Component {
               <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
             {/* <NavItem> */}
-              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} inNavbar={true}>
                 <DropdownToggle color="dark" caret nav>
                   {this.props.profile ? (this.props.profile.username) : ('Account')}</DropdownToggle>
                 <DropdownMenu>
