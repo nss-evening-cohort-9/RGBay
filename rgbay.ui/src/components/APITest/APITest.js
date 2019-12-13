@@ -18,7 +18,7 @@ class APITest extends Component {
 
   render() {
     return (
-      <div className="APITest col">
+      <div className="APITest container">
         <div className="card">
           <PaymentTypeTable />
         </div>

@@ -66,16 +66,16 @@ class NavBar extends React.Component {
     const buildNavbar = () => {
       if (authed) {
         return (
-          <Nav navbar>
+          <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink tag={RRNavLink} to='/home'>Home</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem> */}
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-                <DropdownToggle className="nav-link btn-dark" caret>
+                <DropdownToggle color="dark" caret nav>
                   {this.props.profile ? (this.props.profile.username) : ('Account')}</DropdownToggle>
                 <DropdownMenu>
                   {profile ? (
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-            </NavItem>
+            {/* </NavItem> */}
           </Nav>
         );
       }
@@ -122,18 +122,18 @@ class NavBar extends React.Component {
     };
 
     return (
-      <div className="NavBar">
-        <Navbar color="dark" dark expand="md">
-          <NavbarBrand className="col-4 text-left text-light pointer" onClick={this.toHome}>RGBay</NavbarBrand>
-          <Form className="col-4 w-25" onSubmit={this.showSearchedProducts}>
+      <Navbar color="dark" dark expand="md">
+        <div className="container">
+          <NavbarBrand className="col-2-sm col-1-md text-left text-light pointer" onClick={this.toHome}>RGBay</NavbarBrand>
+          <Form className="col w-25" onSubmit={this.showSearchedProducts}>
             <Input placeholder="What you want!" value={this.state.search} onChange={this.updateSearch}/>
           </Form>
           <NavbarToggler onClick={this.toggleCollapse} />
-          <Collapse className="col-4" style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
+          <Collapse className="col-4-md" style={{flexGrow: 0}} isOpen={this.state.isOpen} navbar>
             {buildNavbar()}
           </Collapse>
-        </Navbar>
-      </div>
+        </div>
+      </Navbar>
     );
   }
 }

@@ -78,8 +78,8 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <NavBar authed={authed} profile={profile} logout={this.logout} />
-          <div className="container mt-5 mb-5">
-            <div className="">
+          {/* <div className="container mt-5 mb-5"> */}
+            {/* <div className=""> */}
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
                 <PrivateRoute path="/home"
@@ -101,8 +101,8 @@ class App extends React.Component {
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
-            </div>
-          </div>
+            {/* </div> */}
+          {/* </div> */}
         </Router>
       </div>
     );

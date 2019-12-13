@@ -36,11 +36,12 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="Home col">
+      <div className="Home">
         <Jumbotron>
-          <h1 className="display-3">Welcome to RGBay!</h1>
-          <p className="lead">"We bring the gaming to you!"</p>
-          <hr className="my-2" />
+          <div className="container">
+            <h1 className="display-3">Welcome to RGBay!</h1>
+            <p className="lead">"We bring the gaming to you!"</p>
+          </div>
         </Jumbotron>
       </div>
     );
