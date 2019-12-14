@@ -1,21 +1,24 @@
-import React from 'react';
+import React from 'react'
+
+import firebase from 'firebase/app'
+import 'firebase/auth';
+
 
 import { 
     Table,
     Button
 } from 'reactstrap';
-
-import './OrderTable.scss';
-import orderData from '../../../../data/orderData';
-import OrderRow from '../OrderRow/OrderRow';
+import orderData from '../../data/orderData';
+import OrdersRow from './OrdersRow';
 
 class OrderTable extends React.Component {
     state = {
-        orderState: [],
+        orderState: []
     }
 
     getOrders = () => {
-        orderData.getOrderData()
+        var uid = firebase.auth().currentUser.uid;
+        orderData.getUserOrderData(uid)
             .then((grabbedOrders) => {
                 const orderArray = [];
 
@@ -26,7 +29,7 @@ class OrderTable extends React.Component {
                 this.setState({ orderState: orderArray });
             })
             .catch((err) => {
-                console.error('error in OrderRow.js => getOrders()' ,err)
+                console.error('error in OrdersRow.js => getOrders()' ,err)
             })
     }
 
@@ -49,9 +52,8 @@ class OrderTable extends React.Component {
     }
 
     render() {
-
-        const orderRows = this.state.orderState.map(orderProp => (
-            <OrderRow
+        const ordersRows = this.state.orderState.map(orderProp => (
+            <OrdersRow
             key={orderProp.id}
             orderProp={orderProp}
             getOrders={this.getOrders}
@@ -73,7 +75,7 @@ class OrderTable extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {orderRows}
+                        {ordersRows}
                     </tbody>
                 </Table>
                 <Button onClick={this.addOrder}> Add Order </Button>

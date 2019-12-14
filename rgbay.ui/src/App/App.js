@@ -18,6 +18,7 @@ import Orders from '../components/OrderView/OrdersView';
 import NavBar from '../components/NavBar/NavBar';
 import ProductView from '../components/ProductView/ProductView';
 import Product from '../components/Product/Product';
+import Order from '../components/Order/Order';
 
 import firebaseConnection from '../requests/connection';
 
@@ -99,6 +100,7 @@ class App extends React.Component {
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/edituser/:id" component={EditUser} authed={authed} />
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
+                <PrivateRoute path="/order/:id" component={Order} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
             </div>

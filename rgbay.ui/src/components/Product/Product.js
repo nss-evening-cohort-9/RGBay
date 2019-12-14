@@ -56,6 +56,7 @@ class Product extends React.Component {
               <div>isForSale: {product.isForSale}</div>
               <div>isRgb: {product.isRgb}</div>
               <div className="">{product.description}</div>
+              <button>add to cart</button>
           </div>
         </div>
       </div>
