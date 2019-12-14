@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import userData from '../../data/profileData';
 import './SingleUser.css';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 class Single extends React.Component {
 state = {
-    user: {}
+    user: {},
+    isAuthUser: false
 }
 
 getProfileInfo = (userId) => {
@@ -12,9 +16,19 @@ getProfileInfo = (userId) => {
   .getSingleUser(userId)
   .then((res) => {
       this.setState({ user: res.data })
+      this.editButton();
       }
   )
   .catch(err => console.log("No information: ", err));
+}
+
+
+editButton = () => {
+  if(this.state.user.firebaseUid === firebase.auth().currentUser.uid) {
+    this.setState({ isAuthUser: true })
+  } else {
+    this.setState({ isAuthUser: false })
+  }
 }
 
 componentDidMount() {
@@ -22,7 +36,9 @@ componentDidMount() {
 }
 
 render() {
-    const { user } = this.state;
+  const { user } = this.state;
+  let { isAuthUser } = this.state;
+  const editLink = `/edituser/${user.id}`;
     return (
       <div className="container col-12 top-divide">
         <div className="container profile-top col-6">
@@ -33,7 +49,10 @@ render() {
           <h5 className="textables">{user.email}</h5>
           <div className="textables">{user.bio}</div>
         </div>
-          {/* <button className="btn btn-primary" onClick={this.getProfileInfo(this.props.match.params.id)}>Test</button> */}
+          {/* // ternary */}
+          {isAuthUser === true ? <Link 
+          className="btn btn-success" to={editLink}>Edit</Link> : <></> 
+          }
       </div>
     )
   }

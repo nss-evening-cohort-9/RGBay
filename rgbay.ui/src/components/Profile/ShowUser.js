@@ -12,8 +12,6 @@ removeUser = (e) => {
   e.preventDefault();
   const { info, removeUser } = this.props;
   removeUser(info.id)
-  // console.error("Delete button")
-  
 }
 
 render() {
