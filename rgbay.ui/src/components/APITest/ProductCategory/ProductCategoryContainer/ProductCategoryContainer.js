@@ -34,8 +34,10 @@ class ProductCategoryContainer extends React.Component {
   updateCategory = (updatedProductCategory) => {
     productCategoryData.updateProductCategory(updatedProductCategory.id, updatedProductCategory)
       .then(() => {
+  
         this.setState({ isEditing: false, formProductCategory: defaultProductCategory });
         this.updateData();
+  
       })
       .catch(error => console.error('unable to update ProductCategory', error));
   }
@@ -43,14 +45,16 @@ class ProductCategoryContainer extends React.Component {
   addCategory = (newProductCategory) => {
     productCategoryData.postProductCategory(newProductCategory)
       .then(() => {
+  
         this.setState({ isEditing: false, formProductCategory: defaultProductCategory });
         this.updateData();
+  
       })
       .catch(error => console.error('unable to add ProductCategory', error));
   }
 
   editProductCategory = (productCategoryToEdit) => {
-    const productCategory = {...productCategoryToEdit};
+    const productCategory = { ...productCategoryToEdit };
     this.setState({ isEditing: true, formProductCategory: productCategory });
   }
 
@@ -67,7 +71,7 @@ class ProductCategoryContainer extends React.Component {
   }
 
   productCategoryFormChange = (e) => {
-    const newFormProductCategory = this.state.formProductCategory;
+    const newFormProductCategory = {...this.state.formProductCategory};
     newFormProductCategory.name = e.target.value;
     this.setState({ formProductCategory: newFormProductCategory });
   }
