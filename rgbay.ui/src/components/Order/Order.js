@@ -1,8 +1,15 @@
 import React from 'react';
 
-import OrdersTable from '../OrderView/OrdersTable';
+import orderData from '../../data/orderData';
 
 class Order extends React.Component {
+  state = {
+    Order: {}
+  }
+
+  getOrderDetails = () => {
+    orderData.getOrderByOrderId()
+  }
   render() {
     return (
       <div className="Order">

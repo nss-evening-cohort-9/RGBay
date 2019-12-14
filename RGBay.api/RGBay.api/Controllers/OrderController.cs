@@ -67,6 +67,15 @@ namespace RGBay.api.Controllers
             return customerOrders;
         }
 
+        [HttpGet("uid/{uid}")]
+        public IEnumerable<Order> GetOrdersByUid(string uid)
+        {
+            var userRepo = new UserRepository();
+            var orderRepo = new OrderRepository();
+            var user = userRepo.GetByUid(uid);
+            return orderRepo.GetOrdersByCustomerId(user.Id);
+        }
+
 
 
 
