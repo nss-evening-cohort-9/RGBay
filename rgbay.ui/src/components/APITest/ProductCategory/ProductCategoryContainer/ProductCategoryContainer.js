@@ -1,7 +1,4 @@
 import React from 'react';
-// import {
-//   Button
-// } from 'reactstrap'; 
 
 import './ProductCategoryContainer.scss';
 import productCategoryData from '../../../../data/productCategoryData';
@@ -15,45 +12,46 @@ const defaultProductCategory = {
 
 class ProductCategoryContainer extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { productCategories: [] };
-  //   this.updateData = this.updateData.bind(this);
-  // }
-
   state = {
     productCategories: [],
     isEditing: false,
-    changingProductCategory: defaultProductCategory,
+    formProductCategory: defaultProductCategory,
   }
 
   componentDidMount() {
     this.updateData();
   }
 
-  formSubmit = (freshProductCategory) => {
+  productCategoryFormSubmit = (e) => {
+    e.preventDefault();
     if (this.state.isEditing) {
-      // this.updateCategory
+      this.updateCategory(this.state.formProductCategory)
     } else {
-      this.addCategory(freshProductCategory);
+      this.addCategory(this.state.formProductCategory);
     }
+  }
+
+  updateCategory = (updatedProductCategory) => {
+    productCategoryData.updateProductCategory(updatedProductCategory.id, updatedProductCategory)
+      .then(() => {
+        this.setState({ isEditing: false, formProductCategory: defaultProductCategory });
+        this.updateData();
+      })
+      .catch(error => console.error('unable to update ProductCategory', error));
   }
 
   addCategory = (newProductCategory) => {
     productCategoryData.postProductCategory(newProductCategory)
-      .then(() => this.updateData())
+      .then(() => {
+        this.setState({ isEditing: false, formProductCategory: defaultProductCategory });
+        this.updateData();
+      })
       .catch(error => console.error('unable to add ProductCategory', error));
   }
 
   editProductCategory = (productCategoryToEdit) => {
-    this.setState({isEditing: true, changingProductCategory: productCategoryToEdit});
-  }
-
-  updateCategory = (updatedProductCategory) => {
-    this.setState({isEditing: false});
-    productCategoryData.updateProductCategory(updatedProductCategory.id, updatedProductCategory)
-      .then(() => this.updateData())
-      .catch(error => console.error('unable to update ProductCategory', error));
+    const productCategory = {...productCategoryToEdit};
+    this.setState({ isEditing: true, formProductCategory: productCategory });
   }
 
   deleteProductCategory = (id) => {
@@ -64,12 +62,14 @@ class ProductCategoryContainer extends React.Component {
 
   updateData() {
     productCategoryData.getAllProductCategories()
-      // .then((productCategories) => {
-      //   let freshProductCategories = [...productCategories];
-      //   this.setState({ productCategories: freshProductCategories });
-      // })
-      .then(productCategories => this.setState({ productCategories }))
+      .then(productCategoriesData => this.setState({ productCategories: productCategoriesData }))
       .catch(error => console.error(`could not get ProductCategories`, error));
+  }
+
+  productCategoryFormChange = (e) => {
+    const newFormProductCategory = this.state.formProductCategory;
+    newFormProductCategory.name = e.target.value;
+    this.setState({ formProductCategory: newFormProductCategory });
   }
 
   render() {
@@ -83,15 +83,14 @@ class ProductCategoryContainer extends React.Component {
         editProductCategory={this.editProductCategory}
       />
     ));
-    const changingProductCategory = this.state.changingProductCategory;
     return (
       <div className="ProductCategoryContainer card container">
         <h2>ProductCategory Data</h2>
-        {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
         <ProductCategoryForm
           key={`productCategoryForm`}
-          formSubmit={this.formSubmit}
-          changingProductCategory={this.state.changingProductCategory}
+          formProductCategory={this.state.formProductCategory}
+          productCategoryFormChange={this.productCategoryFormChange}
+          productCategoryFormSubmit={this.productCategoryFormSubmit}
         />
         <div className="row">
           {testProductCategories}
