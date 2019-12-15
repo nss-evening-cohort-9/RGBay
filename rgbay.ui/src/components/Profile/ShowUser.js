@@ -16,7 +16,7 @@ removeUser = (e) => {
 
 render() {
     const { info } = this.props;
-    const editLink = `edituser/${info.id}`;
+    // const editLink = `edituser/${info.id}`;
     const singleUser = `profileview/${info.id}`;
     return (
     <div className="container">
@@ -34,8 +34,6 @@ render() {
           <CardText className="card-text">{info.state}</CardText>
           <h6>Bio:</h6>
           <CardText className="card-text">{info.bio}</CardText>
-          <Link className="btn btn-success" to={editLink}>Edit</Link>
-          <button type="submit" className="btn btn-danger" onClick={this.removeUser}>Delete User</button>
           </CardBody>
         </Card>
       </div>

@@ -31,6 +31,14 @@ editButton = () => {
   }
 }
 
+deleteProfile = () => {
+  const user = this.props.match.params.id;
+  userData
+  .removeUser(user)
+  .then(() => this.getProfileInfo())
+  .catch(err => console.error("Unable to delete single profile", err))
+};
+
 componentDidMount() {
   this.getProfileInfo(this.props.match.params.id)
 }
@@ -39,6 +47,8 @@ render() {
   const { user } = this.state;
   let { isAuthUser } = this.state;
   const editLink = `/edituser/${user.id}`;
+  const homeLink = `/`;
+
     return (
       <div className="container col-12 top-divide">
         <div className="container profile-top col-6">
@@ -46,12 +56,15 @@ render() {
           <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="bio-pic"></img>
           <h5 className="textables">{user.email}</h5>
           <h5 className="textables">{user.city}</h5>
-          <h5 className="textables">{user.email}</h5>
+          <h5 className="textables">{user.state}</h5>
           <div className="textables">{user.bio}</div>
         </div>
           {/* // ternary */}
           {isAuthUser === true ? <Link 
           className="btn btn-success" to={editLink}>Edit</Link> : <></> 
+          }
+          {isAuthUser === true ? <Link 
+          className="btn btn-danger" to={homeLink} id={user.id} onClick={this.deleteProfile}>Delete</Link> : <></> 
           }
       </div>
     )
