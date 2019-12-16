@@ -8,6 +8,12 @@ const getProducts = () => new Promise((resolve, reject) => {
     .catch(error => reject(error));
 });
 
+const getLatestProducts = (getLatestProductsNum) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/${getLatestProductsNum}/latest`)
+    .then(response => resolve(response.data))
+    .catch(error => reject(error));
+})
+
 const getProductById = (productId) => axios.get(`${baseUrl}/${productId}`);
 
 const deleteProduct = (productId) => axios.delete(`${baseUrl}/${productId}`);
@@ -16,6 +22,7 @@ const addProduct = (product) => axios.post(`${baseUrl}`, product);
 
 export default {
   getProducts,
+  getLatestProducts,
   getProductById,
   deleteProduct,
   updateProduct,

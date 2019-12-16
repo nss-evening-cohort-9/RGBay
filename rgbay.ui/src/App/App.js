@@ -49,7 +49,7 @@ class App extends React.Component {
     profile: null,
   };
 
-  logout = () => this.setState({ authed: false, profile: null });
+  logout = () => this.setState({ authed: false, profile: null, isRegFormFirstLoad: false });
 
   setProfile = profile => this.setState({ profile });
 
@@ -78,8 +78,8 @@ class App extends React.Component {
       <div className="App">
         <Router>
           <NavBar authed={authed} profile={profile} logout={this.logout} />
-          <div className="container mt-5 mb-5">
-            <div className="">
+          {/* <div className="container mt-5 mb-5"> */}
+            {/* <div className=""> */}
               <Switch>
                 <PublicRoute path="/auth" component={Home} authed={authed} />
                 <PrivateRoute path="/home"
@@ -92,8 +92,8 @@ class App extends React.Component {
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
-                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} />
-                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} />
+                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} rows={true} />
+                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} showTitle={true} />
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/apitest" component={APITest} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
@@ -101,8 +101,8 @@ class App extends React.Component {
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
                 <Redirect from="*" to="/home" />
               </Switch>
-            </div>
-          </div>
+            {/* </div> */}
+          {/* </div> */}
         </Router>
       </div>
     );

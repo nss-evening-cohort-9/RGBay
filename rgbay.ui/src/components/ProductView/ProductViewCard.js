@@ -23,24 +23,28 @@ class ProductViewCard extends React.Component {
   }
 
   render() {
-    const { product, isSeller } = this.props;
+    const { product, isSeller, productClass } = this.props;
+    const productDateObject = new Date(Date.parse(product.dateCreated));
+    const productDate = `${(productDateObject.getMonth() + 1)}/${(productDateObject.getUTCDate())}/${productDateObject.getFullYear()}`;
     const editIcons = isSeller ?
       (<div>
         <i className="fas fa-pencil-alt pointer" onClick={this.updateProduct}></i>
         <i className="fas fa-times pointer pl-2" onClick={this.deleteProduct}></i>
       </div>) : (<div></div>);
     return (
-      <div className="ProductViewCard col-12">
-        <div className="card">
+      <div className={productClass}>
+        <div className="card mb-5">
           <div className="card-body">
             <div className="d-flex justify-content-between">
-              <div className="pointer font-weight-bold" onClick={this.showProduct}>{product.title}</div>
+              <div className="pointer font-weight-bold lead" onClick={this.showProduct}>{product.title}</div>
               {editIcons}
             </div>
-            <div>{product.title}</div>
-            <div>{product.description}</div>
-            <div>{product.rentalPrice}</div>
-            <div>{product.salesPrice}</div>
+            <div className="d-flex justify-content-between">
+              <div className="small"><div>Date Added:</div><div>{productDate}</div></div>
+              <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice}`}</div></div>
+            </div>
+            <hr className="my-2" />
+            <div className="lead">{product.description}</div>
           </div>
         </div>
       </div>
