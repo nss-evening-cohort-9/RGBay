@@ -9,6 +9,10 @@ class CategoryView extends React.Component {
     categories: [],
   }
 
+  showProduct = (productId) => {
+    this.props.history.push(`/product/${productId}`);
+  }
+
   componentDidMount() {
     this.getCategories();
   }
@@ -22,11 +26,10 @@ class CategoryView extends React.Component {
   buildCategories = () => {
     return this.state.categories.map((category) => {
       const categoryToBuild = (
-        <Category key={category.id} category={category} />);
+        <Category key={category.id} category={category} isChildComponent={true} showProduct={this.showProduct} />);
       return categoryToBuild
     });
   }
-
 
   render() {
     return (
