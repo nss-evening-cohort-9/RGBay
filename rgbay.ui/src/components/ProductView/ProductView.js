@@ -97,15 +97,14 @@ class ProductView extends React.Component {
   }
 
   getProducts = () => {
-    if (!this.props.getLatest) {
-      productData.getProducts()
-        .then(products => this.setState({ products }))
-        .catch(error => console.error(error));
-    } else {
-      productData.getLatestProducts(this.props.getLatestProductsNum)
-        .then(products => this.setState({ products }))
-        .catch(error => console.error(error));
-    }
+    productData.getProducts()
+    .then(products => this.setState({ products }))
+    .catch(error => console.error(error));
+    
+    if (!this.props.getLatest) return;
+    productData.getLatestProducts(this.props.getLatestProductsNum)
+      .then(products => this.setState({ products }))
+      .catch(error => console.error(error));
   }
 
   deleteProduct = (productId) => {
