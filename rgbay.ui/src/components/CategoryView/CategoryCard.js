@@ -1,10 +1,22 @@
 import React from 'react';
 
+import productData from '../../data/product-data';
+
 import './CategoryView.scss';
 
 class CategoryCard extends React.Component {
   state = {
-    category: {},
+    products: [],
+  }
+
+  componentDidMount() {
+    this.getProducts(this.props.category.id);
+  }
+
+  getProducts = (categoryId) => {
+    productData.getRecentProductsByCategory(categoryId)
+      .then(products => this.setState({ products }))
+      .catch(error => console.error(error));
   }
 
   render() {
