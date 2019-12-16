@@ -57,7 +57,7 @@ class Home extends Component {
             <p className="lead">- Crazy Earl (Borderlands)</p>
             <hr className="my-2" />
             <p className="lead text-left mb-5">Latest Products</p>
-            <ProductView isChildComponent={true} showProduct={this.showProduct} showTitle={false} rows={false} />
+            <ProductView isChildComponent={true} showProduct={this.showProduct} showTitle={false} rows={false} getLatestProductsNum={2} />
           </div>
         </Jumbotron>
         

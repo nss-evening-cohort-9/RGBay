@@ -10,6 +10,7 @@ namespace RGBay.api.DataModels
         public int Id { get; set; }
         public string Title { get; set; }
         public Category Category { get; set; }
+        public DateTime DateCreated { get; set; }
         public int RentalPrice { get; set; }
         public int SalesPrice { get; set; }
         public bool IsForSale { get; set; }

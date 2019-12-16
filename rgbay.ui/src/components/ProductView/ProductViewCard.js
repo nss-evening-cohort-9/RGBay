@@ -31,7 +31,7 @@ class ProductViewCard extends React.Component {
       </div>) : (<div></div>);
     return (
       <div className={productClass}>
-        <div className="card">
+        <div className="card mb-5">
           <div className="card-body">
             <div className="d-flex justify-content-between">
               <div className="pointer font-weight-bold" onClick={this.showProduct}>{product.title}</div>

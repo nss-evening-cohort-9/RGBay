@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Product from './ProductViewCard';
+import ProductViewCard from './ProductViewCard';
 import ProductForm from './ProductViewForm';
 
 import productData from '../../data/product-data';
@@ -76,10 +76,10 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
-    const productClass = this.props.rows ? ('ProductViewCard col-12 mb-5') : ('ProductViewCard col-4 mb-5')
+    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4')
     return this.state.products.map((product) => {
       const productToBuild = (
-        <Product
+        <ProductViewCard
           key={product.id}
           product={product}
           deleteProduct={this.deleteProduct}
@@ -97,9 +97,16 @@ class ProductView extends React.Component {
   }
 
   getProducts = () => {
-    productData.getProducts()
-      .then(products => this.setState({ products }))
-      .catch(error => console.error(error));
+    if (this.props.getLatestProductsNum) {
+      console.error('get latest')
+      productData.getLatestProducts(this.props.getLatestProductsNum)
+        .then(products => this.setState({ products }))
+        .catch(error => console.error(error));
+    } else {
+      productData.getProducts()
+        .then(products => this.setState({ products }))
+        .catch(error => console.error(error));
+    }
   }
 
   deleteProduct = (productId) => {
