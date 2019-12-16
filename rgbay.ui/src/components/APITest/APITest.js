@@ -29,7 +29,7 @@ class APITest extends Component {
           <UserProfile />
         </div>
         <div className="card">
-          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} showTitle={false} rows={true} />
+          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} showTitle={true} rows={true} authed={this.props.authed} />
         </div>
         <div className="card">
           <OrderTable />

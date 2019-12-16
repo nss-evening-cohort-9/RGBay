@@ -103,6 +103,7 @@ class ProductView extends React.Component {
       .then(products => this.setState({ products }))
       .catch(error => console.error(error));
     } else {
+      console.error('test');
       productData.getProducts()
       .then(products => this.setState({ products }))
       .catch(error => console.error(error));
