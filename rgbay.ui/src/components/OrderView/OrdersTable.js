@@ -66,6 +66,7 @@ class OrderTable extends React.Component {
                 <Table striped dark responsive>
                     <thead>
                     <tr>
+                        <th scope="col">Order</th>
                         <th scope="col">id</th>
                         <th scope="col">CustomerId</th>
                         <th scope="col">Date</th>
