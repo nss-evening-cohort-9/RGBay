@@ -24,6 +24,7 @@ class ProductView extends React.Component {
     product: defaultProduct,
     editState: false,
     isSeller: false,
+    loaded: false,
   }
 
   showProduct = (productId) => {
@@ -97,14 +98,15 @@ class ProductView extends React.Component {
   }
 
   getProducts = () => {
-    productData.getProducts()
-    .then(products => this.setState({ products }))
-    .catch(error => console.error(error));
-    
-    if (!this.props.getLatest) return;
-    productData.getLatestProducts(this.props.getLatestProductsNum)
+    if (this.props.getLatest) {
+      productData.getLatestProducts(this.props.getLatestProductsNum)
       .then(products => this.setState({ products }))
       .catch(error => console.error(error));
+    } else {
+      productData.getProducts()
+      .then(products => this.setState({ products }))
+      .catch(error => console.error(error));
+    }
   }
 
   deleteProduct = (productId) => {
@@ -131,6 +133,7 @@ class ProductView extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.authed) return
     this.checkViewerType();
   }
 

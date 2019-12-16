@@ -186,7 +186,7 @@ VALUES --categories part 1, peripheral 2, space 3, system 4
 ('NVIDIA Shield', 4, '133200', '256700', 1, 0, 'cool nvidia shield', dateadd(day,-16, getdate()), 1, 'https://m.media-amazon.com/images/I/61BbVbSSNuL._AC_UY218_ML3_.jpg'),
 ('Intel Core i7', 1, '133200', '256700', 1, 0, 'nice intel core i7', dateadd(day,-17, getdate()), 1, 'https://m.media-amazon.com/images/I/71Q5sdPHD-L._AC_UL320_ML3_.jpg'),
 ('Intel Core i5', 1, '133200', '256700', 1, 0, 'alright intel core i5', dateadd(day,-18, getdate()), 1, 'https://m.media-amazon.com/images/I/71709S6VMTL._AC_UL320_ML3_.jpg'),
-('Intel COre i9', 1, '133200', '256700', 1, 0, 'nextgen intel core i9', dateadd(day,-19, getdate()), 1, 'https://m.media-amazon.com/images/I/71Tor75VsGL._AC_UL320_ML3_.jpg'),
+('Intel Core i9', 1, '133200', '256700', 1, 0, 'nextgen intel core i9', dateadd(day,-19, getdate()), 1, 'https://m.media-amazon.com/images/I/71Tor75VsGL._AC_UL320_ML3_.jpg'),
 ('Samsung SSD', 1, '133200', '256700', 1, 0, 'fast samsung ssd', dateadd(day,-20, getdate()), 1, 'https://m.media-amazon.com/images/I/914Zq+CIeML._AC_UL320_ML3_.jpg'),
 ('Samsung 65inch TV', 2, '133200', '256700', 1, 0, 'big samsung 65inch tv', dateadd(day,-21, getdate()), 1, 'https://m.media-amazon.com/images/I/91rhYwnuu7L._AC_UY218_ML3_.jpg'),
 ('Samsung Chromebook', 4, '133200', '256700', 1, 0, 'cool samsung chromebook', dateadd(day,-22, getdate()), 1, 'https://m.media-amazon.com/images/I/81mX-4s+guL._AC_UY218_ML3_.jpg'),
