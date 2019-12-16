@@ -49,7 +49,7 @@ class App extends React.Component {
     profile: null,
   };
 
-  logout = () => this.setState({ authed: false, profile: null });
+  logout = () => this.setState({ authed: false, profile: null, isRegFormFirstLoad: false });
 
   setProfile = profile => this.setState({ profile });
 
