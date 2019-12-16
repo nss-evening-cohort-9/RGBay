@@ -157,6 +157,7 @@ CREATE TABLE [dbo].[Product]
 	[IsRgb] BIT NOT NULL,
 	[Description] NVARCHAR(1000) NOT NULL,
 	[ImageUrl] NVARCHAR(1000) NOT NULL,
+	[DateCreated] DATETIME2 NOT NULL DEFAULT GETDATE(),
 	[OwnerId] INT NOT NULL
         FOREIGN KEY (OwnerId)
         REFERENCES [User] (Id)

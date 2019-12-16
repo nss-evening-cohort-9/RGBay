@@ -92,8 +92,8 @@ class App extends React.Component {
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
                 <PrivateRoute path="/account" component={Account} authed={authed} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
-                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} />
-                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} />
+                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} rows={true} />
+                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} showTitle={true} />
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/apitest" component={APITest} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />

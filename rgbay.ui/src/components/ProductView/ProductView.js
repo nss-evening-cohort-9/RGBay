@@ -76,6 +76,7 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
+    const productClass = this.props.rows ? ('ProductViewCard col-12 mb-5') : ('ProductViewCard col-4 mb-5')
     return this.state.products.map((product) => {
       const productToBuild = (
         <Product
@@ -84,7 +85,8 @@ class ProductView extends React.Component {
           deleteProduct={this.deleteProduct}
           stageEdit={this.stageEdit}
           isSeller={this.state.isSeller}
-          showProduct={this.showProduct} />);
+          showProduct={this.showProduct}
+          productClass={productClass} />);
       if (this.props.match) {
         // console.error(this.props.match.params.searchCriteria);
         return productToBuild
@@ -147,7 +149,7 @@ class ProductView extends React.Component {
     return (
       <div className="ProductView container">
         <div className="mt-3">
-          <h2 className="d-inline">ProductView</h2>
+          {(this.props.showTitle ? (<h2 className="d-inline">ProductView</h2>) : (''))}
           {productSellerForm}
         </div>
         <div className="row">

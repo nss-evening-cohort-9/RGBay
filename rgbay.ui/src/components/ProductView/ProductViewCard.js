@@ -23,14 +23,14 @@ class ProductViewCard extends React.Component {
   }
 
   render() {
-    const { product, isSeller } = this.props;
+    const { product, isSeller, productClass } = this.props;
     const editIcons = isSeller ?
       (<div>
         <i className="fas fa-pencil-alt pointer" onClick={this.updateProduct}></i>
         <i className="fas fa-times pointer pl-2" onClick={this.deleteProduct}></i>
       </div>) : (<div></div>);
     return (
-      <div className="ProductViewCard col-12">
+      <div className={productClass}>
         <div className="card">
           <div className="card-body">
             <div className="d-flex justify-content-between">
