@@ -41,7 +41,7 @@ class Product extends React.Component {
   render() {
     const { product, category, seller, rentalPrice, salesPrice } = this.state;
     return (
-      <div className="Product text-left">
+      <div className="Product text-left container">
         <div className="row">
           <div className="col-6">
             <img src={product.imageUrl} className="img-fluid" alt="product" />
