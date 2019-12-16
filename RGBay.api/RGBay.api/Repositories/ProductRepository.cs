@@ -23,6 +23,17 @@ namespace RGBay.api.Repositories
             }
         }
 
+        public IEnumerable<Product> GetLatestProducts(int getLatestProductsNum)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "select top (@getLatestProductsNum) * from product order by DateCreated desc";
+                var parameters = new { getLatestProductsNum };
+                var products = db.Query<Product>(sql, parameters);
+                return products;
+            }
+        }
+
         public Product GetProduct(int id)
         {
             using (var db = new SqlConnection(_connectionString))

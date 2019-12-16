@@ -18,7 +18,7 @@ class APITest extends Component {
 
   render() {
     return (
-      <div className="APITest col">
+      <div className="APITest container">
         <div className="card">
           <PaymentTypeTable />
         </div>
@@ -29,7 +29,7 @@ class APITest extends Component {
           <UserProfile />
         </div>
         <div className="card">
-          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} />
+          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} showTitle={true} rows={true} authed={this.props.authed} />
         </div>
         <div className="card">
           <OrderTable />

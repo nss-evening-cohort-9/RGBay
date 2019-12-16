@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Product from './ProductViewCard';
+import ProductViewCard from './ProductViewCard';
 import ProductForm from './ProductViewForm';
 
 import productData from '../../data/product-data';
@@ -24,6 +24,7 @@ class ProductView extends React.Component {
     product: defaultProduct,
     editState: false,
     isSeller: false,
+    loaded: false,
   }
 
   showProduct = (productId) => {
@@ -76,15 +77,17 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
+    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4')
     return this.state.products.map((product) => {
       const productToBuild = (
-        <Product
+        <ProductViewCard
           key={product.id}
           product={product}
           deleteProduct={this.deleteProduct}
           stageEdit={this.stageEdit}
           isSeller={this.state.isSeller}
-          showProduct={this.showProduct} />);
+          showProduct={this.showProduct}
+          productClass={productClass} />);
       if (this.props.match) {
         // console.error(this.props.match.params.searchCriteria);
         return productToBuild
@@ -95,9 +98,16 @@ class ProductView extends React.Component {
   }
 
   getProducts = () => {
-    productData.getProducts()
+    if (this.props.getLatest) {
+      productData.getLatestProducts(this.props.getLatestProductsNum)
       .then(products => this.setState({ products }))
       .catch(error => console.error(error));
+    } else {
+      console.error('test');
+      productData.getProducts()
+      .then(products => this.setState({ products }))
+      .catch(error => console.error(error));
+    }
   }
 
   deleteProduct = (productId) => {
@@ -124,6 +134,7 @@ class ProductView extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.props.authed) return
     this.checkViewerType();
   }
 
@@ -147,7 +158,7 @@ class ProductView extends React.Component {
     return (
       <div className="ProductView container">
         <div className="mt-3">
-          <h2 className="d-inline">ProductView</h2>
+          {(this.props.showTitle ? (<h2 className="d-inline">ProductView</h2>) : (''))}
           {productSellerForm}
         </div>
         <div className="row">
