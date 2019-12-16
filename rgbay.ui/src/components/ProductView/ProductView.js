@@ -97,13 +97,12 @@ class ProductView extends React.Component {
   }
 
   getProducts = () => {
-    if (this.props.getLatestProductsNum) {
-      console.error('get latest')
-      productData.getLatestProducts(this.props.getLatestProductsNum)
+    if (!this.props.getLatest) {
+      productData.getProducts()
         .then(products => this.setState({ products }))
         .catch(error => console.error(error));
     } else {
-      productData.getProducts()
+      productData.getLatestProducts(this.props.getLatestProductsNum)
         .then(products => this.setState({ products }))
         .catch(error => console.error(error));
     }
