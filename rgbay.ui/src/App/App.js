@@ -94,11 +94,8 @@ class App extends React.Component {
                   setIsRegFormFirstLoadToTrue={this.setIsRegFormFirstLoadToTrue}
                   setProfile={this.setProfile} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
-<<<<<<< HEAD
-=======
                 <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} rows={true} />
                 <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} showTitle={true} />
->>>>>>> master
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />

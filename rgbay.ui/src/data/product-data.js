@@ -8,19 +8,16 @@ const getProducts = () => new Promise((resolve, reject) => {
     .catch(error => reject(error));
 });
 
-<<<<<<< HEAD
 const getRecentProductsByCategory = (categoryId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/category/${categoryId}`)
     .then(response => resolve(response.data))
     .catch(error => reject(error));
 });
-=======
 const getLatestProducts = (getLatestProductsNum) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/${getLatestProductsNum}/latest`)
     .then(response => resolve(response.data))
     .catch(error => reject(error));
 })
->>>>>>> master
 
 const getProductById = (productId) => axios.get(`${baseUrl}/${productId}`);
 
@@ -30,11 +27,8 @@ const addProduct = (product) => axios.post(`${baseUrl}`, product);
 
 export default {
   getProducts,
-<<<<<<< HEAD
   getRecentProductsByCategory,
-=======
   getLatestProducts,
->>>>>>> master
   getProductById,
   deleteProduct,
   updateProduct,
