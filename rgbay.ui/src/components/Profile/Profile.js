@@ -51,10 +51,11 @@ class UserProfile extends React.Component {
                 <AddUser
                 getProfileInfo={this.getProfileInfo}
                 />
+                <br></br>
                 {buildProfile}
             </div>
         )
     }
 }
 
-export default UserProfile
+export default UserProfile;

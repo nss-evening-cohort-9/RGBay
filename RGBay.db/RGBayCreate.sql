@@ -37,7 +37,8 @@ CREATE TABLE [dbo].[User]
 	[Email] nvarchar(320) not null,
 	[City] nvarchar (50) not null,
 	[State] nvarchar (50) not null,
-	[Bio] nvarchar (1200) null
+	[Bio] nvarchar (1200) null, 
+	[IsDeleted] bit not null default (0)
 )
 
 GO
