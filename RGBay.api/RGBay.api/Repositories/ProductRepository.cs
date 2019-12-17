@@ -23,6 +23,17 @@ namespace RGBay.api.Repositories
             }
         }
 
+        public IEnumerable<Product> GetRecentProductsByCategory(int categoryId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "select top(3) * from product where Category = @categoryId order by id desc";
+                var parameters = new { categoryId };
+                var categories = db.Query<Product>(sql, parameters);
+                return categories;
+            }
+        }
+
         public Product GetProduct(int id)
         {
             using (var db = new SqlConnection(_connectionString))
