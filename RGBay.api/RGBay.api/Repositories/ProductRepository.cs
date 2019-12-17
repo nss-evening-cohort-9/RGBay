@@ -33,7 +33,7 @@ namespace RGBay.api.Repositories
                 return categories;
             }
         }
-        
+
         public IEnumerable<Product> GetLatestProducts(int getLatestProductsNum)
         {
             using (var db = new SqlConnection(_connectionString))
