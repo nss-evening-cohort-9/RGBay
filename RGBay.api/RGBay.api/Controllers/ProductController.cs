@@ -22,6 +22,12 @@ namespace RGBay.api.Controllers
             return _repo.GetProducts();
         }
 
+        [HttpGet("{getLatestProductsNum}/latest")]
+        public IEnumerable<Product> GetLatestProducts(int getLatestProductsNum)
+        {
+            return _repo.GetLatestProducts(getLatestProductsNum);
+        }
+
         [HttpGet("{productId}")]
         public Product GetProduct(int productId)
         {
