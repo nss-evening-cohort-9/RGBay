@@ -34,6 +34,12 @@ namespace RGBay.api.Controllers
             return _repo.GetProduct(productId);
         }
 
+        [HttpGet("category/{categoryId}")]
+        public IEnumerable<Product> GetRecentProductsByCategory(int categoryId)
+        {
+            return _repo.GetRecentProductsByCategory(categoryId);
+        }
+
         [HttpPost]
         public bool PostProduct(AddProductCommand addProductCommand)
         {
