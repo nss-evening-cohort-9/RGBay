@@ -1,6 +1,12 @@
 import React from 'react';
 import {
-  // Button,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
   Table
 } from 'reactstrap';
 
@@ -12,7 +18,7 @@ class PaymentTypeTable extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {paymentTypes: []};
+    this.state = { paymentTypes: [] };
     this.updateData = this.updateData.bind(this);
   }
 
@@ -38,9 +44,29 @@ class PaymentTypeTable extends React.Component {
       />
     ));
     return (
-      <div>
+      <div className="PaymentTypeTable container">
         <h2>PaymentType Data</h2>
         {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
+        {/* <Form onSubmit={this.props.productCategoryFormSubmit}>
+          <Row form>
+            <Col>
+              <FormGroup>
+                <Label for="name">Name</Label>
+                <Input
+                  id="name"
+                  placeholder="ex: Game"
+                  value="test"
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="submit">Label</Label>
+                <Button id="submit" type="submit" color="primary" className="ml-auto mr-auto d-block">Button</Button>
+              </FormGroup>
+            </Col>
+          </Row>
+        </Form> */}
         <Table striped responsive>
           <thead>
             <tr>
@@ -51,8 +77,8 @@ class PaymentTypeTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-              {paymentTypeRows}
-            </tbody>
+            {paymentTypeRows}
+          </tbody>
         </Table>
       </div>
     )
