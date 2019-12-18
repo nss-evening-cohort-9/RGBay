@@ -89,8 +89,9 @@ class ProductView extends React.Component {
           showProduct={this.showProduct}
           productClass={productClass} />);
       if (this.props.match) {
-        // console.error(this.props.match.params.searchCriteria);
-        return productToBuild
+        const { searchCriteria } = this.props.match.params;
+        const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
+        if (productTitle.includes(searchCriteria)) return productToBuild;
       } else {
         return productToBuild
       }
