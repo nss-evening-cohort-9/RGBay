@@ -77,9 +77,10 @@ class ProductView extends React.Component {
   }
 
   buildProducts = () => {
-    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4')
+    /* eslint-disable array-callback-return */
+    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4');
     return this.state.products.map((product) => {
-      const productToBuild = (
+    const productToBuild = (
         <ProductViewCard
           key={product.id}
           product={product}
