@@ -74,5 +74,12 @@ namespace RGBay.api.Controllers
             var yourUpdatedUser = repo.Update(updatedUser, id);
             return Ok(yourUpdatedUser);
         }
+
+        //[HttpGet("{id}")]
+        //public ActionResult<User> GetUserItems(int id)
+        //{
+        //    var productRepo = new ProductRepository();
+        //    return productRepo.GetUserProducts(id);
+        //}
     }
 }
