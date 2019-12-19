@@ -1,6 +1,7 @@
 import React from 'react';
 import userData from '../../data/profileData';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const defaultUserInfo = {
     username: '',
@@ -108,7 +109,8 @@ class EditUser extends React.Component {
                         value={editedUser.bio}
                         onChange={this.bioChange} />
                     </FormGroup>
-                    <Button type="submit" className="btn btn-success">Update User</Button>
+                    <Link type="submit" className="btn btn-success" to={`/profileview/${editedUser.id}`}>Update User</Link>
+                    <Link className="btn btn-warning" to={`/profileview/${editedUser.id}`}>Cancel</Link>
                     </Form>
                 </div>
             </div>
