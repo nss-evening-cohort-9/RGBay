@@ -23,8 +23,8 @@ class SingleUser extends React.Component {
         this.setState({ user: res.data })
         this.editButton();
       }
-      )
-      .catch(err => console.log("No information: ", err));
+    )
+    .catch(err => console.log("No information: ", err));
   }
 
 
