@@ -56,8 +56,8 @@ class AddUser extends React.Component {
     render() {
         return (
             <div className="newUserForm">
-                <div className="container">
-                    <Form className="col-8 offset-2" onSubmit={this.addUser}>
+                <div className="row">
+                    <Form className="col-8 offset-2 mb-3" onSubmit={this.addUser}>
                     <FormGroup>
                         <Label for="username"><h5>Username</h5></Label>
                         <Input
