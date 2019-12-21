@@ -9,3 +9,7 @@ body {
   float: left;
   margin: 0;
 }
+
+.update-button, .cancel-button {
+  margin: 0 5px 0 5px;
+}

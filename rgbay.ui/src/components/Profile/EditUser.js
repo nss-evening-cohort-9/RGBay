@@ -116,8 +116,8 @@ class EditUser extends React.Component {
                         value={editedUser.bio}
                         onChange={this.bioChange} />
                     </FormGroup>
-                    <Button type="submit" className="btn btn-success">Update User</Button>
-                    <Link className="btn btn-primary" to={`/profileview/${editedUser.id}`}>Cancel</Link>
+                    <Button type="submit" className="btn btn-success update-button">Update</Button>
+                    <Link className="btn btn-primary cancel-button" to={`/profileview/${editedUser.id}`}>Cancel</Link>
                     </Form>
                 </div>
             </div>
