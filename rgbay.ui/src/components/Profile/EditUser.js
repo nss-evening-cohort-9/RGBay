@@ -60,8 +60,8 @@ class EditUser extends React.Component {
         return (
             <div className="editUserForm">
                 <h1>Edit you profile</h1>
-                <div className="container">
-                    <Form className="col-8 offset-2" onSubmit={this.updateProfileInfo}>
+                <div className="row">
+                    <Form className="col-8 offset-2 mb-3" onSubmit={this.updateProfileInfo}>
                     <FormGroup>
                         <Label for="username">Username</Label>
                         <Input

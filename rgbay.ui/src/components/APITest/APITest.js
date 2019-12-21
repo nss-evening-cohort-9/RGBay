@@ -22,14 +22,14 @@ class APITest extends Component {
         <div className="card">
           <PaymentTypeTable />
         </div>
-        <div>
+        <div className="card">
           <ProductCategoryContainer />
         </div>
         <div className="card">
           <UserProfile />
         </div>
         <div className="card">
-          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} showTitle={true} rows={true} authed={this.props.authed} />
+          <ProductView isChildComponent={true} showProduct={this.showProduct} isSeller={true} showTitle={true} rows={false} authed={this.props.authed} />
         </div>
         <div className="card">
           <OrderTable />
