@@ -59,7 +59,7 @@ class EditUser extends React.Component {
         const {editedUser} = this.state;
         return (
             <div className="editUserForm">
-                <h1>Edit you profile</h1>
+                <h1>Update you profile</h1>
                 <div className="row">
                     <Form className="col-8 offset-2 mb-3" onSubmit={this.updateProfileInfo}>
                     <FormGroup>
