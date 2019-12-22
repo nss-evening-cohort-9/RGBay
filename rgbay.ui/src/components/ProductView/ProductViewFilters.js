@@ -24,9 +24,10 @@ class ProductViewFilters extends React.Component {
     return (
       <div>
         <div className="d-flex">
-          <Dropdown isOpen={this.state.purchaseTypeDropdown} toggle={this.togglePurchaseTypeDropdown}>
+          <Dropdown className="mr-3" isOpen={this.state.purchaseTypeDropdown} toggle={this.togglePurchaseTypeDropdown}>
             <DropdownToggle color="dark" caret>{this.props.purchaseType}</DropdownToggle>
             <DropdownMenu>
+              <DropdownItem onClick={this.setPurchaseType}>All</DropdownItem>
               <DropdownItem onClick={this.setPurchaseType}>For Rent</DropdownItem>
               <DropdownItem onClick={this.setPurchaseType}>For Sale</DropdownItem>
             </DropdownMenu>
@@ -34,7 +35,9 @@ class ProductViewFilters extends React.Component {
 
           <Dropdown isOpen={this.state.categoryDropdown} toggle={this.toggleCategoryDropdown}>
             <DropdownToggle color="dark" caret>{this.props.category}</DropdownToggle>
-            <DropdownMenu>{categoriesOptions}</DropdownMenu>
+            <DropdownMenu>
+              <DropdownItem onClick={this.setCategory}>All</DropdownItem>{categoriesOptions}
+            </DropdownMenu>
           </Dropdown>
         </div>
       </div>
