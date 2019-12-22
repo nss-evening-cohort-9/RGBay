@@ -2,7 +2,6 @@ import React from 'react'
 import userData from '../../data/profileData';
 import AddUser from './AddUser';
 import ShowUser from './ShowUser';
-// import { ListGroup, ListGroupItem } from 'reactstrap';
 
 class UserProfile extends React.Component {
     state = {
