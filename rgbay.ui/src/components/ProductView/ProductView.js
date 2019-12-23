@@ -99,9 +99,10 @@ class ProductView extends React.Component {
 
     if (this.props.match) {
       const { searchCriteria } = this.props.match.params;
+      const lowercaseSearch = searchCriteria.toLowerCase();
       const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
-      if (searchCriteria === ' ') searchMatch = true;
-      if (productTitle.includes(searchCriteria)) searchMatch = true;
+      if (lowercaseSearch === ' ') searchMatch = true;
+      if (productTitle.includes(lowercaseSearch)) searchMatch = true;
     }
 
     if (purchaseType !== 'All') {
