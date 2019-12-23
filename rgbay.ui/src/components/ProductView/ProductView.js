@@ -137,6 +137,7 @@ class ProductView extends React.Component {
         isSeller={this.props.isSeller}
         showProduct={this.showProduct}
         productClass={productClass}
+        showImage={this.props.showImage}
       />);
 
     if (this.props.showFilters) {
