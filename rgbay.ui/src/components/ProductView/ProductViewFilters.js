@@ -47,7 +47,7 @@ class ProductViewFilters extends React.Component {
 
           <FormGroup check>
             <Label className="mt-2" check>
-              <Input type="checkbox" onChange={this.setIsRgb} checked={this.props.isRgb} />RGB
+              <Input type="checkbox" onChange={this.setIsRgb} checked={this.props.isRgb} />RGB Only
             </Label>
           </FormGroup>
         </div>

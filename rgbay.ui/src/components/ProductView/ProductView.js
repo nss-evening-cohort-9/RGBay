@@ -110,11 +110,12 @@ class ProductView extends React.Component {
     } else purchaseTypeCheck = true;
 
     if (category !== 5) {
-      console.error(category, product.category);
       if (category === product.category) categoryCheck = true;
     } else categoryCheck = true;
 
-    if (isRgb === product.isRgb) isRgbCheck = true;
+    if (isRgb) {
+      if (isRgb === product.isRgb) isRgbCheck = true;
+    } else isRgbCheck = true;
 
     console.error(searchMatch, purchaseTypeCheck, categoryCheck, isRgbCheck);
 
