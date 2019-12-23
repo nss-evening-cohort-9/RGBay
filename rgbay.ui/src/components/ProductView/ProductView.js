@@ -27,13 +27,20 @@ class ProductView extends React.Component {
     product: defaultProduct,
     editState: false,
     purchaseType: 'All',
-    category: 'All',
+    category: 4,
     isRgb: false,
   }
 
   getCategories = () => {
     categoryData.getAllProductCategories()
-      .then(categories => this.setState({ categories }))
+      .then(categories => {
+        const allCategory = {
+          id: categories.length + 1,
+          name: 'All'
+        }
+        categories.push(allCategory);
+        this.setState({ categories })
+      })
       .catch(error => console.error(error));
   }
 
@@ -81,6 +88,29 @@ class ProductView extends React.Component {
   updateIsForSale = event => this.updateProductForm('isForSale', event);
   updateDescription = event => this.updateProductForm('description', event);
   updateImageUrl = event => this.updateProductForm('imageUrl', event);
+
+  filterProducts = (product) => {
+    let searchMatch = false;
+    let purchaseTypeCheck = false;
+    let categoryCheck = false;
+
+    const { purchaseType, category, isRgb } = this.state;
+
+    if (this.props.match) {
+      const { searchCriteria } = this.props.match.params;
+      const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
+      if (productTitle.includes(searchCriteria)) searchMatch = true;
+    }
+
+    if (purchaseType !== 'All') {
+      if (purchaseType === 'For Sale' && product.isForSale) purchaseTypeCheck = true;
+      if (purchaseType === 'For Rent' && product.rentalPrice) purchaseTypeCheck = true;
+    } else purchaseTypeCheck = true;
+
+    if (category === product.category) {
+
+    } else categoryCheck = true;
+  }
 
   buildProducts = () => {
     /* eslint-disable array-callback-return */

@@ -4,7 +4,10 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem, } from 'reactstrap';
+  DropdownItem,
+  FormGroup,
+  Input,
+  Label } from 'reactstrap';
 
 class ProductViewFilters extends React.Component {
   state = {
@@ -15,12 +18,16 @@ class ProductViewFilters extends React.Component {
   toggleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown });
 
   setPurchaseType = (event) => this.props.setPurchaseType(event.target.textContent);
-  setCategory = (event) => this.props.setCategory(event.target.textContent);
+  setCategory = (event) => this.props.setCategory(event.target.id);
+  setIsRgb = (event) => this.props.setIsRgb(event.target.checked);
 
   render() {
-    const categoriesOptions = this.props.categories.map(category => (
-      <DropdownItem onClick={this.setCategory}>{category.name}</DropdownItem>
-    ));
+    const { categories, category } = this.props;
+    const categoryName = categories.length ? (categories[category].name) : ('All');
+    const categoriesOptions = this.props.categories.map(category => {
+      const mapCategoryName = categories[category.id - 1].name;
+      return <DropdownItem key={category.id} id={category.id - 1} onClick={this.setCategory}>{mapCategoryName}</DropdownItem>
+    });
     return (
       <div>
         <div className="d-flex">
@@ -33,12 +40,16 @@ class ProductViewFilters extends React.Component {
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown isOpen={this.state.categoryDropdown} toggle={this.toggleCategoryDropdown}>
-            <DropdownToggle color="dark" caret>{this.props.category}</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={this.setCategory}>All</DropdownItem>{categoriesOptions}
-            </DropdownMenu>
+          <Dropdown className="mr-3" isOpen={this.state.categoryDropdown} toggle={this.toggleCategoryDropdown}>
+            <DropdownToggle color="dark" caret>{categoryName}</DropdownToggle>
+            <DropdownMenu>{categoriesOptions}</DropdownMenu>
           </Dropdown>
+
+          <FormGroup check>
+            <Label className="mt-2" check>
+              <Input type="checkbox" onChange={this.setIsRgb} checked={this.props.isRgb} />RGB
+            </Label>
+          </FormGroup>
         </div>
       </div>
     );
