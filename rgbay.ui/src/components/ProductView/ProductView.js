@@ -27,7 +27,7 @@ class ProductView extends React.Component {
     product: defaultProduct,
     editState: false,
     purchaseType: 'All',
-    category: 4,
+    category: 5,
     isRgb: false,
   }
 
@@ -93,12 +93,14 @@ class ProductView extends React.Component {
     let searchMatch = false;
     let purchaseTypeCheck = false;
     let categoryCheck = false;
+    let isRgbCheck = false;
 
     const { purchaseType, category, isRgb } = this.state;
 
     if (this.props.match) {
       const { searchCriteria } = this.props.match.params;
       const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
+      if (searchCriteria === ' ') searchMatch = true;
       if (productTitle.includes(searchCriteria)) searchMatch = true;
     }
 
@@ -107,9 +109,18 @@ class ProductView extends React.Component {
       if (purchaseType === 'For Rent' && product.rentalPrice) purchaseTypeCheck = true;
     } else purchaseTypeCheck = true;
 
-    if (category === product.category) {
-
+    if (category !== 5) {
+      console.error(category, product.category);
+      if (category === product.category) categoryCheck = true;
     } else categoryCheck = true;
+
+    if (isRgb === product.isRgb) isRgbCheck = true;
+
+    console.error(searchMatch, purchaseTypeCheck, categoryCheck, isRgbCheck);
+
+    if (searchMatch && purchaseTypeCheck && categoryCheck && isRgbCheck) {
+      return true;
+    } else return false;
   }
 
   buildProducts = () => {
@@ -117,21 +128,19 @@ class ProductView extends React.Component {
     const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4');
     return this.state.products.map((product) => {
     const productToBuild = (
-        <ProductViewCard
-          key={product.id}
-          product={product}
-          deleteProduct={this.deleteProduct}
-          stageEdit={this.stageEdit}
-          isSeller={this.props.isSeller}
-          showProduct={this.showProduct}
-          productClass={productClass} />);
-      if (this.props.match) {
-        const { searchCriteria } = this.props.match.params;
-        const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
-        if (productTitle.includes(searchCriteria)) return productToBuild;
-      } else {
-        return productToBuild
-      }
+      <ProductViewCard
+        key={product.id}
+        product={product}
+        deleteProduct={this.deleteProduct}
+        stageEdit={this.stageEdit}
+        isSeller={this.props.isSeller}
+        showProduct={this.showProduct}
+        productClass={productClass}
+      />);
+
+    if (this.props.showFilters) {
+      if (this.filterProducts(product)) return productToBuild;
+    } else return productToBuild;
     });
   }
 

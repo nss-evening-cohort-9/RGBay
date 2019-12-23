@@ -18,15 +18,15 @@ class ProductViewFilters extends React.Component {
   toggleCategoryDropdown = () => this.setState({ categoryDropdown: !this.state.categoryDropdown });
 
   setPurchaseType = (event) => this.props.setPurchaseType(event.target.textContent);
-  setCategory = (event) => this.props.setCategory(event.target.id);
+  setCategory = (event) => this.props.setCategory(Number(event.target.id));
   setIsRgb = (event) => this.props.setIsRgb(event.target.checked);
 
   render() {
     const { categories, category } = this.props;
-    const categoryName = categories.length ? (categories[category].name) : ('All');
+    const categoryName = categories.length ? (categories[category -1].name) : ('All');
     const categoriesOptions = this.props.categories.map(category => {
       const mapCategoryName = categories[category.id - 1].name;
-      return <DropdownItem key={category.id} id={category.id - 1} onClick={this.setCategory}>{mapCategoryName}</DropdownItem>
+      return <DropdownItem key={category.id} id={category.id} onClick={this.setCategory}>{mapCategoryName}</DropdownItem>
     });
     return (
       <div>
