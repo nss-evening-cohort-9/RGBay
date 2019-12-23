@@ -29,7 +29,11 @@ class ProductViewCard extends React.Component {
     // <img src={product.imageUrl} class="card-img h-100" alt="..."></img>
     const productImage = showImage ?
       (<div className="col-md-3 p-3">
-        <div className="h-100 w-100" style={{backgroundImage: `url(${product.imageUrl})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'contain'}}></div>
+        <div className="h-100 w-100"
+          style={{backgroundImage: `url(${product.imageUrl})`,
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'contain'}}></div>
       </div>) : ('');
     const editIcons = isSeller ?
       (<div>
