@@ -105,8 +105,8 @@ class ProductView extends React.Component {
     }
 
     if (purchaseType !== 'All') {
-      if (purchaseType === 'For Sale' && product.isForSale) purchaseTypeCheck = true;
-      if (purchaseType === 'For Rent' && product.rentalPrice) purchaseTypeCheck = true;
+      if (purchaseType === 'For Sale' && product.salesPrice !== 0) purchaseTypeCheck = true;
+      if (purchaseType === 'For Rent' && product.rentalPrice !== 0) purchaseTypeCheck = true;
     } else purchaseTypeCheck = true;
 
     if (category !== 5) {
