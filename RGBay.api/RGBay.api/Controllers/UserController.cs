@@ -26,6 +26,13 @@ namespace RGBay.api.Controllers
             return userRepo.Get(id);
         }
 
+        //[HttpGet("{id}")]
+        //public ActionResult<User> GetProductByUser(int id)
+        //{
+        //    var productRepo = new UserRepository();
+        //    return productRepo.GetUserProduct(id);
+        //}
+
         [HttpGet("uid/{firebaseUid}")]
         public ActionResult<User> GetByUid(string firebaseUid)
         {
@@ -68,7 +75,8 @@ namespace RGBay.api.Controllers
                 Email = updatedUserCommand.Email,
                 City = updatedUserCommand.City,
                 State = updatedUserCommand.State,
-                Bio = updatedUserCommand.Bio
+                Bio = updatedUserCommand.Bio,
+                Reviews = updatedUserCommand.Reviews
             };
 
             var yourUpdatedUser = repo.Update(updatedUser, id);

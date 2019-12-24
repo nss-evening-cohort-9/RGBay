@@ -19,6 +19,7 @@ const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
 const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
 const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
+// const getSingleUserProducts = userId => axios.get(`${baseUrl}/${userId}`)
 
 const geographicalStates = [
     'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT',

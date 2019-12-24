@@ -30,8 +30,21 @@ namespace RGBay.api.Repositories
                 var user = db.QuerySingle<User>(sql, new { Id = id });
                 return user;
 
+
             }
         }
+
+        //public Product GetUserProduct(int id)
+        //{
+        //    using (var db = new SqlConnection(_connectionString))
+        //    {
+        //        var sql = @"elect * from 
+        //                    [User], [Product]
+        //                    where [User].[Id] = [Product].@[OwnerId]";
+        //        var user = db.QuerySingle<User>(sql, new { Id = id });
+        //        return user;
+        //    }
+        //}
 
         public User GetByUid(string firebaseUid)
         {
@@ -58,14 +71,15 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"INSERT INTO [dbo].[User]([FirebaseUid], [Username], [Email], [City], [State], [Bio])
+                var sql = @"INSERT INTO [dbo].[User]([FirebaseUid], [Username], [Email], [City], [State], [Bio], [Reviews])
                             VALUES (
                               @FirebaseUid,
                               @Username,
                               @Email,
                               @City,
                               @State,
-                              @Bio
+                              @Bio,
+                              @Reviews
                             )";
                 return db.Execute(sql, newUser);
             }

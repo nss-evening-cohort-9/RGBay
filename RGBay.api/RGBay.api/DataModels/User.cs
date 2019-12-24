@@ -14,5 +14,6 @@ namespace RGBay.api.DataModels
         public string City { get; set; }
         public string State { get; set; }
         public string Bio { get; set; }
+        public string Reviews { get; set; }
     }
 }
