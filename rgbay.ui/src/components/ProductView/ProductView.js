@@ -2,8 +2,10 @@ import React from 'react';
 
 import ProductViewCard from './ProductViewCard';
 import ProductForm from './ProductViewForm';
+import ProductViewFilters from './ProductViewFilters';
 
 import productData from '../../data/product-data';
+import categoryData from '../../data/productCategoryData';
 
 import './ProductView.scss';
 
@@ -21,11 +23,30 @@ const defaultProduct = {
 class ProductView extends React.Component {
   state = {
     products: [],
+    categories: [],
     product: defaultProduct,
     editState: false,
-    isSeller: false,
-    loaded: false,
+    purchaseType: 'All',
+    category: 5,
+    isRgb: false,
   }
+
+  getCategories = () => {
+    categoryData.getAllProductCategories()
+      .then(categories => {
+        const allCategory = {
+          id: categories.length + 1,
+          name: 'All'
+        }
+        categories.push(allCategory);
+        this.setState({ categories })
+      })
+      .catch(error => console.error(error));
+  }
+
+  setPurchaseType = (value) => this.setState({ purchaseType: value });
+  setCategory = (value) => this.setState({ category: value });
+  setIsRgb = (value) => this.setState({ isRgb: value });
 
   showProduct = (productId) => {
     const { isChildComponent, showProduct } = this.props;
@@ -68,32 +89,61 @@ class ProductView extends React.Component {
   updateDescription = event => this.updateProductForm('description', event);
   updateImageUrl = event => this.updateProductForm('imageUrl', event);
 
-  // toggle = () => this.setState({ isOpen: !this.state.isOpen });
+  filterProducts = (product) => {
+    let searchMatch = false;
+    let purchaseTypeCheck = false;
+    let categoryCheck = false;
+    let isRgbCheck = false;
 
-  checkViewerType = () => {
-    const { isSeller } = this.props;
-    if (isSeller) this.setState({ isSeller });
-    this.getProducts();
+    const { purchaseType, category, isRgb } = this.state;
+
+    if (this.props.match) {
+      const { searchCriteria } = this.props.match.params;
+      const lowercaseSearch = searchCriteria.toLowerCase();
+      const productTitle = product.title.toLowerCase().replace(/\s+/g, '');
+      if (lowercaseSearch === ' ') searchMatch = true;
+      if (productTitle.includes(lowercaseSearch)) searchMatch = true;
+    }
+
+    if (purchaseType !== 'All') {
+      if (purchaseType === 'For Sale' && product.salesPrice !== 0) purchaseTypeCheck = true;
+      if (purchaseType === 'For Rent' && product.rentalPrice !== 0) purchaseTypeCheck = true;
+    } else purchaseTypeCheck = true;
+
+    if (category !== 5) {
+      if (category === product.category) categoryCheck = true;
+    } else categoryCheck = true;
+
+    if (isRgb) {
+      if (isRgb === product.isRgb) isRgbCheck = true;
+    } else isRgbCheck = true;
+
+    console.error(searchMatch, purchaseTypeCheck, categoryCheck, isRgbCheck);
+
+    if (searchMatch && purchaseTypeCheck && categoryCheck && isRgbCheck) {
+      return true;
+    } else return false;
   }
 
   buildProducts = () => {
-    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4')
+    /* eslint-disable array-callback-return */
+    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4');
     return this.state.products.map((product) => {
-      const productToBuild = (
-        <ProductViewCard
-          key={product.id}
-          product={product}
-          deleteProduct={this.deleteProduct}
-          stageEdit={this.stageEdit}
-          isSeller={this.state.isSeller}
-          showProduct={this.showProduct}
-          productClass={productClass} />);
-      if (this.props.match) {
-        // console.error(this.props.match.params.searchCriteria);
-        return productToBuild
-      } else {
-        return productToBuild
-      }
+    const productToBuild = (
+      <ProductViewCard
+        key={product.id}
+        product={product}
+        deleteProduct={this.deleteProduct}
+        stageEdit={this.stageEdit}
+        isSeller={this.props.isSeller}
+        showProduct={this.showProduct}
+        productClass={productClass}
+        showImage={this.props.showImage}
+      />);
+
+    if (this.props.showFilters) {
+      if (this.filterProducts(product)) return productToBuild;
+    } else return productToBuild;
     });
   }
 
@@ -134,11 +184,13 @@ class ProductView extends React.Component {
 
   componentDidMount() {
     if (!this.props.authed) return
-    this.checkViewerType();
+    this.getProducts();
+    this.getCategories();
   }
 
   render() {
-    const { product, editState, isSeller } = this.state;
+    const { product, editState, categories, purchaseType, category, isRgb } = this.state;
+    const { isSeller, showFilters } = this.props;
     const productSellerForm = isSeller ?
       (<ProductForm 
         product={product}
@@ -154,13 +206,22 @@ class ProductView extends React.Component {
         cancelEdit={this.cancelEdit}
         submitForm={this.submitForm}
       />) : ('');
+      const productFilters = showFilters ?
+        (<ProductViewFilters
+          setPurchaseType={this.setPurchaseType}
+          setCategory={this.setCategory}
+          setIsRgb={this.setIsRgb}
+          categories={categories}
+          purchaseType={purchaseType}
+          category={category}
+          isRgb={isRgb}
+        />) : ('');
     return (
       <div className="ProductView container">
-        <div className="mt-3">
-          {(this.props.showTitle ? (<h2 className="d-inline">ProductView</h2>) : (''))}
-          {productSellerForm}
-        </div>
-        <div className="row">
+        <div className="mt-3">{(this.props.showTitle ? (<h2 className="d-inline">ProductView</h2>) : (''))}</div>
+        <div className="mt-3">{productSellerForm}</div>
+        <div className="mt-3">{productFilters}</div>
+        <div className="row mt-3">
           {this.buildProducts()}
         </div>
       </div>
