@@ -11,8 +11,8 @@ const getOrderData = () => new Promise((resolve, reject) => {
     .catch(err => reject(err));
 })
 
-const getUserOrderData = (uid) => new Promise ((resolve, reject) => {
-    Axios.get(`${baseUrl}/uid/${uid}`)
+const getOrdersByUid = () => new Promise ((resolve, reject) => {
+    Axios.get(`${baseUrl}/uid/`)
     .then((resp) => {
         const orderData = resp.data;
         resolve(orderData);
@@ -38,7 +38,7 @@ const updateOrder = (orderId, updatedOrder) => Axios.put(`${baseUrl}/${orderId}`
 export default 
 { 
     getOrderData,
-    getUserOrderData,
+    getOrdersByUid,
     getOrderByOrderId,
     addNewOrder,
     deleteOrder,

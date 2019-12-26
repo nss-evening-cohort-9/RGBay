@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -38,7 +39,6 @@ namespace RGBay.api.Controllers
         // GET || READ//
 
         /* Get All Orders */
-        // api/Order
         [HttpGet]
         public IEnumerable<Order> GetAllOrders()
         {
@@ -48,7 +48,6 @@ namespace RGBay.api.Controllers
         }
 
         /* Get an Order by "OrderId" */
-        // api/Order/{OrderId}
         [HttpGet("{orderId:int}")]
         public ActionResult<Order> GetOrderByOrderId(int orderId)
         {
@@ -58,7 +57,6 @@ namespace RGBay.api.Controllers
         }
 
         /* Get all Orders related to CustomerId */
-        // api/Order/Customer/{CustomerId}
         [HttpGet("customer/{customerId:int}")]
         public IEnumerable<Order> GetOrdersByCustomerId(int customerId)
         {
@@ -67,13 +65,16 @@ namespace RGBay.api.Controllers
             return customerOrders;
         }
 
-        [HttpGet("uid/{uid}")]
-        public IEnumerable<Order> GetOrdersByUid(string uid)
+        // Get Orders by UID
+        [HttpGet("uid")]
+        [Authorize]
+        public IEnumerable<Order> GetOrdersByUid()
         {
             var userRepo = new UserRepository();
             var orderRepo = new OrderRepository();
-            var user = userRepo.GetByUid(uid);
-            return orderRepo.GetOrdersByCustomerId(user.Id);
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var orders = orderRepo.GetOrdersByCustomerId(user.Id);
+            return orders;
         }
 
 
@@ -81,8 +82,7 @@ namespace RGBay.api.Controllers
 
         // PUT || UPDATE//
 
-        /*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
-        // api/Order/{OrderId}
+        //*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
         [HttpPut("{orderId:int}")]
         public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder, int orderId)
         {

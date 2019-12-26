@@ -1,8 +1,5 @@
 import React from 'react'
 
-import firebase from 'firebase/app'
-import 'firebase/auth';
-
 
 import { 
     Table,
@@ -17,15 +14,12 @@ class OrderTable extends React.Component {
     }
 
     getOrders = () => {
-        var uid = firebase.auth().currentUser.uid;
-        orderData.getUserOrderData(uid)
+        orderData.getOrdersByUid()
             .then((grabbedOrders) => {
                 const orderArray = [];
-
                 grabbedOrders.forEach(order => {
                     orderArray.push(order);
                 });
-
                 this.setState({ orderState: orderArray });
             })
             .catch((err) => {
