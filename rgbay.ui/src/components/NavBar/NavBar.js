@@ -55,7 +55,9 @@ class NavBar extends React.Component {
 
   showSearchedProducts = (event) => {
     event.preventDefault();
-    this.props.history.push(`/store/${this.state.search}`);
+    let { search } = this.state;
+    if (search === '') search = ' ';
+    this.props.history.push(`/store/${search}`);
   }
 
   toHome = () => this.props.history.push('/home');
@@ -73,7 +75,10 @@ class NavBar extends React.Component {
             <NavItem>
               <NavLink tag={RRNavLink} to='/orders'>Orders</NavLink>
             </NavItem>
-            {/* <NavItem> */}
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/categories'>Categories</NavLink>
+            </NavItem>
+            <NavItem>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown} inNavbar={true}>
                 <DropdownToggle color="dark" caret nav>
                   {this.props.profile ? (this.props.profile.username) : ('Account')}</DropdownToggle>
@@ -103,7 +108,7 @@ class NavBar extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-            {/* </NavItem> */}
+            </NavItem>
           </Nav>
         );
       }
