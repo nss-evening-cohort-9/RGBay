@@ -28,12 +28,10 @@ class OrderTable extends React.Component {
     }
 
     addOrder = () => {
-        const customerId = 6;
         const status = "Ordered"
         const total = Math.floor(Math.random() * Math.floor(1000));
 
         const newOrder = {
-            CustomerId: customerId,
             Total: total,
             Status: status
         }
@@ -48,7 +46,7 @@ class OrderTable extends React.Component {
     render() {
         const ordersRows = this.state.orderState.map(orderProp => (
             <OrdersRow
-            key={orderProp.id}
+            key={`order${orderProp.id}`}
             orderProp={orderProp}
             getOrders={this.getOrders}
             />

@@ -31,7 +31,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public Order CreateCartOrder(int customerId, int duration, Product productToAdd)
+        public Order CreateCartOrder(int customerId, Product productToAdd)
         {
             var newOrder = new Order
             {

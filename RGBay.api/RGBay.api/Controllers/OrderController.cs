@@ -20,11 +20,14 @@ namespace RGBay.api.Controllers
 
         /* Add New Order (DateTime calculated here) */
         [HttpPost]
+        [Authorize]
         public IActionResult CreateOrder(AddOrderCommand newOrderCommand)
         {
+            var userRepo = new UserRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
             var newOrder = new Order
             {
-                CustomerId = newOrderCommand.CustomerId,
+                CustomerId = user.Id,
                 Date = DateTime.Now,
                 Total = newOrderCommand.Total,
                 Status = newOrderCommand.Status

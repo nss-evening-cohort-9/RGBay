@@ -52,10 +52,10 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"INSERT INTO [OrderProduct]
-                            ([OrderId], [ProductId], [Duration])
+                            ([OrderId], [ProductId])
                             OUTPUT INSERTED.*
                             VALUES
-                            (@orderId, @productId, @duration)";
+                            (@orderId, @productId)";
                 return db.QueryFirst<OrderProduct>(sql, orderProduct);
             }
         }

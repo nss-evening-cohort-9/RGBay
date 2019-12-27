@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RGBay.api.DataModels;
@@ -12,7 +13,7 @@ namespace RGBay.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderProductController : ControllerBase
+    public class OrderProductController : FirebaseEnabledController
     {
         [HttpGet("order/{orderId:int}")]
         public IEnumerable<OrderProduct> GetOrderProductsByOrderId(int orderId)
@@ -30,15 +31,18 @@ namespace RGBay.api.Controllers
             return orderProducts;
         }
 
-        [HttpGet("cart/{customerId:int}")]
-        public Cart GetCart(int customerId)
+        [HttpGet("cart")]
+        [Authorize]
+        public Cart GetCart()
         {
             var orderRepo = new OrderRepository();
             var productRepo = new ProductRepository();
             var orderProductRepo = new OrderProductRepository();
             var productList = new List<Product>();
+            var userRepo = new UserRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
 
-            var cartOrder = orderRepo.GetCartOrder(customerId);
+            var cartOrder = orderRepo.GetCartOrder(user.Id);
 
             if (cartOrder == null)
             {
@@ -62,25 +66,26 @@ namespace RGBay.api.Controllers
             }
         }
 
-        [HttpPost("{customerId}")]
-        public IActionResult CreateOrderProduct(AddOrderProductCommand addOrderProductCommand, int customerId)
+        [HttpPost]
+        [Authorize]
+        public IActionResult CreateOrderProduct(AddOrderProductCommand addOrderProductCommand)
         {
             var orderRepo = new OrderRepository();
             var productRepo = new ProductRepository();
+            var userRepo = new UserRepository();
             var orderProductRepo = new OrderProductRepository();
             var product = productRepo.GetProduct(addOrderProductCommand.ProductId);
-
-            var cartOrder = orderRepo.GetCartOrder(customerId);
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var cartOrder = orderRepo.GetCartOrder(user.Id);
 
             if (cartOrder == null)
             {
-                var createdOrder = orderRepo.CreateCartOrder(customerId, addOrderProductCommand.Duration, product);
+                var createdOrder = orderRepo.CreateCartOrder(user.Id, product);
                 var orderId = createdOrder.Id;
                 var orderProduct = new OrderProduct
                 {
                     OrderId = orderId,
                     ProductId = addOrderProductCommand.ProductId,
-                    Duration = addOrderProductCommand.Duration
                 };
                 var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
                 return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
@@ -91,7 +96,6 @@ namespace RGBay.api.Controllers
                 {
                     OrderId = cartOrder.Id,
                     ProductId = addOrderProductCommand.ProductId,
-                    Duration = addOrderProductCommand.Duration
                 };
                 var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
                 return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
