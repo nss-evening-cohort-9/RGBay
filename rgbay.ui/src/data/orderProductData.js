@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 const baseUrl = 'https://localhost:44305/api/OrderProduct';
 
-const getCartOrderProducts = () => new Promise((resolve, reject) => {
+const getCart = () => new Promise((resolve, reject) => {
     Axios.get(`${baseUrl}/cart`)
         .then((resp) => {
             const orderProductData = resp.data;
@@ -13,4 +13,6 @@ const getCartOrderProducts = () => new Promise((resolve, reject) => {
 
 const addProductToCart = (orderProduct) => Axios.post(`${baseUrl}`, orderProduct);
 
-export default { addProductToCart, getCartOrderProducts }
+const deleteProductFromCart = (orderProductId) => Axios.delete(`${baseUrl}/${orderProductId}`);
+
+export default { addProductToCart, getCart, deleteProductFromCart }

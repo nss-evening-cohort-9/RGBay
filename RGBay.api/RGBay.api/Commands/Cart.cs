@@ -10,5 +10,6 @@ namespace RGBay.api.Commands
     {
         public Order CartOrder { get; set; }
         public IEnumerable<Product> CartProducts { get; set; }
+        public Dictionary<int, Product> CartItems { get; set; }
     }
 }

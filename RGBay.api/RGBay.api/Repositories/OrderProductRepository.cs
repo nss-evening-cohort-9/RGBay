@@ -59,5 +59,17 @@ namespace RGBay.api.Repositories
                 return db.QueryFirst<OrderProduct>(sql, orderProduct);
             }
         }
+
+        public bool DeleteFromCart(int orderProductId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"DELETE FROM [OrderProduct]
+                            WHERE Id = @orderProductId";
+                var parameters = new {orderProductId};
+
+                return db.Execute(sql, parameters) == 1;
+            }
+        }
     }
 }

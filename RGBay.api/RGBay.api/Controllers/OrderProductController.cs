@@ -39,6 +39,7 @@ namespace RGBay.api.Controllers
             var productRepo = new ProductRepository();
             var orderProductRepo = new OrderProductRepository();
             var productList = new List<Product>();
+            var cartItems = new Dictionary<int, Product>();
             var userRepo = new UserRepository();
             var user = userRepo.GetByUid(FirebaseUserId);
 
@@ -51,16 +52,18 @@ namespace RGBay.api.Controllers
             else
             {
                 var cartOrderProducts = orderProductRepo.GetOrderProductsByOrderId(cartOrder.Id);
-                foreach (var product in cartOrderProducts)
+                foreach (var orderProduct in cartOrderProducts)
                 {
-                    var productMatch = productRepo.GetProduct(product.ProductId);
+                    var productMatch = productRepo.GetProduct(orderProduct.ProductId);
                     productList.Add(productMatch);
+                    cartItems.Add(orderProduct.Id, productMatch);
                 }
 
                 var cart = new Cart
                 {
                     CartOrder = cartOrder,
-                    CartProducts = productList
+                    CartProducts = productList,
+                    CartItems = cartItems
                 };
                 return cart;
             }
@@ -100,6 +103,16 @@ namespace RGBay.api.Controllers
                 var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
                 return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
             }
+        }
+
+        [HttpDelete("{orderProductId:int}")]
+        [Authorize]
+        public IActionResult DeleteFromCart(int orderProductId)
+        {
+            var repo = new OrderProductRepository();
+            repo.DeleteFromCart(orderProductId);
+
+            return Ok();
         }
     }
 }

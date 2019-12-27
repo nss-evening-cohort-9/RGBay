@@ -1,8 +1,6 @@
 import React from 'react'
 
 import { 
-    Table,
-    Button,
     Container,
     Row
 } from 'reactstrap';
@@ -14,37 +12,47 @@ import orderProductData from '../../data/orderProductData';
 class Cart extends React.Component {
     state = {
         orderState: {},
-        products: []
+        productsState: []
     }
 
-    getOrderProducts = () => {
-        orderProductData.getCartOrderProducts()
+    getCart = () => {
+        orderProductData.getCart()
         .then((resp) => {
+
             const order = resp.cartOrder;
+            const cartItems = resp.cartItems;
+            const cart = Object.entries(cartItems);
             const productArray = [];
-            resp.cartProducts.forEach(product => {
-                productArray.push(product);
-            });
-            this.setState({orderState: order, products: productArray});
+            cart.forEach(entry => {
+                const id = entry[0];
+                entry[1].opid = id;
+                productArray.push(entry[1])
+            })
+            this.setState({orderState: order, productsState: productArray});
         })
         .catch(err => console.error("error in Cart.js", err))
     }
 
+    deleteProductFromCart = (id) => {
+        console.log(id);
+    }
+
     componentDidMount() {
-        this.getOrderProducts();
+        this.getCart();
     }
 
     render() {
-        const productsInCart = this.state.products.map(productProp => (
+        const productsInCart = this.state.productsState.map(productProps => (
             <CartProduct
-                key={productProp.id}
-                productProp={productProp}
-                getOrderProducts={this.getOrderProducts}
+                key={`product${productProps.opid}`}
+                productProps={productProps}
+                //getCart={this.getCart}
+                delete={this.deleteProductFromCart("id")}
             />
         ));
         return (
             <div className="Cart">
-                <Container fluid="md">
+                <Container>
                     <h4>Items In Cart</h4>
                         <Row xs="4">
                             {productsInCart}

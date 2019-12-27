@@ -1,27 +1,29 @@
 import React from 'react'
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Col, Row, Button
+    CardTitle, CardSubtitle, Col, Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import orderProductData from '../../data/orderProductData';
 
 import './Cart.scss';
 
 class CartProduct extends React.Component {
+
     render() {
-        const { productProp } = this.props;
-        const productLink = `/product/${productProp.id}`
+        const { productProps } = this.props;
+        const productLink = `/product/${productProps.id}`
         
         let price;
-        if(productProp.rentalPrice != 0 && productProp.salesPrice != 0){
+        if(productProps.rentalPrice !== 0 && productProps.salesPrice !== 0){
             price = <div>
-                    <CardSubtitle>Cost Per Day: ${productProp.rentalPrice}</CardSubtitle>
-                    <CardSubtitle>Cost To Purchase: ${productProp.salesPrice}</CardSubtitle>
+                        <CardSubtitle>Cost Per Day: ${productProps.rentalPrice}</CardSubtitle>
+                        <CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle>
                     </div>
-        } else if(productProp.rentalPrice == 0){
-            price = <CardSubtitle>Cost To Purchase: ${productProp.salesPrice}</CardSubtitle>
-        } else if (productProp.salesPrice == 0){
-            price = <CardSubtitle>Rental Price(Per Day): ${productProp.rentalPrice}</CardSubtitle>
+        } else if(productProps.rentalPrice === 0){
+            price = <CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle>
+        } else if (productProps.salesPrice === 0){
+            price = <CardSubtitle>Rental Price(Per Day): ${productProps.rentalPrice}</CardSubtitle>
         }
 
 
@@ -29,13 +31,15 @@ class CartProduct extends React.Component {
             <div className="Product">
                 <Col>
                     <Card>
-                        <Link to={productLink}><CardImg className="product-img" src={productProp.imageUrl} alt={productProp.title} /></Link>
-                        <CardTitle><Link to={productLink}>{productProp.title}</Link></CardTitle>
+                        <Link to={productLink}><CardImg className="product-img" src={productProps.imageUrl} alt={productProps.title} /></Link>
+                        <CardTitle><Link to={productLink}>{productProps.title}</Link></CardTitle>
                         {price}
                         <CardBody>
-                            {productProp.description}
+                            <CardText>
+                                {productProps.description}
+                            </CardText>
                             <br/>
-                            <Button color="danger">Remove From Cart</Button>
+                            <Button color="danger" onClick={() => this.props.delete}>Remove From Cart</Button>
                         </CardBody>
                     </Card>
                 </Col>
