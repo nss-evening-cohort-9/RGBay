@@ -1,6 +1,6 @@
 import React from 'react'
 import userData from '../../data/profileData';
-import AddUser from './AddUser';
+// import AddUser from './AddUser';
 import ShowUser from './ShowUser';
 
 class UserProfile extends React.Component {
@@ -46,10 +46,10 @@ class UserProfile extends React.Component {
 
         return (
             <div className="Profile container">
-                <h4>Create Profile</h4>
+                {/* <h4>Create Profile</h4>
                 <AddUser
                     getProfileInfo={this.getProfileInfo}
-                />
+                /> */}
                 <div className="row">
                     {buildProfile}
                 </div>
