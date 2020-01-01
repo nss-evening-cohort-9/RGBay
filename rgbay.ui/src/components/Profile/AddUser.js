@@ -29,10 +29,6 @@ class AddUser extends React.Component {
     bioChange = e => this.stringStateField('bio', e);
 
     getProfileInfo = () => {
-        // userData
-        // .getUserInfo()
-        // .then(user => this.setState({ user }))
-        // .catch(err => console.log("No information: ", err));
         this.props.getProfileInfo();
     };
 

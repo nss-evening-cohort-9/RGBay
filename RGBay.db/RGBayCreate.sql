@@ -68,6 +68,36 @@ GO
 
 -- Create a new table called '[PaymentType]' in schema '[dbo]'
 -- Drop the table if it already exists
+IF OBJECT_ID('[dbo].[Feedback]', 'U') IS NOT NULL
+
+DROP TABLE [dbo].[Feedback]
+GO
+
+CREATE TABLE [dbo].[Feedback]
+( 
+ [FeedbackId] INT,
+ [Feedback] NVARCHAR (1200),
+ [ReviewerId] INT,
+ PRIMARY KEY (FeedbackId),
+ FOREIGN KEY (ReviewerId) REFERENCES [User](Id)
+)
+
+
+INSERT INTO [feedback] ([FeedbackId], [Feedback], [ReviewerId])
+VALUES 
+( -- First row: values for the columns in the list above
+    1, 'Awesome Item', 2
+),
+( -- Second row: values for the columns in the list above
+    2, 'Very good condition', 3
+),
+( -- Third row: values for the columns in the list above
+    3, 'Never buying/renting from this guy, again', 4
+)
+GO
+
+-- Create a new table called '[PaymentType]' in schema '[dbo]'
+-- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[PaymentType]', 'U') IS NOT NULL
 DROP TABLE [dbo].[PaymentType]
 GO
