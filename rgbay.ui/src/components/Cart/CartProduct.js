@@ -12,6 +12,7 @@ class CartProduct extends React.Component {
 
     render() {
         const { productProps } = this.props;
+        const { remove } = this.props;
         const productLink = `/product/${productProps.id}`
         
         let price;
@@ -39,7 +40,7 @@ class CartProduct extends React.Component {
                                 {productProps.description}
                             </CardText>
                             <br/>
-                            <Button color="danger" onClick={() => this.props.delete}>Remove From Cart</Button>
+                            <Button color="danger" onClick={() => {remove(productProps.opid)}}>Remove From Cart</Button>
                         </CardBody>
                     </Card>
                 </Col>

@@ -33,9 +33,12 @@ class Cart extends React.Component {
         .catch(err => console.error("error in Cart.js", err))
     }
 
-    deleteProductFromCart = (id) => {
-        console.log(id);
-    }
+    remove = (opid) => {
+        console.log(opid);
+        orderProductData.deleteProductFromCart(opid)
+            .then(() => this.getCart())
+            .catch(err => console.error(err));
+}
 
     componentDidMount() {
         this.getCart();
@@ -46,8 +49,8 @@ class Cart extends React.Component {
             <CartProduct
                 key={`product${productProps.opid}`}
                 productProps={productProps}
-                //getCart={this.getCart}
-                delete={this.deleteProductFromCart("id")}
+                getCart={this.getCart}
+                remove={this.remove}
             />
         ));
         return (
