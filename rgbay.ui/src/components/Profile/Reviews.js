@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import userData from '../../data/profileData';
 import ReviewCard from './ReviewCard';
+import './Reviews.css';
 
 const defaultFeedback = {
   customerReviews: ''
@@ -25,6 +26,7 @@ class Reviews extends React.Component {
     .getAllReviews()
     .then((review) => {
     this.setState({ review })
+    console.log(review)
     })
   }
 
@@ -57,7 +59,7 @@ class Reviews extends React.Component {
   render() {
     const buildReviews = this.state.review.map((review) => (
       <ReviewCard
-        key={review.id}
+        key={review.feedbackId}
         review={review}
         getAllReviews={this.getAllReviews}
       />
@@ -79,12 +81,9 @@ class Reviews extends React.Component {
               />
             </FormGroup>
               <Button type="submit" className="btn btn-primary review-button">Submit Review</Button>
-              <Button className="btn btn-success test-button" onClick={this.getAllReviews}>Test</Button>
             </Form>
             <div className="container">
-              <div className="row">
-                {buildReviews}
-              </div>
+              {buildReviews}
             </div>
         </div>
       </div>

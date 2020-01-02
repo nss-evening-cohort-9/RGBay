@@ -11,12 +11,12 @@ class ReviewCard extends React.Component {
     const { review } = this.props;
     return (
       <div>
-        <Card>
+        <Card id={review.feedbackId}>
           <CardBody>
-            {/* <Link className="btn" id={info.id} to={singleUser} params={{ user: info }} onClick={this.singleUserProfile}>{info.username}</Link> */}
+            {/* <div className="btn" key={review.id} to={singleUser} onClick={this.singleUserProfile}>{review.username}</div> */}
             <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="review-pic img-fluid"></img>
             <CardText className="card-text">{review.feedback}</CardText>
-            <CardText className="card-text">{review.reviewDate}</CardText>
+            <CardText className="card-text">{review.ReviewDate}</CardText>
           </CardBody>
         </Card>
       </div>

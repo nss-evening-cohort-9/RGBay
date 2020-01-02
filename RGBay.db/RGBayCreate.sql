@@ -75,24 +75,24 @@ GO
 
 CREATE TABLE [dbo].[Feedback]
 ( 
- [FeedbackId] INT,
+ [FeedbackId] INT NOT NULL PRIMARY KEY,
  [Feedback] NVARCHAR (1200),
- [ReviewerId] INT,
- PRIMARY KEY (FeedbackId),
+ [ReviewerId] INT NULL,
+ [ReviewDate] DATE NOT NULL,
  FOREIGN KEY (ReviewerId) REFERENCES [User](Id)
 )
 
 
-INSERT INTO [feedback] ([FeedbackId], [Feedback], [ReviewerId])
+INSERT INTO [feedback] ([FeedbackId], [Feedback], [ReviewerId], [ReviewDate])
 VALUES 
 ( -- First row: values for the columns in the list above
-    1, 'Awesome Item', 2
+    1, 'Awesome Item', 2, '2019-01-01'
 ),
 ( -- Second row: values for the columns in the list above
-    2, 'Very good condition', 3
+    2, 'Very good condition', 3, '2018-01-01'
 ),
 ( -- Third row: values for the columns in the list above
-    3, 'Never buying/renting from this guy, again', 4
+    3, 'Never buying/renting from this guy, again', 4, '2020-01-01'
 )
 GO
 
