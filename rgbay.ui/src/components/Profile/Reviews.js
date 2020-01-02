@@ -26,7 +26,6 @@ class Reviews extends React.Component {
     .getAllReviews()
     .then((review) => {
     this.setState({ review })
-    console.log(review)
     })
   }
 
