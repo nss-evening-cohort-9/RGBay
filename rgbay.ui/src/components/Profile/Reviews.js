@@ -20,8 +20,7 @@ class Reviews extends React.Component {
     newReview: defaultFeedback
   }
 
-  getAllReviews = (e) => {
-    e.preventDefault();
+  getAllReviews = () => {
     userData
     .getAllReviews()
     .then((review) => {
@@ -51,6 +50,10 @@ class Reviews extends React.Component {
   //   })
   // }
 
+  componentDidMount() {
+    this.getAllReviews();
+  }
+
   render() {
     const buildReviews = this.state.review.map((review) => (
       <ReviewCard
@@ -78,8 +81,10 @@ class Reviews extends React.Component {
               <Button type="submit" className="btn btn-primary review-button">Submit Review</Button>
               <Button className="btn btn-success test-button" onClick={this.getAllReviews}>Test</Button>
             </Form>
-            <div className="row">
-              {buildReviews}
+            <div className="container">
+              <div className="row">
+                {buildReviews}
+              </div>
             </div>
         </div>
       </div>

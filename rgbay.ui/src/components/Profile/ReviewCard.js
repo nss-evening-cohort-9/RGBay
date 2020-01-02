@@ -4,6 +4,7 @@ import {
   CardText,
   Card
 } from 'reactstrap';
+import './ReviewCard.css';
 
 class ReviewCard extends React.Component {
   render() {
@@ -13,9 +14,9 @@ class ReviewCard extends React.Component {
         <Card>
           <CardBody>
             {/* <Link className="btn" id={info.id} to={singleUser} params={{ user: info }} onClick={this.singleUserProfile}>{info.username}</Link> */}
-            <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="bio-pic img-fluid"></img>
+            <img src="https://i.pinimg.com/236x/c2/7c/27/c27c277903bc87b329a29005a1a371b2--funny-facebook-picture-collection.jpg" alt="profile-avi" className="review-pic img-fluid"></img>
             <CardText className="card-text">{review.feedback}</CardText>
-            <CardText className="card-text">{review.reviewdate}</CardText>
+            <CardText className="card-text">{review.reviewDate}</CardText>
           </CardBody>
         </Card>
       </div>
