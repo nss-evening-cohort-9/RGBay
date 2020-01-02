@@ -8,6 +8,7 @@ import {
   Button
 } from 'reactstrap';
 import userData from '../../data/profileData';
+import ReviewCard from './ReviewCard';
 
 const defaultFeedback = {
   customerReviews: ''
@@ -19,7 +20,14 @@ class Reviews extends React.Component {
     newReview: defaultFeedback
   }
 
-  getAllReviews
+  getAllReviews = (e) => {
+    e.preventDefault();
+    userData
+    .getAllReviews()
+    .then((review) => {
+    this.setState({ review })
+    })
+  }
 
   reviewStateField = (name, e) => {
     const createNewReview = { ...this.state.newReview };
@@ -29,21 +37,28 @@ class Reviews extends React.Component {
 
   reviewChange = e => this.reviewStateField('reviews', e);
 
-  submitReview = (e) => {
-    e.preventDefault();
-    const saveReview = { ...this.state.newReview };
-    userData
-    .postNewReview(saveReview)
-    .then(() => {
-      this.getAllReviews();
-      this.setState({
-        newReview: defaultFeedback
-      })
-      console.error(saveReview)
-    })
-  }
+  // submitReview = (e) => {
+  //   e.preventDefault();
+  //   const saveReview = { ...this.state.newReview };
+  //   userData
+  //   .postNewReview(saveReview)
+  //   .then(() => {
+  //     this.getAllReviews();
+  //     this.setState({
+  //       newReview: defaultFeedback
+  //     })
+  //     console.error(saveReview)
+  //   })
+  // }
 
   render() {
+    const buildReviews = this.state.review.map((review) => (
+      <ReviewCard
+        key={review.id}
+        review={review}
+        getAllReviews={this.getAllReviews}
+      />
+    ))
     return (
       <div className="container">
         <h3>Customer Reviews</h3>
@@ -61,7 +76,11 @@ class Reviews extends React.Component {
               />
             </FormGroup>
               <Button type="submit" className="btn btn-primary review-button">Submit Review</Button>
+              <Button className="btn btn-success test-button" onClick={this.getAllReviews}>Test</Button>
             </Form>
+            <div className="row">
+              {buildReviews}
+            </div>
         </div>
       </div>
     )

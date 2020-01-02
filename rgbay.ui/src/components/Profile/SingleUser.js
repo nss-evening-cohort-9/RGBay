@@ -13,6 +13,7 @@ import 'firebase/auth';
 class SingleUser extends React.Component {
   state = {
     user: {},
+    reviews: {},
     isAuthUser: false
   }
 
@@ -35,9 +36,7 @@ class SingleUser extends React.Component {
       this.setState({ isAuthUser: false })
     }
   }
-
-
-
+  
   deleteProfile = () => {
     const user = this.props.match.params.id;
     userData

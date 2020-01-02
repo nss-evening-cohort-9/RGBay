@@ -27,7 +27,7 @@ class AddUser extends React.Component {
     cityChange = e => this.stringStateField('city', e);
     stateChange = e => this.stringStateField('state', e);
     bioChange = e => this.stringStateField('bio', e);
-
+    
     getProfileInfo = () => {
         this.props.getProfileInfo();
     };

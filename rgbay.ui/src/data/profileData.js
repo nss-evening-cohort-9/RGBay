@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = 'https://localhost:44305/api/user'
-const reviewUrl = 'https://localhost:44305/api/user/review'
+const reviewUrl = 'https://localhost:44305/api/reviews'
 
 const getAllUsers = () => new Promise((resolve, reject) => {
     axios.get(baseUrl)
@@ -26,7 +26,6 @@ const getUserByUid = (firbaseUid) => axios.get(`${baseUrl}/uid/${firbaseUid}`);
 
 const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
 const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
-const postNewReview = newReview => axios.post(`${reviewUrl}`, newReview);
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
 const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
 
@@ -50,6 +49,5 @@ export default {
     removeUser,
     updateUser,
     getSingleUser,
-    getAllReviews,
-    postNewReview 
+    getAllReviews
 };
