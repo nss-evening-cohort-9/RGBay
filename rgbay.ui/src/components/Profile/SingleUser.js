@@ -28,6 +28,13 @@ class SingleUser extends React.Component {
     .catch(err => console.log("No information: ", err));
   }
 
+  getAllReviews = () => {
+    userData
+    .getAllReviews()
+    .then((review) => {
+    this.setState({ review })
+    })
+  }
 
   editButton = () => {
     if (this.state.user.firebaseUid === firebase.auth().currentUser.uid) {

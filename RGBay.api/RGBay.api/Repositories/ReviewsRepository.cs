@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using RGBay.api.Commands;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RGBay.api.Repositories
 {
@@ -26,11 +27,12 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"INSERT INTO [dbo].[Feedback]([FeedbackId], [Feedback], [ReviewerId])
+                var sql = @"INSERT INTO [dbo].[Feedback]([FeedbackId], [Feedback], [ReviewerId], [ReviewDate])
                             VALUES (
                               @FeedbackId,
                               @Feedback,
-                              @ReviewerId
+                              @ReviewerId,
+                              @ReviewDate
                             )";
                 return db.Execute(sql, newReview);
             }

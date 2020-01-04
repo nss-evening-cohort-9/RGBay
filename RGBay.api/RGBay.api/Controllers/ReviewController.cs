@@ -6,21 +6,22 @@ using System.Collections.Generic;
 
 namespace RGBay.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reviews")]
     [ApiController]
     public class ReviewController : FirebaseEnabledController
     {
+        private readonly ReviewsRepository _repo = new ReviewsRepository();
+
         [HttpGet]
         public ActionResult<IEnumerable<Reviews>> GetAllReviews()
         {
-            var reviewRepo = new ReviewsRepository();
-            return reviewRepo.GetAll();
+            return _repo.GetAll();
         }
 
         [HttpPost]
-        public ActionResult AddReview(AddReviewCommand newReviewCommand)
+        public int AddReview(AddReviewCommand addReviewCommand)
         {
-            var repo = new ReviewsRepository();
+            return _repo.Add(addReviewCommand);
         }
     }
 }

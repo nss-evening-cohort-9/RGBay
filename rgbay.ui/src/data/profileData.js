@@ -29,6 +29,8 @@ const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
 const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
 
+const postReview = newReview => axios.post(`${baseUrl}`, newReview);
+
 const geographicalStates = [
     'AL', 'AK', 'AS', 'AZ', 'AR', 'CA', 'CO', 'CT',
     'DE', 'DC', 'FM', 'FL', 'GA', 'GU', 'HI', 'ID',
@@ -49,5 +51,6 @@ export default {
     removeUser,
     updateUser,
     getSingleUser,
-    getAllReviews
+    getAllReviews,
+    postReview
 };

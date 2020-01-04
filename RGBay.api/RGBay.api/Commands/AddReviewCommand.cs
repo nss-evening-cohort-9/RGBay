@@ -7,7 +7,9 @@ namespace RGBay.api.Commands
 {
     public class AddReviewCommand
     {
+        public int FeedbackId { get; set; }
         public string Feedback { get; set; }
         public int ReviewerId { get; set; }
+        public DateTime ReviewDate { get; set; }
     }
 }

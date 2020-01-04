@@ -41,7 +41,6 @@ class AddUser extends React.Component {
         this.props.getProfileInfo();
         this.setState({ 
             newUser: defaultUserInfo })
-            console.log(saveNewUser)
         })
     };
 

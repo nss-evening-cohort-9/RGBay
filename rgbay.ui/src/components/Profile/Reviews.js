@@ -2,8 +2,7 @@ import React from 'react';
 // import userData from '../../data/profileData';
 import { 
   Form, 
-  FormGroup, 
-  Label, 
+  FormGroup,
   Input, 
   Button
 } from 'reactstrap';
@@ -35,25 +34,25 @@ class Reviews extends React.Component {
     this.setState({ newReview: createNewReview });
   }
 
-  reviewChange = e => this.reviewStateField('reviews', e);
-
-  // submitReview = (e) => {
-  //   e.preventDefault();
-  //   const saveReview = { ...this.state.newReview };
-  //   userData
-  //   .postNewReview(saveReview)
-  //   .then(() => {
-  //     this.getAllReviews();
-  //     this.setState({
-  //       newReview: defaultFeedback
-  //     })
-  //     console.error(saveReview)
-  //   })
+  reviewChange = e => this.reviewStateField('review', e);
+  
+  // componentDidMount() {
+  //   this.getAllReviews();
   // }
 
-  componentDidMount() {
-    this.getAllReviews();
+  submitReview = (e) => {
+    e.preventDefault();
+    const saveReview = { ...this.state.newReview };
+    userData
+    .postReview(saveReview)
+    .then(() => {
+      this.getAllReviews();
+      this.setState({
+        newReview: defaultFeedback
+      })
+    })    
   }
+
 
   render() {
     const buildReviews = this.state.review.map((review) => (
@@ -69,17 +68,16 @@ class Reviews extends React.Component {
         <div className="row">
           <Form className="col-6 offset-3" onSubmit={this.submitReview}>
             <FormGroup>
-            <Label for="username"><h5>Username</h5></Label>
               <Input
               type="text"
               className="review"
-              id="Review"
+              id="userReview"
               placeholder="How was your experience?"
-              value={this.state.newReview.customerReviews}
+              value={this.state.newReview.review || ''}
               onChange={this.reviewChange}
               />
             </FormGroup>
-              <Button type="submit" className="btn btn-primary review-button">Submit Review</Button>
+              <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button>
             </Form>
             <div className="container">
               {buildReviews}

@@ -10,5 +10,6 @@ namespace RGBay.api.DataModels
         public int FeedbackId { get; set; }
         public string Feedback { get; set; }
         public int ReviewerId { get; set; }
+        public DateTime ReviewDate { get; set; }
     }
 }
