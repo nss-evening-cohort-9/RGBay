@@ -1,12 +1,9 @@
-﻿using RGBay.api.DataModels;
-using System;
+﻿using Dapper;
+using RGBay.api.Commands;
+using RGBay.api.DataModels;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
-using Dapper;
-using RGBay.api.Commands;
-using Microsoft.AspNetCore.Mvc;
 
 namespace RGBay.api.Repositories
 {
@@ -20,6 +17,21 @@ namespace RGBay.api.Repositories
             {
                 var reviews = db.Query<Reviews>(@"select * from [Feedback]");
                 return reviews.ToList();
+            }
+        }
+
+        public IEnumerable<Reviews>GetReviewForUser(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT [USER].[Username], [Feedback].[Feedback], [Feedback].[ReviewDate]
+                            FROM [FEEDBACK]
+                            INNER JOIN [User]
+                            ON [USER].[Id] = [Feedback].[ReviewerId]
+                            WHERE [user].[Id] = @id";
+                var reviews = db.Query<Reviews>(sql, new { id });
+                return reviews;
+
             }
         }
 

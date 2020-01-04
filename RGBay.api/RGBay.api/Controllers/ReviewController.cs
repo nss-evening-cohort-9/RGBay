@@ -18,6 +18,12 @@ namespace RGBay.api.Controllers
             return _repo.GetAll();
         }
 
+        [HttpGet("{id}")]
+        public IEnumerable<Reviews> GetReviewForUser(int id)
+        {
+            return _repo.GetReviewForUser(id);
+        }
+
         [HttpPost]
         public int AddReview(AddReviewCommand addReviewCommand)
         {

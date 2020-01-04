@@ -17,6 +17,7 @@ const defaultFeedback = {
 class Reviews extends React.Component {
   state = {
     review: [],
+    userReviews: {},
     newReview: defaultFeedback
   }
 
@@ -28,6 +29,14 @@ class Reviews extends React.Component {
     })
   }
 
+  getUserReviews = (userId) => {
+    userData
+    .getUserReviews(userId)
+    .then((res) => {
+      this.setState({ userReviews: res.data })
+    })
+  }
+
   reviewStateField = (name, e) => {
     const createNewReview = { ...this.state.newReview };
     createNewReview[name] = e.target.value;
@@ -36,37 +45,40 @@ class Reviews extends React.Component {
 
   reviewChange = e => this.reviewStateField('review', e);
   
-  // componentDidMount() {
-  //   this.getAllReviews();
-  // }
-
-  submitReview = (e) => {
-    e.preventDefault();
-    const saveReview = { ...this.state.newReview };
-    userData
-    .postReview(saveReview)
-    .then(() => {
-      this.getAllReviews();
-      this.setState({
-        newReview: defaultFeedback
-      })
-    })    
+  componentDidMount() {
+    this.getUserReviews();
   }
+
+  // submitReview = (e) => {
+  //   e.preventDefault();
+  //   const saveReview = { ...this.state.newReview };
+  //   userData
+  //   .postReview(saveReview)
+  //   .then(() => {
+  //     this.getAllReviews();
+  //     this.setState({
+  //       newReview: defaultFeedback
+  //     })
+  //   })    
+  // }
 
 
   render() {
     const buildReviews = this.state.review.map((review) => (
       <ReviewCard
-        key={review.feedbackId}
-        review={review}
-        getAllReviews={this.getAllReviews}
+      // review={review}
+      // getAllReviews={this.getAllReviews}
+        // key={userReviews.feedbackId}
+        getUserReviews={this.getUserReviews}
+
       />
+
     ))
     return (
       <div className="container">
         <h3>Customer Reviews</h3>
         <div className="row">
-          <Form className="col-6 offset-3" onSubmit={this.submitReview}>
+          <Form className="col-6 offset-3">
             <FormGroup>
               <Input
               type="text"
@@ -77,7 +89,8 @@ class Reviews extends React.Component {
               onChange={this.reviewChange}
               />
             </FormGroup>
-              <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button>
+              {/* <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button> */}
+              <Button className="btn btn-primary review-button" onClick={this.getUserReviews}>Data Test</Button>
             </Form>
             <div className="container">
               {buildReviews}
