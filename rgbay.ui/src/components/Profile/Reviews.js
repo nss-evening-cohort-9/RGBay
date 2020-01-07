@@ -4,8 +4,9 @@ import {
   Form, 
   FormGroup,
   Input, 
-  Button
+  // Button
 } from 'reactstrap';
+import { withRouter } from "react-router";
 import userData from '../../data/profileData';
 import ReviewCard from './ReviewCard';
 import './Reviews.css';
@@ -17,24 +18,28 @@ const defaultFeedback = {
 class Reviews extends React.Component {
   state = {
     review: [],
-    userReviews: {},
+    userReviews: [],
     newReview: defaultFeedback
   }
 
-  getAllReviews = () => {
-    userData
-    .getAllReviews()
-    .then((review) => {
-    this.setState({ review })
-    })
-  }
+  // getReviews = () => {
+  //   userData
+  //   .getAllReviews()
+  //   .then((review) => {
+  //   this.setState( review.data )
+  //   console.log(review)
+  //   })
+  // }
 
-  getUserReviews = (userId) => {
+  getUserReviews = () => {
+    const  userId  = this.props.match.params.id;
+    console.error(userId, "This is the user id");
     userData
     .getUserReviews(userId)
     .then((res) => {
       this.setState({ userReviews: res.data })
     })
+    .catch(err => console.error("Could not get single reviews", err));
   }
 
   reviewStateField = (name, e) => {
@@ -49,28 +54,12 @@ class Reviews extends React.Component {
     this.getUserReviews();
   }
 
-  // submitReview = (e) => {
-  //   e.preventDefault();
-  //   const saveReview = { ...this.state.newReview };
-  //   userData
-  //   .postReview(saveReview)
-  //   .then(() => {
-  //     this.getAllReviews();
-  //     this.setState({
-  //       newReview: defaultFeedback
-  //     })
-  //   })    
-  // }
-
 
   render() {
     const buildReviews = this.state.review.map((review) => (
       <ReviewCard
-      // review={review}
-      // getAllReviews={this.getAllReviews}
-        // key={userReviews.feedbackId}
-        getUserReviews={this.getUserReviews}
-
+      review={review}
+      key={review.feedbackId}
       />
 
     ))
@@ -90,7 +79,7 @@ class Reviews extends React.Component {
               />
             </FormGroup>
               {/* <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button> */}
-              <Button className="btn btn-primary review-button" onClick={this.getUserReviews}>Data Test</Button>
+              {/* <Button className="btn btn-primary review-button" onClick={this.getReviews()}>Data Test</Button> */}
             </Form>
             <div className="container">
               {buildReviews}
@@ -101,4 +90,4 @@ class Reviews extends React.Component {
   }
 }
 
-export default Reviews;
+export default withRouter(Reviews);

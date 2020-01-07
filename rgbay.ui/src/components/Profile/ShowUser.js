@@ -5,6 +5,7 @@ import {
   CardText,
   Card
 } from 'reactstrap';
+import { withRouter } from "react-router";
 
 class ShowUser extends React.Component {
 
@@ -40,4 +41,4 @@ class ShowUser extends React.Component {
   }
 }
 
-export default ShowUser;
+export default withRouter(ShowUser);
