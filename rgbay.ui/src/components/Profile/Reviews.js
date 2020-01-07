@@ -33,7 +33,6 @@ class Reviews extends React.Component {
 
   getUserReviews = () => {
     const  userId  = this.props.match.params.id;
-    console.error(userId, "This is the user id");
     userData
     .getUserReviews(userId)
     .then((res) => {
@@ -56,10 +55,10 @@ class Reviews extends React.Component {
 
 
   render() {
-    const buildReviews = this.state.review.map((review) => (
+    const buildReviews = this.state.userReviews.map((uRev) => (
       <ReviewCard
-      review={review}
-      key={review.feedbackId}
+      userReviews={uRev}
+      key={uRev.feedbackId}
       />
 
     ))

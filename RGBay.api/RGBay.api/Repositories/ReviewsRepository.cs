@@ -15,7 +15,8 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var reviews = db.Query<Reviews>(@"select * from [Feedback]");
+                var reviews = db.Query<Reviews>(@"select * 
+                                                from [Feedback]");
                 return reviews.ToList();
             }
         }
@@ -24,11 +25,11 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT [USER].[Username], [Feedback].[Feedback], [Feedback].[ReviewDate]
-                            FROM [FEEDBACK]
-                            INNER JOIN [User]
-                            ON [USER].[Id] = [Feedback].[ReviewerId]
-                            WHERE [user].[Id] = @id";
+                var sql = @"SELECT [USER].[Username], [Feedback].[Feedback], [Feedback].[ReviewDate], [Feedback].[ReviewerId], [Feedback].[FeedbackId]
+                            FROM [User]
+                            RIGHT JOIN [Feedback]
+                            ON [Feedback].[ReviewerId] = [USER].[Id]
+                            WHERE [FEEDBACK].[ReviewerId] = @ID";
                 var reviews = db.Query<Reviews>(sql, new { id });
                 return reviews;
 

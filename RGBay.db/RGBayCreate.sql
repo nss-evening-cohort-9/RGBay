@@ -73,13 +73,15 @@ IF OBJECT_ID('[dbo].[Feedback]', 'U') IS NOT NULL
 DROP TABLE [dbo].[Feedback]
 GO
 
-CREATE TABLE [dbo].[Feedback]
+CREATE TABLE [dbo].[Review]
 ( 
- [FeedbackId] INT NOT NULL PRIMARY KEY,
- [Feedback] NVARCHAR (1200),
+ [ReviewId] INT NOT NULL PRIMARY KEY,
+ [Review] NVARCHAR (1200),
  [ReviewerId] INT NULL,
  [ReviewDate] DATE NOT NULL,
  FOREIGN KEY (ReviewerId) REFERENCES [User](Id)
+ [ProductReview] NVARCHAR (1200) NULL,
+ FOREIGN KEY (ProductReview) REFERENCES [PRODUCT](Id)
 )
 
 
