@@ -11,13 +11,22 @@ namespace RGBay.api.Repositories
     {
         string _connectionString = "Server=localhost;Database=RGBay;Trusted_Connection=True;";
 
-        public List<User> GetAll()
+        public IEnumerable<User> GetAll()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var users = db.Query<User>(@"select * from [User]");
+                return users;
+            }
+        }
+
+        public IEnumerable<User> GetAllNonDeleted()
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var users = db.Query<User>(@"select * from [User]
                                             where[IsDeleted] = 0");
-                return users.ToList();
+                return users;
             }
         }
 
@@ -37,7 +46,9 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "select * from [User] where FirebaseUid = @firebaseUid";
+                var sql = @"select * from [User]
+                            where FirebaseUid = @firebaseUid
+                                and [IsDeleted] = 0";
                 var user = db.QueryFirstOrDefault<User>(sql, new { firebaseUid });
                 return user;
             }

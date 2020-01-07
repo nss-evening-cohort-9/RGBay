@@ -13,10 +13,17 @@ namespace RGBay.api.Controllers
     public class UserController : FirebaseEnabledController
     {
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             var userRepo = new UserRepository();
             return userRepo.GetAll();
+        }
+
+        [HttpGet("notdeleted")]
+        public IEnumerable<User> GetAllNonDeleted()
+        {
+            var userRepo = new UserRepository();
+            return userRepo.GetAllNonDeleted();
         }
 
         [HttpGet("{id}")]
