@@ -1,11 +1,11 @@
 import React from 'react'
 import { Table } from 'reactstrap';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 class CartOrder extends React.Component {
     render() {
         const { orderProp } = this.props;
-        const orderLink = `/order/${orderProp.id}`;
+        //const orderLink = `/order/${orderProp.id}`;
         return (
             <div className="CartOrder">
                 <Table striped hover borderless>
@@ -21,7 +21,7 @@ class CartOrder extends React.Component {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><Link to={orderLink}>{orderProp.id}</Link></td>
+                            <td>{orderProp.id}</td>
                             <td>{orderProp.id}</td>
                             <td>{orderProp.date}</td>
                             <td>{orderProp.total}</td>
