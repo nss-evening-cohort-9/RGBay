@@ -1,5 +1,5 @@
 import React from 'react';
-
+import orderProductData from '../../data/orderProductData';
 import './ProductView.scss';
 
 class ProductViewCard extends React.Component {
@@ -20,6 +20,14 @@ class ProductViewCard extends React.Component {
   updateProduct = () => {
     const { stageEdit, product } = this.props;
     stageEdit(product.id, product);
+  }
+
+  addProductToCart = () => {
+    const { product } = this.props;
+    const orderProduct = {
+      ProductId: product.id
+    }
+    orderProductData.addProductToCart(orderProduct);
   }
 
   render() {
@@ -57,6 +65,9 @@ class ProductViewCard extends React.Component {
                 </div>
                 <hr className="my-2" />
                 <div className="lead">{product.description}</div>
+                <div className="d-flex">
+                  <button onClick = {this.addProductToCart}>Add To Cart</button>
+                </div>
               </div>
             </div>
           </div>

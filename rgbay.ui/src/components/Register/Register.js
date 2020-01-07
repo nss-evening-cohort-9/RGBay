@@ -14,6 +14,7 @@ import {
   Label } from 'reactstrap';
 
 import profileData from '../../data/profileData';
+import orderProductData from '../../data/orderProductData';
 
 const defaultProfile = {
   username: '',
@@ -43,6 +44,7 @@ class Auth extends React.Component {
       .then((response) => {
         this.props.setProfile(response.data);
         this.props.history.push('/home');
+        orderProductData.getCart();
       })
       .catch(error => console.error(error));
   }

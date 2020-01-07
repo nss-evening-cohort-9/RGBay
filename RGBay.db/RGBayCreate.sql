@@ -222,16 +222,16 @@ INSERT INTO [dbo].[Order]
 VALUES
 -- DATETIME FORMAT = YYYYMMDD HH:MM:SS AM/PM
 (
-    1, '20001231 11:59:59 PM', 1000, 'Status 1'
+    1, '20001231 11:59:59 PM', 1000, 'Proccessing'
 ),
 (
-    2, '20120710 12:00:00 PM', 2000, 'Status 2'
+    2, '20120710 12:00:00 PM', 2000, 'Delivered'
 ),
 (
-    3, '20180418 07:11:30 AM', 3000, 'Status 3'
+    3, '20180418 07:11:30 AM', 3000, 'Shipped'
 ),
 (
-    4, '20191120 6:00:00 AM', 4000, 'Status 4'
+    4, '20191120 6:00:00 AM', 4000, 'Cart'
 )
 GO
 

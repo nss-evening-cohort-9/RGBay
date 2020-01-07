@@ -13,10 +13,12 @@ import firebaseConnection from '../requests/connection';
 
 import Account from '../components/Account/Account';
 import APITest from '../components/APITest/APITest';
+import Cart from '../components/Cart/Cart';
 import CategoryView from '../components/CategoryView/CategoryView';
 import EditUser from '../components/Profile/EditUser';
 import Home from '../components/Home/Home';
 import NavBar from '../components/NavBar/NavBar';
+import Order from '../components/Order/Order';
 import Orders from '../components/OrderView/OrdersView';
 import Product from '../components/Product/Product';
 import ProductView from '../components/ProductView/ProductView';
@@ -99,6 +101,8 @@ class App extends React.Component {
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
+                <PrivateRoute path="/order/:id" component={Order} authed={authed} />
+                <PrivateRoute path="/cart" component={Cart} authed={authed} />
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
                 <Redirect from="*" to="/home" />
               </Switch>

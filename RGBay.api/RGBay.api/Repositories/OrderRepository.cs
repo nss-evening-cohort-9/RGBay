@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using RGBay.api.Commands;
 using RGBay.api.DataModels;
 
 namespace RGBay.api.Repositories
@@ -31,6 +32,26 @@ namespace RGBay.api.Repositories
             }
         }
 
+        public Order CreateCartOrder(int customerId)
+        {
+            var newOrder = new Order
+            {
+                CustomerId = customerId,
+                Date = DateTime.Now,
+                Status = "Cart"
+            };
+            return CreateOrder(newOrder);
+        }
+
+        public Cart CreateCartFromNewOrder(int customerId)
+        {
+            var cartOrder = CreateCartOrder(customerId);
+            var newCart = new Cart
+            {
+                CartOrder = cartOrder
+            };
+            return newCart;
+        }
 
         /* GET || READ */
 
@@ -74,6 +95,24 @@ namespace RGBay.api.Repositories
                 };
                 var customerOrders = db.Query<Order>(sql, parameters);
                 return customerOrders;
+            }
+        }
+
+        public Order GetCartOrder(int customerId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"SELECT *
+                            FROM [Order]
+                            WHERE CustomerId = @CustomerId
+                            AND Status = @Status";
+                var parameters = new
+                {
+                    CustomerId = customerId,
+                    Status = "Cart"
+                };
+                var cart = db.QueryFirstOrDefault<Order>(sql, parameters);
+                return cart;
             }
         }
 
