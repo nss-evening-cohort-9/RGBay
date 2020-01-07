@@ -49,7 +49,7 @@ class SingleUser extends React.Component {
     userData
       .removeUser(user)
       .then(() => {
-        this.getProfileInfo()
+        
       })
       .catch(err => console.error("Unable to delete single profile", err))
   };

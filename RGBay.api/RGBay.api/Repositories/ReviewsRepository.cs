@@ -25,11 +25,11 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT [USER].[Username], [Feedback].[Feedback], [Feedback].[ReviewDate], [Feedback].[ReviewerId], [Feedback].[FeedbackId]
+                var sql = @"SELECT [USER].[Username], [Reviews].[Review], FORMAT ([Reviews].[ReviewDate], 'MM-dd-yyyy') as [ReviewDate] , [Reviews].[ReviewerId], [Reviews].[ReviewId]
                             FROM [User]
-                            RIGHT JOIN [Feedback]
-                            ON [Feedback].[ReviewerId] = [USER].[Id]
-                            WHERE [FEEDBACK].[ReviewerId] = @ID";
+                            RIGHT JOIN [Reviews]
+                            ON [Reviews].[ReviewerId] = [USER].[Id]
+                            WHERE [Reviews].[ReviewerId] = @id";
                 var reviews = db.Query<Reviews>(sql, new { id });
                 return reviews;
 
