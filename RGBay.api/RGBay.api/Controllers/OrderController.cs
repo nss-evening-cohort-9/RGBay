@@ -81,6 +81,12 @@ namespace RGBay.api.Controllers
         }
 
 
+/*        [HttpPut("price/{orderId:int}")]
+        [Authorize]
+        public IActionResult UpdateTotal(UpdateOrderCommand incomingOrder, int orderId)
+        {
+            var repo = new Order
+        }*/
 
 
         // PUT || UPDATE//

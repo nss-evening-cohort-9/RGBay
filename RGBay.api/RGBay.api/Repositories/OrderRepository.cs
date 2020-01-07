@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using RGBay.api.Commands;
 using RGBay.api.DataModels;
 
 namespace RGBay.api.Repositories
@@ -31,7 +32,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public Order CreateCartOrder(int customerId, Product productToAdd)
+        public Order CreateCartOrder(int customerId)
         {
             var newOrder = new Order
             {
@@ -42,6 +43,15 @@ namespace RGBay.api.Repositories
             return CreateOrder(newOrder);
         }
 
+        public Cart CreateCartFromNewOrder(int customerId)
+        {
+            var cartOrder = CreateCartOrder(customerId);
+            var newCart = new Cart
+            {
+                CartOrder = cartOrder
+            };
+            return newCart;
+        }
 
         /* GET || READ */
 

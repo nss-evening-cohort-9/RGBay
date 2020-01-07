@@ -47,7 +47,8 @@ namespace RGBay.api.Controllers
 
             if (cartOrder == null)
             {
-                return new Cart();
+                var newCart = orderRepo.CreateCartFromNewOrder(user.Id);
+                return newCart;
             }
             else
             {
@@ -83,7 +84,7 @@ namespace RGBay.api.Controllers
 
             if (cartOrder == null)
             {
-                var createdOrder = orderRepo.CreateCartOrder(user.Id, product);
+                var createdOrder = orderRepo.CreateCartOrder(user.Id);
                 var orderId = createdOrder.Id;
                 var orderProduct = new OrderProduct
                 {
