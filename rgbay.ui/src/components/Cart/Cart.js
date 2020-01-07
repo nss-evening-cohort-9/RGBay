@@ -34,7 +34,6 @@ class Cart extends React.Component {
     }
 
     remove = (opid) => {
-        console.log(opid);
         orderProductData.deleteProductFromCart(opid)
             .then(() => this.getCart())
             .catch(err => console.error(err));

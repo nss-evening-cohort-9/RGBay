@@ -4,7 +4,7 @@ import {
     CardTitle, CardSubtitle, Col, Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import orderProductData from '../../data/orderProductData';
+//import orderProductData from '../../data/orderProductData';
 
 import './Cart.scss';
 
@@ -16,15 +16,25 @@ class CartProduct extends React.Component {
         const productLink = `/product/${productProps.id}`
         
         let price;
+        let buttons;
         if(productProps.rentalPrice !== 0 && productProps.salesPrice !== 0){
             price = <div>
                         <CardSubtitle>Cost Per Day: ${productProps.rentalPrice}</CardSubtitle>
                         <CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle>
-                    </div>
+                    </div>;
+
+            buttons =   <div>
+                            <Button color="success">Rent</Button>
+                            <Button color="success">Buy</Button>
+                        </div>
         } else if(productProps.rentalPrice === 0){
-            price = <CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle>
+            price = <div><CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle></div>
+
+            buttons = <div><Button color="success">Buy</Button></div>
         } else if (productProps.salesPrice === 0){
-            price = <CardSubtitle>Rental Price(Per Day): ${productProps.rentalPrice}</CardSubtitle>
+            price = <div><CardSubtitle>Rental Price(Per Day): ${productProps.rentalPrice}</CardSubtitle></div>
+            
+            buttons = <div><Button color="success">Rent</Button></div>
         }
 
 
@@ -40,6 +50,7 @@ class CartProduct extends React.Component {
                                 {productProps.description}
                             </CardText>
                             <br/>
+                            {buttons}
                             <Button color="danger" onClick={() => {remove(productProps.opid)}}>Remove From Cart</Button>
                         </CardBody>
                     </Card>
