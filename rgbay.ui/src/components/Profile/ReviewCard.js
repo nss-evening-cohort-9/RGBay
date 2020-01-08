@@ -7,7 +7,6 @@ import {
 } from 'reactstrap';
 import './ReviewCard.css';
 import { withRouter } from "react-router";
-import userData from '../../data/profileData';
 
 class ReviewCard extends React.Component {
 

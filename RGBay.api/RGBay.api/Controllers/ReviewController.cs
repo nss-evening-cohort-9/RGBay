@@ -24,10 +24,20 @@ namespace RGBay.api.Controllers
             return _repo.GetReviewForUser(id);
         }
 
-        [HttpPost]
-        public int AddReview(AddReviewCommand addReviewCommand)
+        [HttpDelete("{reviewId}")]
+        public IActionResult RemoveUser(int reviewId)
         {
-            return _repo.Add(addReviewCommand);
+            
+            _repo.Delete(reviewId);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult CreateReview(AddReviewCommand newUserCommand)
+        {
+            var reviewCreated = _repo.Add(newUserCommand);
+            return Created($"rgbay/reviews/{reviewCreated}", reviewCreated);
         }
     }
 }

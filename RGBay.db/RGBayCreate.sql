@@ -68,38 +68,6 @@ GO
 
 -- Create a new table called '[PaymentType]' in schema '[dbo]'
 -- Drop the table if it already exists
-IF OBJECT_ID('[dbo].[Feedback]', 'U') IS NOT NULL
-
-DROP TABLE [dbo].[Feedback]
-GO
-
-CREATE TABLE [dbo].[Review]
-( 
- [ReviewId] INT NOT NULL PRIMARY KEY,
- [Review] NVARCHAR (1200),
- [ReviewerId] INT NULL,
- [ReviewDate] DATE NOT NULL,
- FOREIGN KEY (ReviewerId) REFERENCES [User](Id)
- [ProductReview] NVARCHAR (1200) NULL,
- FOREIGN KEY (ProductReview) REFERENCES [PRODUCT](Id)
-)
-
-
-INSERT INTO [feedback] ([FeedbackId], [Feedback], [ReviewerId], [ReviewDate])
-VALUES 
-( -- First row: values for the columns in the list above
-    1, 'Awesome Item', 2, '2019-01-01'
-),
-( -- Second row: values for the columns in the list above
-    2, 'Very good condition', 3, '2018-01-01'
-),
-( -- Third row: values for the columns in the list above
-    3, 'Never buying/renting from this guy, again', 4, '2020-01-01'
-)
-GO
-
--- Create a new table called '[PaymentType]' in schema '[dbo]'
--- Drop the table if it already exists
 IF OBJECT_ID('[dbo].[PaymentType]', 'U') IS NOT NULL
 DROP TABLE [dbo].[PaymentType]
 GO
@@ -186,6 +154,7 @@ CREATE TABLE [dbo].[Product]
         REFERENCES [ProductCategory] (Id),
 	[RentalPrice] INT NOT NULL,
 	[SalesPrice] INT NOT NULL,
+	[IsForSale] BIT NOT NULL,
 	[IsRgb] BIT NOT NULL,
 	[Description] NVARCHAR(1000) NOT NULL,
 	[ImageUrl] NVARCHAR(1000) NOT NULL,
@@ -198,37 +167,86 @@ GO
 
 -- Insert rows into table 'Product' in schema '[dbo]'
 INSERT INTO [dbo].[Product]
-([Title], [Category], [RentalPrice], [SalesPrice], [IsRgb], [Description], [DateCreated], [OwnerId], [ImageUrl])
+([Title], [Category], [RentalPrice], [SalesPrice], [IsForSale], [IsRgb], [Description], [DateCreated], [OwnerId], [ImageUrl])
 VALUES --categories part 1, peripheral 2, space 3, system 4
-('Corsair Mouse', 2, '103200', '236700', 1, 'cool corsair mouse', dateadd(day,-1, getdate()), 2, 'https://m.media-amazon.com/images/I/613J82iVB1L._AC_UL320_ML3_.jpg'),
-('Corsair RAM', 1, '0', '236700', 0, 'fast corsair RAM', dateadd(day,-2, getdate()), 2, 'https://m.media-amazon.com/images/I/91B-Tqxo+PL._AC_UL320_ML3_.jpg'),
-('Corsair Headset', 2, '0', '236700', 1, 'black corsair headset', dateadd(day,-3, getdate()), 2, 'https://m.media-amazon.com/images/I/61vR61h9KdL._AC_UL320_ML3_.jpg'),
-('Corsair Keyboard', 2, '103200', '236700', 1, 'cool corsair keyboard', dateadd(day,-4, getdate()), 2, 'https://m.media-amazon.com/images/I/71eARwGvFaL._AC_UL320_ML3_.jpg'),
-('Corsair CPU Cooler', 1, '103200', '236700', 1, 'rbg corsair cpu cooler', dateadd(day,-5, getdate()), 2, 'https://m.media-amazon.com/images/I/51WqefOWisL._AC_UY218_ML3_.jpg'),
-('Corsair Headset Stand', 2, '103200', '236700', 1, 'cool corsair headset stand', dateadd(day,-6, getdate()), 2, 'https://m.media-amazon.com/images/I/51lh-DEa5NL._AC_UY218_ML3_.jpg'),
-('Logitech Keyboard', 2, '133200', '256700', 0, 'cool logitech keyboard', dateadd(day,-7, getdate()), 1, 'https://m.media-amazon.com/images/I/71goKxqBHnL._AC_UY218_ML3_.jpg'),
-('Logitech Webcam', 2, '133200', '256700', 0, 'good logitech webcam', dateadd(day,-8, getdate()), 1, 'https://m.media-amazon.com/images/I/91SNDNgjSiL._AC_UL320_ML3_.jpg'),
-('Logitech Mouse', 2, '133200', '256700', 0, 'cool logitech mouse', dateadd(day,-9, getdate()), 1, 'https://m.media-amazon.com/images/I/71BmDZ6u22L._AC_UL320_ML3_.jpg'),
-('Logitech Racing Wheel', 2, '133200', '0', 0, 'awsome logitech racing wheel', dateadd(day,-10, getdate()), 1, 'https://m.media-amazon.com/images/I/51KQqdl5azL._AC_UY218_ML3_.jpg'),
-('Alienware Laptop', 4, '133200', '256700', 1, 'expensive alienware laptop', dateadd(day,-11, getdate()), 1, 'https://m.media-amazon.com/images/I/71J7q3UpQnL._AC_UL320_ML3_.jpg'),
-('Alienware Monitor', 2, '0', '256700', 0, 'expensive alienware monitor', dateadd(day,-12, getdate()), 1, 'https://m.media-amazon.com/images/I/71l+Z8gJMIL._AC_UL320_ML3_.jpg'),
-('Alienware PC', 4, '133200', '256700', 1, 'expensive alienware pc', dateadd(day,-13, getdate()), 1, 'https://m.media-amazon.com/images/I/71Bu3+vAWGL._AC_UY218_ML3_.jpg'),
-('NVIDIA RTX 2080', 1, '0', '256700', 0, 'fast nvidia rtx 2080', dateadd(day,-14, getdate()), 1, 'https://m.media-amazon.com/images/I/61VkiYYGMhL._AC_UY218_ML3_.jpg'),
-('NVIDIA RTX 2070', 1, '0', '256700', 0, 'fast nvidia rtx 2070', dateadd(day,-15, getdate()), 1, 'https://m.media-amazon.com/images/I/71WA8Pm9AoL._AC_UY218_ML3_.jpg'),
-('NVIDIA Shield', 4, '133200', '0', 0, 'cool nvidia shield', dateadd(day,-16, getdate()), 1, 'https://m.media-amazon.com/images/I/61BbVbSSNuL._AC_UY218_ML3_.jpg'),
-('Intel Core i7', 1, '0', '256700', 0, 'nice intel core i7', dateadd(day,-17, getdate()), 1, 'https://m.media-amazon.com/images/I/71Q5sdPHD-L._AC_UL320_ML3_.jpg'),
-('Intel Core i5', 1, '0', '256700', 0, 'alright intel core i5', dateadd(day,-18, getdate()), 1, 'https://m.media-amazon.com/images/I/71709S6VMTL._AC_UL320_ML3_.jpg'),
-('Intel Core i9', 1, '0', '256700', 0, 'nextgen intel core i9', dateadd(day,-19, getdate()), 1, 'https://m.media-amazon.com/images/I/71Tor75VsGL._AC_UL320_ML3_.jpg'),
-('Samsung SSD', 1, '0', '256700', 0, 'fast samsung ssd', dateadd(day,-20, getdate()), 1, 'https://m.media-amazon.com/images/I/914Zq+CIeML._AC_UL320_ML3_.jpg'),
-('Samsung 65inch TV', 2, '133200', '256700', 0, 'big samsung 65inch tv', dateadd(day,-21, getdate()), 1, 'https://m.media-amazon.com/images/I/91rhYwnuu7L._AC_UY218_ML3_.jpg'),
-('Samsung Chromebook', 4, '133200', '256700', 0, 'cool samsung chromebook', dateadd(day,-22, getdate()), 1, 'https://m.media-amazon.com/images/I/81mX-4s+guL._AC_UY218_ML3_.jpg'),
-('Oculus Rift S', 2, '0', '256700', 0, 'cool oculus rift s', dateadd(day,-23, getdate()), 1, 'https://m.media-amazon.com/images/I/71URNvzoWqL._AC_UY218_ML3_.jpg'),
-('Oculus Go', 2, '0', '321655', 0, 'cool oculus go', dateadd(day,-24, getdate()), 3, 'https://m.media-amazon.com/images/I/610iXon9LfL._AC_UY218_ML3_.jpg'),
-('Oculus Quest', 2, '0', '4036700', 0, 'cool oculus quest', dateadd(day,-25, getdate()), 2, 'https://m.media-amazon.com/images/I/71D9OsZmWxL._AC_UY218_ML3_.jpg'),
-('Gaming Studio', 3, '4036700', '0', 1, 'sick gaming studio', dateadd(day,-26, getdate()), 2, 'https://i.pinimg.com/originals/2a/c1/ac/2ac1ac7a558efbc6d61bae7505677074.jpg'),
-('Gaming Crib', 3, '4036700', '0', 1, 'rad gaming crib', dateadd(day,-27, getdate()), 2, 'https://i.pinimg.com/originals/9c/a1/b3/9ca1b3268e82a9237a6d94cf510ecb7a.jpg'),
-('Gaming Room', 3, '4036700', '0', 1, 'nice gaming room', dateadd(day,-28, getdate()), 2, 'http://www.creativetouchs.net/wp-content/uploads/2019/02/Best-Game-Room-Decoration-Ideas.jpg'),
-('Gaming Space', 3, '4036700', '0', 1, 'cool gaming space', dateadd(day,-29, getdate()), 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27zVTnkcryexhZ1_5waP3jYLaXPj7mumlea9-JknUIS5szQLl&s')
+('Corsair Mouse', 2, '103200', '236700', 1, 1, 'cool corsair mouse', dateadd(day,-1, getdate()), 2, 'https://m.media-amazon.com/images/I/613J82iVB1L._AC_UL320_ML3_.jpg'),
+('Corsair RAM', 1, '103200', '236700', 1, 1, 'fast corsair RAM', dateadd(day,-2, getdate()), 2, 'https://m.media-amazon.com/images/I/91B-Tqxo+PL._AC_UL320_ML3_.jpg'),
+('Corsair Headset', 2, '103200', '236700', 1, 1, 'black corsair headset', dateadd(day,-3, getdate()), 2, 'https://m.media-amazon.com/images/I/61vR61h9KdL._AC_UL320_ML3_.jpg'),
+('Corsair Keyboard', 2, '103200', '236700', 1, 1, 'cool corsair keyboard', dateadd(day,-4, getdate()), 2, 'https://m.media-amazon.com/images/I/71eARwGvFaL._AC_UL320_ML3_.jpg'),
+('Corsair CPU Cooler', 1, '103200', '236700', 1, 1, 'rbg corsair cpu cooler', dateadd(day,-5, getdate()), 2, 'https://m.media-amazon.com/images/I/51WqefOWisL._AC_UY218_ML3_.jpg'),
+('Corsair Headset Stand', 2, '103200', '236700', 1, 1, 'cool corsair headset stand', dateadd(day,-6, getdate()), 2, 'https://m.media-amazon.com/images/I/51lh-DEa5NL._AC_UY218_ML3_.jpg'),
+('Logitech Keyboard', 2, '133200', '256700', 1, 0, 'cool logitech keyboard', dateadd(day,-7, getdate()), 1, 'https://m.media-amazon.com/images/I/71goKxqBHnL._AC_UY218_ML3_.jpg'),
+('Logitech Webcam', 2, '133200', '256700', 1, 0, 'good logitech webcam', dateadd(day,-8, getdate()), 1, 'https://m.media-amazon.com/images/I/91SNDNgjSiL._AC_UL320_ML3_.jpg'),
+('Logitech Mouse', 2, '133200', '256700', 1, 0, 'cool logitech mouse', dateadd(day,-9, getdate()), 1, 'https://m.media-amazon.com/images/I/71BmDZ6u22L._AC_UL320_ML3_.jpg'),
+('Logitech Racing Wheel', 2, '133200', '256700', 1, 0, 'awsome logitech racing wheel', dateadd(day,-10, getdate()), 1, 'https://m.media-amazon.com/images/I/51KQqdl5azL._AC_UY218_ML3_.jpg'),
+('Alienware Laptop', 4, '133200', '256700', 1, 0, 'expensive alienware laptop', dateadd(day,-11, getdate()), 1, 'https://m.media-amazon.com/images/I/71J7q3UpQnL._AC_UL320_ML3_.jpg'),
+('Alienware Monitor', 2, '133200', '256700', 1, 0, 'expensive alienware monitor', dateadd(day,-12, getdate()), 1, 'https://m.media-amazon.com/images/I/71l+Z8gJMIL._AC_UL320_ML3_.jpg'),
+('Alienware PC', 4, '133200', '256700', 1, 0, 'expensive alienware pc', dateadd(day,-13, getdate()), 1, 'https://m.media-amazon.com/images/I/71Bu3+vAWGL._AC_UY218_ML3_.jpg'),
+('NVIDIA RTX 2080', 1, '133200', '256700', 1, 0, 'fast nvidia rtx 2080', dateadd(day,-14, getdate()), 1, 'https://m.media-amazon.com/images/I/61VkiYYGMhL._AC_UY218_ML3_.jpg'),
+('NVIDIA RTX 2070', 1, '133200', '256700', 1, 0, 'fast nvidia rtx 2070', dateadd(day,-15, getdate()), 1, 'https://m.media-amazon.com/images/I/71WA8Pm9AoL._AC_UY218_ML3_.jpg'),
+('NVIDIA Shield', 4, '133200', '256700', 1, 0, 'cool nvidia shield', dateadd(day,-16, getdate()), 1, 'https://m.media-amazon.com/images/I/61BbVbSSNuL._AC_UY218_ML3_.jpg'),
+('Intel Core i7', 1, '133200', '256700', 1, 0, 'nice intel core i7', dateadd(day,-17, getdate()), 1, 'https://m.media-amazon.com/images/I/71Q5sdPHD-L._AC_UL320_ML3_.jpg'),
+('Intel Core i5', 1, '133200', '256700', 1, 0, 'alright intel core i5', dateadd(day,-18, getdate()), 1, 'https://m.media-amazon.com/images/I/71709S6VMTL._AC_UL320_ML3_.jpg'),
+('Intel Core i9', 1, '133200', '256700', 1, 0, 'nextgen intel core i9', dateadd(day,-19, getdate()), 1, 'https://m.media-amazon.com/images/I/71Tor75VsGL._AC_UL320_ML3_.jpg'),
+('Samsung SSD', 1, '133200', '256700', 1, 0, 'fast samsung ssd', dateadd(day,-20, getdate()), 1, 'https://m.media-amazon.com/images/I/914Zq+CIeML._AC_UL320_ML3_.jpg'),
+('Samsung 65inch TV', 2, '133200', '256700', 1, 0, 'big samsung 65inch tv', dateadd(day,-21, getdate()), 1, 'https://m.media-amazon.com/images/I/91rhYwnuu7L._AC_UY218_ML3_.jpg'),
+('Samsung Chromebook', 4, '133200', '256700', 1, 0, 'cool samsung chromebook', dateadd(day,-22, getdate()), 1, 'https://m.media-amazon.com/images/I/81mX-4s+guL._AC_UY218_ML3_.jpg'),
+('Oculus Rift S', 2, '133200', '256700', 1, 0, 'cool oculus rift s', dateadd(day,-23, getdate()), 1, 'https://m.media-amazon.com/images/I/71URNvzoWqL._AC_UY218_ML3_.jpg'),
+('Oculus Go', 2, '2033200', '0', 0, 1, 'cool oculus go', dateadd(day,-24, getdate()), 3, 'https://m.media-amazon.com/images/I/610iXon9LfL._AC_UY218_ML3_.jpg'),
+('Oculus Quest', 2, '0', '4036700', 1, 0, 'cool oculus quest', dateadd(day,-25, getdate()), 2, 'https://m.media-amazon.com/images/I/71D9OsZmWxL._AC_UY218_ML3_.jpg')
+GO
+
+-- Create a new table called '[PaymentType]' in schema '[dbo]'
+-- Drop the table if it already exists
+IF OBJECT_ID('[dbo].[Feedback]', 'U') IS NOT NULL
+
+DROP TABLE [dbo].[Reviews]
+GO
+
+CREATE TABLE [dbo].[Reviews]
+( 
+ [ReviewId] INT NOT NULL PRIMARY KEY,
+ [Review] NVARCHAR (1200),
+ [ReviewerId] INT NULL,
+ [ReviewDate] DATE NOT NULL,
+ FOREIGN KEY (ReviewerId) REFERENCES [User](Id),
+ [ProductReviewId] INT NULL,
+ FOREIGN KEY (ProductReviewId) REFERENCES [dbo].[Product](Id)
+)
+
+
+INSERT INTO [Reviews] ([ReviewId], [Review], [ReviewerId], [ReviewDate], [ProductReviewId])
+VALUES 
+( -- First row: values for the columns in the list above
+    1, 'Awesome Item', 2, '2019-01-01', 3
+),
+( -- Second row: values for the columns in the list above
+    2, 'Very good condition', 3, '2018-01-01', 3
+),
+( -- Third row: values for the columns in the list above
+    3, 'Never buying/renting from this guy, again', 4, '2020-01-01', 4
+),
+( -- Fourth row: values for the columns in the list above
+    4, 'Nothing but good things to say', 1, '2020-01-01', 1
+),
+( -- Fifth row: values for the columns in the list above
+    5, 'Products were in terrible condition', 1, '2020-01-01', 1
+),
+( -- Sixth row: values for the columns in the list above
+    6, 'That Oculus Quest, though', 5, '2020-01-01', 3
+),
+( -- Seventh row: values for the columns in the list above
+    7, 'Gaming will never be the same', 4, '2020-01-01', 4
+),
+( -- Seventh row: values for the columns in the list above
+    8, 'Gaming will never be the same', 4, '2020-01-01', 4
+),
+( -- Seventh row: values for the columns in the list above
+    9, 'Gaming will never be the same', 4, '2020-01-01', 4
+),
+( -- Seventh row: values for the columns in the list above
+    10, 'Gaming will never be the same', 4, '2020-01-01', 4
+)
 GO
 
 
@@ -322,4 +340,4 @@ VALUES
 (
     4, 4, 15
 )
-GO
+GO 

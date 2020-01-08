@@ -16,7 +16,7 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var reviews = db.Query<Reviews>(@"select * 
-                                                from [Feedback]");
+                                                from [Reviews]");
                 return reviews.ToList();
             }
         }
@@ -25,14 +25,15 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT [USER].[Username], [Reviews].[Review], FORMAT ([Reviews].[ReviewDate], 'MM-dd-yyyy') as [ReviewDate] , [Reviews].[ReviewerId], [Reviews].[ReviewId]
+                var sql = @"SELECT [Reviews].[ReviewId], [USER].[Username], [Reviews].[Review], FORMAT ([Reviews].[ReviewDate], 'MM-dd-yyyy') as [ReviewDate] , [Reviews].[ReviewerId], [Product].[OwnerId]
                             FROM [User]
-                            RIGHT JOIN [Reviews]
-                            ON [Reviews].[ReviewerId] = [USER].[Id]
-                            WHERE [Reviews].[ReviewerId] = @id";
+                            JOIN [Reviews]
+                            ON [Reviews].[ProductReviewId] = [USER].[Id]
+                            LEFT JOIN [Product] 
+							ON [Product].[OwnerId] = [User].[Id]
+							WHERE [Reviews].[ReviewerId] = @id";
                 var reviews = db.Query<Reviews>(sql, new { id });
                 return reviews;
-
             }
         }
 
@@ -40,14 +41,28 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"INSERT INTO [dbo].[Feedback]([FeedbackId], [Feedback], [ReviewerId], [ReviewDate])
-                            VALUES (
-                              @FeedbackId,
-                              @Feedback,
-                              @ReviewerId,
-                              @ReviewDate
+                var sql = @"INSERT INTO [dbo].[Reviews]([ReviewId], [Review], [ReviewerId], [ReviewDate], [ProductReviewId])
+                            VALUES 
+							(
+							@ReviewId, 
+                            @Review, 
+                            @ReviewerId, 
+                            @ReviewDate, 
+                            @ProductReviewId
                             )";
                 return db.Execute(sql, newReview);
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"delete from [Reviews]
+                            where [ReviewId] = @id";
+                var parameters = new { id };
+
+                return db.Execute(sql, parameters) == 1;
             }
         }
     }
