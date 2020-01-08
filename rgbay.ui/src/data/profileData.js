@@ -34,12 +34,22 @@ const getUserById = (userId) => axios.get(`${baseUrl}/${userId}`);
 const getUserByUid = (firbaseUid) => axios.get(`${baseUrl}/uid/${firbaseUid}`);
 
 
+// const getSingleUser = userId => new Promise((resolve, reject) => {
+//     axios.get(userId)
+//     .then((res) => {
+//         resolve(res.data)
+//     })
+//     .catch(err => reject(err))
+// })
+
+
 const getSingleUser = userId => axios.get(`${baseUrl}/${userId}`);
 const postNewUser = newUser => axios.post(`${baseUrl}`, newUser);
 const removeUser = userId => axios.delete(`${baseUrl}/${userId}`);
 const updateUser = (updatedUser, userId) => axios.put(`${baseUrl}/${userId}`, updatedUser);
 
 const getUserReviews = (userId) => axios.get(`${reviewUrl}/${userId}`);
+const deleteComment = reviewId => axios.delete(`${reviewUrl}/${reviewId}`)
 
 const geographicalStates = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT',
@@ -62,5 +72,6 @@ export default {
     updateUser,
     getSingleUser,
     getAllReviews,
-    getUserReviews
+    getUserReviews,
+    deleteComment
 };

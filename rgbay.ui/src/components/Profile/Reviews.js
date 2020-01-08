@@ -4,7 +4,7 @@ import {
   Form, 
   FormGroup,
   Input, 
-  // Button
+  Button
 } from 'reactstrap';
 import { withRouter } from "react-router";
 import userData from '../../data/profileData';
@@ -22,14 +22,13 @@ class Reviews extends React.Component {
     newReview: defaultFeedback
   }
 
-  // getReviews = () => {
-  //   userData
-  //   .getAllReviews()
-  //   .then((review) => {
-  //   this.setState( review.data )
-  //   console.log(review)
-  //   })
-  // }
+  getReviews = () => {
+    userData
+    .getAllReviews()
+    .then((review) => {
+    this.setState( review.data )
+    })
+  }
 
   getUserReviews = () => {
     const  userId  = this.props.match.params.id;
@@ -40,6 +39,13 @@ class Reviews extends React.Component {
     })
     .catch(err => console.error("Could not get single reviews", err));
   }
+
+  deleteComment = (reviewId) => {
+    userData
+        .deleteComment(reviewId)
+        .then(() => this.getUserReviews())
+        .catch(err => console.error("Unable to delete review", err));
+};
 
   reviewStateField = (name, e) => {
     const createNewReview = { ...this.state.newReview };
@@ -58,7 +64,8 @@ class Reviews extends React.Component {
     const buildReviews = this.state.userReviews.map((uRev) => (
       <ReviewCard
       userReviews={uRev}
-      key={uRev.feedbackId}
+      key={uRev.reviewId}
+      deleteComment={this.deleteComment}
       />
 
     ))
@@ -78,7 +85,7 @@ class Reviews extends React.Component {
               />
             </FormGroup>
               {/* <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button> */}
-              {/* <Button className="btn btn-primary review-button" onClick={this.getReviews()}>Data Test</Button> */}
+              <Button className="btn btn-primary review-button" onClick={this.getReviews()}>Data Test</Button>
             </Form>
             <div className="container">
               {buildReviews}
