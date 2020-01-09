@@ -11,14 +11,11 @@ namespace RGBay.api.Repositories
 {
     public class OrderRepository
     {
-        string _connectionString = @"Server=localhost;
-                                     Database=RGBay;
-                                     Trusted_Connection=True;";
-
-
+        readonly string _connectionString = @"Server=localhost;
+                                              Database=RGBay;
+                                              Trusted_Connection=True;";
 
         /* POST || CREATE */
-
         public Order CreateOrder(Order newOrder)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -54,7 +51,6 @@ namespace RGBay.api.Repositories
         }
 
         /* GET || READ */
-
         public IEnumerable<Order> GetAllOrders()
         {
             using (var db = new SqlConnection(_connectionString))
@@ -115,11 +111,8 @@ namespace RGBay.api.Repositories
                 return cart;
             }
         }
-
-
-
+        
         /* PUT || UPDATE */
-
         public Order UpdateOrderStatus(Order updatedOrder, int orderId)
         {
             using (var db = new SqlConnection(_connectionString))
@@ -172,10 +165,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-
-
         /* DELETE */
-        
         public bool DeleteByOrderId(int orderId)
         {
             using (var db = new SqlConnection(_connectionString))

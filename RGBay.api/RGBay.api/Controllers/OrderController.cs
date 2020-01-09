@@ -80,14 +80,21 @@ namespace RGBay.api.Controllers
             return orders;
         }
 
-
-/*        [HttpPut("price/{orderId:int}")]
+        [HttpGet("cart")]
         [Authorize]
-        public IActionResult UpdateTotal(UpdateOrderCommand incomingOrder, int orderId)
+        public ActionResult<Order> GetCartOrder()
         {
-            var repo = new Order
-        }*/
+            var userRepo = new UserRepository();
+            var orderRepo = new OrderRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var cartOrder = orderRepo.GetCartOrder(user.Id);
 
+            if(cartOrder == null)
+            {
+                return orderRepo.CreateCartOrder(user.Id);
+            }
+            return cartOrder;
+        }
 
         // PUT || UPDATE//
 

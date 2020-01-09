@@ -5,15 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using RGBay.api.Commands;
 using RGBay.api.DataModels;
 
 namespace RGBay.api.Repositories
 {
     public class OrderProductRepository
     {
-        string _connectionString = @"Server=localhost;
-                                     Database=RGBay;
-                                     Trusted_Connection=True;";
+        readonly string _connectionString = @"Server=localhost;
+                                              Database=RGBay;
+                                              Trusted_Connection=True;";
 
         public IEnumerable<OrderProduct> GetOrderProductsByOrderId(int orderId)
         {
@@ -52,10 +53,10 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"INSERT INTO [OrderProduct]
-                            ([OrderId], [ProductId])
+                                ([OrderId], [ProductId])
                             OUTPUT INSERTED.*
                             VALUES
-                            (@orderId, @productId)";
+                                (@orderId, @productId)";
                 return db.QueryFirst<OrderProduct>(sql, orderProduct);
             }
         }

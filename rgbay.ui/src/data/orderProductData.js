@@ -8,11 +8,13 @@ const getCart = () => new Promise((resolve, reject) => {
             const orderProductData = resp.data;
             resolve(orderProductData);
         })
-        .catch(err => reject(err))
+        .catch(err => reject(err));
 })
 
-const addProductToCart = (orderProduct) => Axios.post(`${baseUrl}`, orderProduct);
+const addOrderProduct = (orderProduct) => Axios.post(`${baseUrl}/add`, orderProduct);
+
+//const addProductToCart = (orderProduct) => Axios.post(`${baseUrl}`, orderProduct);
 
 const deleteProductFromCart = (orderProductId) => Axios.delete(`${baseUrl}/${orderProductId}`);
 
-export default { addProductToCart, getCart, deleteProductFromCart }
+export default { addOrderProduct, getCart, deleteProductFromCart }

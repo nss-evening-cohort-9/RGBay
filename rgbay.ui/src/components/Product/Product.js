@@ -1,8 +1,9 @@
 import React from 'react';
-
+import { Button } from 'reactstrap';
 import productData from '../../data/product-data';
 import categoryData from '../../data/productCategoryData';
 import sellerData from '../../data/profileData';
+import orderData from '../../data/orderData';
 import orderProductData from '../../data/orderProductData';
 
 class Product extends React.Component {
@@ -35,12 +36,17 @@ class Product extends React.Component {
       .catch(error => console.error(error));
   }
 
-  addProductToCart = () => {
-    const { product } = this.props;
-    const orderProduct = {
-      ProductId: product.id
-    }
-    orderProductData.addProductToCart(orderProduct);
+  createOrderProduct = () => {
+    const { productId } = this.props.match.params;
+    orderData.getCartOrder()
+      .then((order) => {
+        const orderProduct = {
+          OrderId: order.id,
+          ProductId: productId
+        };
+        orderProductData.addOrderProduct(orderProduct);
+      })
+      .catch(err => console.error(err, "error in creatOrderProduct()"));
   }
 
   componentDidMount() {
@@ -66,7 +72,7 @@ class Product extends React.Component {
               <div>isRgb: {product.isRgb}</div>
               <div className="">{product.description}</div>
               <div className="d-flex">
-                <button onClick = {this.addProductToCart}>Add To Cart</button>
+                <Button color="success" onClick = {this.createOrderProduct}>Add To Cart</Button>
               </div>
           </div>
         </div>
