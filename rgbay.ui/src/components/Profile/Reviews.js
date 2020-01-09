@@ -47,6 +47,19 @@ class Reviews extends React.Component {
         .catch(err => console.error("Unable to delete review", err));
 };
 
+  postComment = (e) => {
+    e.preventDefault();
+    const commentReview = { ...this.state.newReview };
+    userData
+    .postComment(commentReview)
+    .then(() => {
+      this.setState({
+        newReview: defaultFeedback
+      })
+      this.getUserReviews();
+    })
+  }
+
   reviewStateField = (name, e) => {
     const createNewReview = { ...this.state.newReview };
     createNewReview[name] = e.target.value;
@@ -54,23 +67,22 @@ class Reviews extends React.Component {
   }
 
   reviewChange = e => this.reviewStateField('review', e);
-  
+
   componentDidMount() {
     this.getUserReviews();
   }
 
 
   render() {
-    const buildReviews = this.state.userReviews.map((uRev) => (
+    const buildReviews = this.state.userReviews.map((rev) => (
       <ReviewCard
-      userReviews={uRev}
-      key={uRev.reviewId}
+      userReviews={rev}
+      key={rev.reviewId}
       deleteComment={this.deleteComment}
       />
-
     ))
     return (
-      <div className="container">
+      <div className="container" onSubmit={this.postComment}>
         <h3>Customer Reviews</h3>
         <div className="row">
           <Form className="col-6 offset-3">
@@ -85,7 +97,7 @@ class Reviews extends React.Component {
               />
             </FormGroup>
               {/* <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button> */}
-              <Button className="btn btn-primary review-button" onClick={this.getReviews()}>Data Test</Button>
+              <Button type="sumbit" className="btn btn-primary review-button">Test Button</Button>
             </Form>
             <div className="container">
               {buildReviews}
