@@ -157,6 +157,7 @@ class PaymentTypeTable extends React.Component {
               <th scope="col">userId</th>
               <th scope="col">serviceName</th>
               <th scope="col">profileName</th>
+              <th scope="col">actions</th>
             </tr>
           </thead>
           <tbody>
