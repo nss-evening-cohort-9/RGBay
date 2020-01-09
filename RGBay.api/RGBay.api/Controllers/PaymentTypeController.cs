@@ -31,7 +31,14 @@ namespace RGBay.api.Controllers
         [HttpPost]
         public void Add(AddPaymentTypeCommand newPaymentTypeCommand)
         {
-            _repo.AddPaymentType(newPaymentTypeCommand);
+            var userRepo = new UserRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var paymentType = new PaymentType();
+            paymentType.Id = -1;
+            paymentType.UserId = user.Id;
+            paymentType.ProfileName = newPaymentTypeCommand.ProfileName;
+            paymentType.ServiceName = newPaymentTypeCommand.ServiceName;
+            _repo.AddPaymentType(paymentType);
         }
 
         [HttpPut("{id}")]

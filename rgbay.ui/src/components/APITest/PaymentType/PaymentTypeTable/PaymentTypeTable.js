@@ -10,13 +10,16 @@ import {
   Table
 } from 'reactstrap';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 import './PaymentTypeTable.scss';
 import paymentTypeData from '../../../../data/paymentTypeData';
 import PaymentTypeRow from '../PaymentTypeRow/PaymentTypeRow';
 
 const defaultPaymentType = {
   id: '',
-  userId: '6',
+  userId: '',
   serviceName: '',
   profileName: ''
 };
@@ -49,7 +52,9 @@ class PaymentTypeTable extends React.Component {
   }
 
   updatePaymentType = (updatedPaymentType) => {
-    paymentTypeData.updatePaymentType(updatedPaymentType.id, updatedPaymentType)
+    let paymentType = {...updatedPaymentType};
+    paymentType.userId = firebase.auth().currentUser.uid;
+    paymentTypeData.updatePaymentType(paymentType.id, paymentType)
       .then(() => {
         this.setState({ isEditing: false, formPaymentType: defaultPaymentType });
         this.updateData();
@@ -58,7 +63,9 @@ class PaymentTypeTable extends React.Component {
   }
 
   addPaymentType = (newPaymentType) => {
-    paymentTypeData.postPaymentType(newPaymentType)
+    let paymentType = {...newPaymentType};
+    paymentType.userId = firebase.auth().currentUser.uid;
+    paymentTypeData.postPaymentType(paymentType)
       .then(() => {
         this.setState({ isEditing: false, formPaymentType: defaultPaymentType });
         this.updateData();
