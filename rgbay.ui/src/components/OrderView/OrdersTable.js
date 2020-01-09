@@ -1,42 +1,37 @@
-import React from 'react';
+import React from 'react'
+
 
 import { 
     Table,
     Button
 } from 'reactstrap';
-
-import './OrderTable.scss';
-import orderData from '../../../../data/orderData';
-import OrderRow from '../OrderRow/OrderRow';
+import orderData from '../../data/orderData';
+import OrdersRow from './OrdersRow';
 
 class OrderTable extends React.Component {
     state = {
-        orderState: [],
+        orderState: []
     }
 
     getOrders = () => {
-        orderData.getOrderData()
+        orderData.getOrdersByUid()
             .then((grabbedOrders) => {
                 const orderArray = [];
-
                 grabbedOrders.forEach(order => {
                     orderArray.push(order);
                 });
-
                 this.setState({ orderState: orderArray });
             })
             .catch((err) => {
-                console.error('error in OrderRow.js => getOrders()' ,err)
+                console.error('error in OrdersRow.js => getOrders()' ,err)
             })
     }
 
     addOrder = () => {
-        const customerId = 6;
         const status = "Ordered"
         const total = Math.floor(Math.random() * Math.floor(1000));
 
         const newOrder = {
-            CustomerId: customerId,
             Total: total,
             Status: status
         }
@@ -49,10 +44,9 @@ class OrderTable extends React.Component {
     }
 
     render() {
-
-        const orderRows = this.state.orderState.map(orderProp => (
-            <OrderRow
-            key={orderProp.id}
+        const ordersRows = this.state.orderState.map(orderProp => (
+            <OrdersRow
+            key={`order${orderProp.id}`}
             orderProp={orderProp}
             getOrders={this.getOrders}
             />
@@ -64,6 +58,7 @@ class OrderTable extends React.Component {
                 <Table striped dark responsive>
                     <thead>
                     <tr>
+                        <th scope="col">Order</th>
                         <th scope="col">id</th>
                         <th scope="col">CustomerId</th>
                         <th scope="col">Date</th>
@@ -73,7 +68,7 @@ class OrderTable extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {orderRows}
+                        {ordersRows}
                     </tbody>
                 </Table>
                 <Button onClick={this.addOrder}> Add Order </Button>

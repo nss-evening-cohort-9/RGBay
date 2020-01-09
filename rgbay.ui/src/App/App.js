@@ -13,10 +13,12 @@ import firebaseConnection from '../requests/connection';
 
 import Account from '../components/Account/Account';
 import APITest from '../components/APITest/APITest';
+import Cart from '../components/Cart/Cart';
 import CategoryView from '../components/CategoryView/CategoryView';
 import EditUser from '../components/Profile/EditUser';
 import Home from '../components/Home/Home';
 import NavBar from '../components/NavBar/NavBar';
+import Order from '../components/Order/Order';
 import Orders from '../components/OrderView/OrdersView';
 import Product from '../components/Product/Product';
 import ProductView from '../components/ProductView/ProductView';
@@ -94,14 +96,14 @@ class App extends React.Component {
                   setIsRegFormFirstLoadToTrue={this.setIsRegFormFirstLoadToTrue}
                   setProfile={this.setProfile} />
                 <PrivateRoute path="/orders" component={Orders} authed={authed} />
-                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} rows={true} />
-                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} showTitle={true} />
+                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} rows={true} showFilters={true} showImage={true} />
+                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} showTitle={false} />
                 <PrivateRoute path="/product/:productId" component={Product} authed={authed} />
                 <PrivateRoute path="/profile/:id" component={Profile} authed={authed} />
                 <PrivateRoute path="/profileview/:id" component={SingleUser} authed={authed} />
+                <PrivateRoute path="/order/:id" component={Order} authed={authed} />
+                <PrivateRoute path="/cart" component={Cart} authed={authed} />
                 <PrivateRoute path="/register" component={Register} authed={authed} setProfile={this.setProfile} />
-                <PrivateRoute path="/store" component={ProductView} authed={authed} isSeller={false} />
-                <PrivateRoute path="/store/:searchCriteria" component={ProductView} authed={authed} isSeller={false} />
                 <Redirect from="*" to="/home" />
               </Switch>
             {/* </div> */}

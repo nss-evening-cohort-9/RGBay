@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -19,11 +20,14 @@ namespace RGBay.api.Controllers
 
         /* Add New Order (DateTime calculated here) */
         [HttpPost]
+        [Authorize]
         public IActionResult CreateOrder(AddOrderCommand newOrderCommand)
         {
+            var userRepo = new UserRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
             var newOrder = new Order
             {
-                CustomerId = newOrderCommand.CustomerId,
+                CustomerId = user.Id,
                 Date = DateTime.Now,
                 Total = newOrderCommand.Total,
                 Status = newOrderCommand.Status
@@ -38,7 +42,6 @@ namespace RGBay.api.Controllers
         // GET || READ//
 
         /* Get All Orders */
-        // api/Order
         [HttpGet]
         public IEnumerable<Order> GetAllOrders()
         {
@@ -48,7 +51,6 @@ namespace RGBay.api.Controllers
         }
 
         /* Get an Order by "OrderId" */
-        // api/Order/{OrderId}
         [HttpGet("{orderId:int}")]
         public ActionResult<Order> GetOrderByOrderId(int orderId)
         {
@@ -58,7 +60,6 @@ namespace RGBay.api.Controllers
         }
 
         /* Get all Orders related to CustomerId */
-        // api/Order/Customer/{CustomerId}
         [HttpGet("customer/{customerId:int}")]
         public IEnumerable<Order> GetOrdersByCustomerId(int customerId)
         {
@@ -66,14 +67,31 @@ namespace RGBay.api.Controllers
             var customerOrders = repo.GetOrdersByCustomerId(customerId);
             return customerOrders;
         }
-        
 
+        // Get Orders by UID
+        [HttpGet("uid")]
+        [Authorize]
+        public IEnumerable<Order> GetOrdersByUid()
+        {
+            var userRepo = new UserRepository();
+            var orderRepo = new OrderRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var orders = orderRepo.GetOrdersByCustomerId(user.Id);
+            return orders;
+        }
+
+
+/*        [HttpPut("price/{orderId:int}")]
+        [Authorize]
+        public IActionResult UpdateTotal(UpdateOrderCommand incomingOrder, int orderId)
+        {
+            var repo = new Order
+        }*/
 
 
         // PUT || UPDATE//
 
-        /*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
-        // api/Order/{OrderId}
+        //*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
         [HttpPut("{orderId:int}")]
         public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder, int orderId)
         {

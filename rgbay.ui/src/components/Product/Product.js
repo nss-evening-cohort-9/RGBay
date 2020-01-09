@@ -3,6 +3,7 @@ import React from 'react';
 import productData from '../../data/product-data';
 import categoryData from '../../data/productCategoryData';
 import sellerData from '../../data/profileData';
+import orderProductData from '../../data/orderProductData';
 
 class Product extends React.Component {
   state = {
@@ -34,6 +35,14 @@ class Product extends React.Component {
       .catch(error => console.error(error));
   }
 
+  addProductToCart = () => {
+    const { product } = this.props;
+    const orderProduct = {
+      ProductId: product.id
+    }
+    orderProductData.addProductToCart(orderProduct);
+  }
+
   componentDidMount() {
     this.getProduct();
   }
@@ -56,6 +65,9 @@ class Product extends React.Component {
               <div>isForSale: {product.isForSale}</div>
               <div>isRgb: {product.isRgb}</div>
               <div className="">{product.description}</div>
+              <div className="d-flex">
+                <button onClick = {this.addProductToCart}>Add To Cart</button>
+              </div>
           </div>
         </div>
       </div>
