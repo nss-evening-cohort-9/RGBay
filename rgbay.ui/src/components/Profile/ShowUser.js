@@ -17,7 +17,6 @@ class ShowUser extends React.Component {
 
   render() {
     const { info } = this.props;
-    // const editLink = `edituser/${info.id}`;
     const singleUser = `profileview/${info.id}`;
     return (
       <div className="col-4">

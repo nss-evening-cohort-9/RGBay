@@ -40,9 +40,9 @@ class Reviews extends React.Component {
     .catch(err => console.error("Could not get single reviews", err));
   }
 
-  deleteComment = (reviewId) => {
+  deleteComment = (productId) => {
     userData
-        .deleteComment(reviewId)
+        .deleteComment(productId)
         .then(() => this.getUserReviews())
         .catch(err => console.error("Unable to delete review", err));
 };
@@ -50,6 +50,7 @@ class Reviews extends React.Component {
   postComment = (e) => {
     e.preventDefault();
     const commentReview = { ...this.state.newReview };
+    console.log(commentReview)
     userData
     .postComment(commentReview)
     .then(() => {
@@ -77,10 +78,11 @@ class Reviews extends React.Component {
     const buildReviews = this.state.userReviews.map((rev) => (
       <ReviewCard
       userReviews={rev}
-      key={rev.reviewId}
+      key={rev.productId}
       deleteComment={this.deleteComment}
       />
     ))
+
     return (
       <div className="container" onSubmit={this.postComment}>
         <h3>Customer Reviews</h3>
@@ -96,7 +98,6 @@ class Reviews extends React.Component {
               onChange={this.reviewChange}
               />
             </FormGroup>
-              {/* <Button type="submit" className="btn btn-primary review-button" onClick={this.submitReview}>Submit Review</Button> */}
               <Button type="sumbit" className="btn btn-primary review-button">Test Button</Button>
             </Form>
             <div className="container">
