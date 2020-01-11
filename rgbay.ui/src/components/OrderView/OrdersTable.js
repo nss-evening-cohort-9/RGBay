@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import { Table, Button } from 'reactstrap';
+import { Table } from 'reactstrap';
 import orderData from '../../data/orderData';
 import OrdersRow from './OrdersRow';
 
