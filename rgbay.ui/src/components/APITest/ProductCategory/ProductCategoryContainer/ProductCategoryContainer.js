@@ -88,7 +88,7 @@ class ProductCategoryContainer extends React.Component {
       />
     ));
     return (
-      <div className="ProductCategoryContainer card container">
+      <div className="ProductCategoryContainer container">
         <h2>ProductCategory Data</h2>
         <ProductCategoryForm
           key={`productCategoryForm`}
