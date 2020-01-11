@@ -45,7 +45,7 @@ class CategoryCard extends React.Component {
           <div className="card-header">
             <h3>{category.name}</h3>
           </div>
-          <div className="card-body">
+          <div className="card-body pb-0">
           {this.buildProducts()}
           </div>
         </div>

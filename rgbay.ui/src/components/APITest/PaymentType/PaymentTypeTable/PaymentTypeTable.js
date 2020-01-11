@@ -38,7 +38,7 @@ class PaymentTypeTable extends React.Component {
       />
     ));
     return (
-      <div>
+      <div className="PaymentTypeTable card-body">
         <h2>PaymentType Data</h2>
         {/* <Button onClick={() => this.updateData()}>Update Data</Button> */}
         <Table striped responsive>
