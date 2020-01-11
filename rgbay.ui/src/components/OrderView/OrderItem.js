@@ -11,7 +11,7 @@ class OrderItem extends React.Component {
         const rentalPrice = product.rentalPrice;
         const salesPrice = product.salesPrice;
         const pricePerDay = (rentalPrice / 100).toFixed(2);
-        const totalCost = pricePerDay * duration;
+        const totalCost = (pricePerDay * duration).toFixed(2);
         const costToBuy = (salesPrice / 100).toFixed(2);
         if (duration !== 0){
             rentOrBuy = <td>Rented</td>
