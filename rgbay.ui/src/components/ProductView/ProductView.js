@@ -118,8 +118,6 @@ class ProductView extends React.Component {
       if (isRgb === product.isRgb) isRgbCheck = true;
     } else isRgbCheck = true;
 
-    console.error(searchMatch, purchaseTypeCheck, categoryCheck, isRgbCheck);
-
     if (searchMatch && purchaseTypeCheck && categoryCheck && isRgbCheck) {
       return true;
     } else return false;
@@ -127,7 +125,7 @@ class ProductView extends React.Component {
 
   buildProducts = () => {
     /* eslint-disable array-callback-return */
-    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-4');
+    const productClass = this.props.rows ? ('ProductViewCard col-12') : ('ProductViewCard col-xs-12 col-md-6 col-lg-4');
     return this.state.products.map((product) => {
     const productToBuild = (
       <ProductViewCard

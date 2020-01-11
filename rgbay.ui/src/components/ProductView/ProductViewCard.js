@@ -50,7 +50,7 @@ class ProductViewCard extends React.Component {
       </div>) : (<div></div>);
     return (
       <div className={productClass}>
-        <div className="card mb-5">
+        <div className="card">
           <div className="row no-gutters">
             {productImage}
             <div className="col">

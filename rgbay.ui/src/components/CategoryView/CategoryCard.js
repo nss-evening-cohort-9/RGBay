@@ -32,7 +32,7 @@ class CategoryCard extends React.Component {
   buildProducts = () => {
     return this.state.products.map((product) => {
       const productToBuild = (
-        <ProductViewCard key={product.id} product={product} showProduct={this.showProduct} />);
+        <ProductViewCard key={product.id} product={product} showProduct={this.showProduct} productClass="ProductViewCard" />);
       return productToBuild
     });
   }
@@ -40,7 +40,7 @@ class CategoryCard extends React.Component {
   render() {
     const { category } = this.props;
     return (
-      <div className="CategoryCard col-lg-4 col-md-6 col-sm-12">
+      <div className="CategoryCard col-sm-12 col-lg-6 col-xl-4">
         <div className="card">
           <div className="card-header">
             <h3>{category.name}</h3>

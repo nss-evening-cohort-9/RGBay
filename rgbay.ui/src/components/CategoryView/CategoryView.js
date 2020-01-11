@@ -33,8 +33,8 @@ class CategoryView extends React.Component {
 
   render() {
     return (
-      <div className="CategoryView">
-        <h2>Category View</h2>
+      <div className="CategoryView container">
+        <h2>Product Categories</h2>
         <div className="row ">
           {this.buildCategories()}
         </div>
