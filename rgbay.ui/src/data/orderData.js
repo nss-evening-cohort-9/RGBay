@@ -12,7 +12,7 @@ const getOrderData = () => new Promise((resolve, reject) => {
 })
 
 const getOrdersByUid = () => new Promise ((resolve, reject) => {
-    Axios.get(`${baseUrl}/uid/`)
+    Axios.get(`${baseUrl}/uid`)
     .then((resp) => {
         const orderData = resp.data;
         resolve(orderData);

@@ -26,7 +26,7 @@ namespace RGBay.api.Repositories
                             OUTPUT INSERTED.*
                             VALUES
                                 (@customerId, @date, @total, @status)";
-                return db.QueryFirst<Order>(sql, newOrder);
+                return db.QueryFirstOrDefault<Order>(sql, newOrder);
             }
         }
 
@@ -74,7 +74,7 @@ namespace RGBay.api.Repositories
                 {
                     OrderId = orderId
                 };
-                var selectedOrder = db.QueryFirst<Order>(sql, parameters);
+                var selectedOrder = db.QueryFirstOrDefault<Order>(sql, parameters);
                 return selectedOrder;
             }
         }
@@ -127,7 +127,7 @@ namespace RGBay.api.Repositories
 
                 updatedOrder.Id = orderId;
 
-                var returningOrder = db.QueryFirst<Order>(sql, updatedOrder);
+                var returningOrder = db.QueryFirstOrDefault<Order>(sql, updatedOrder);
 
                 return returningOrder;
             }

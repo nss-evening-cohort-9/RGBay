@@ -57,7 +57,7 @@ namespace RGBay.api.Repositories
                             OUTPUT INSERTED.*
                             VALUES
                                 (@orderId, @productId, @duration)";
-                return db.QueryFirst<OrderProduct>(sql, orderProduct);
+                return db.QueryFirstOrDefault<OrderProduct>(sql, orderProduct);
             }
         }
 

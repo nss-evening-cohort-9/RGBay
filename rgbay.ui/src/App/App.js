@@ -53,7 +53,7 @@ class App extends React.Component {
 
   logout = () => this.setState({ authed: false, profile: null, isRegFormFirstLoad: false });
 
-  setProfile = profile => this.setState({ profile });
+  setProfile = profile => this.setState({ profile, authed: true });
 
   setIsRegFormFirstLoadToTrue = () => {
     this.setState({ isRegFormFirstLoad: true });
@@ -70,7 +70,6 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    console.error('test');
     this.removeListener();
   }
 

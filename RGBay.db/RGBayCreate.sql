@@ -79,7 +79,8 @@ CREATE TABLE [dbo].[PaymentType]
         FOREIGN KEY (UserId)
         REFERENCES [User] (Id),
     [ServiceName] INT NOT NULL,
-    [ProfileName] NVARCHAR(50) NOT NULL
+    [ProfileName] NVARCHAR(50) NOT NULL,
+	[IsDeleted] bit not null default (0)
 );
 GO
 
@@ -112,9 +113,8 @@ GO
 CREATE TABLE [dbo].[ProductCategory]
 (
     [Id] int identity(1,1) not null primary key,
-    -- Primary Key column
-    [Name] NVARCHAR(50) NOT NULL
-    -- Specify more columns here
+    [Name] NVARCHAR(50) NOT NULL,
+	[IsDeleted] bit not null default (0)
 );
 GO
 
@@ -160,7 +160,8 @@ CREATE TABLE [dbo].[Product]
 	[DateCreated] DATETIME2 NOT NULL DEFAULT GETDATE(),
 	[OwnerId] INT NOT NULL
         FOREIGN KEY (OwnerId)
-        REFERENCES [User] (Id)
+        REFERENCES [User] (Id),
+	[IsDeleted] bit not null default (0)
 );
 GO
 
@@ -211,7 +212,8 @@ CREATE TABLE [dbo].[Order]
         REFERENCES [User] (Id),
     [Date] DATETIME,
     [Total] INT NOT NULL,
-    [Status] NVARCHAR(50)
+    [Status] NVARCHAR(50),
+	[IsDeleted] bit not null default (0)
 );
 GO
 
@@ -251,7 +253,8 @@ CREATE TABLE [dbo].[OrderProduct]
     [ProductId] INT NOT NULL
         FOREIGN KEY
         REFERENCES [Product] (Id),
-    [Duration] INT
+    [Duration] INT,
+	[IsDeleted] bit not null default (0)
 );
 GO
 
