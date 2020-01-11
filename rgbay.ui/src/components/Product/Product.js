@@ -1,10 +1,8 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import AddToCartForm from '../AddToCartForm/AddToCartForm';
 import productData from '../../data/product-data';
 import categoryData from '../../data/productCategoryData';
 import sellerData from '../../data/profileData';
-import orderData from '../../data/orderData';
-import orderProductData from '../../data/orderProductData';
 
 class Product extends React.Component {
   state = {
@@ -36,25 +34,20 @@ class Product extends React.Component {
       .catch(error => console.error(error));
   }
 
-  createOrderProduct = () => {
-    const { productId } = this.props.match.params;
-    orderData.getCartOrder()
-      .then((order) => {
-        const orderProduct = {
-          OrderId: order.id,
-          ProductId: productId
-        };
-        orderProductData.addOrderProduct(orderProduct);
-      })
-      .catch(err => console.error(err, "error in creatOrderProduct()"));
-  }
-
   componentDidMount() {
     this.getProduct();
   }
 
   render() {
     const { product, category, seller, rentalPrice, salesPrice } = this.state;
+
+    const addToCartForm = <AddToCartForm 
+                            key={`${product.id}_addToCart`}
+                            productId={product.id}
+                            rentalPrice={rentalPrice}
+                            salesPrice={salesPrice}
+                          />
+
     return (
       <div className="Product text-left container">
         <div className="row">
@@ -71,8 +64,9 @@ class Product extends React.Component {
               <div>isForSale: {product.isForSale}</div>
               <div>isRgb: {product.isRgb}</div>
               <div className="">{product.description}</div>
+              <br />
               <div className="d-flex">
-                <Button color="success" onClick = {this.createOrderProduct}>Add To Cart</Button>
+                {addToCartForm}
               </div>
           </div>
         </div>

@@ -11,10 +11,22 @@ const getCart = () => new Promise((resolve, reject) => {
         .catch(err => reject(err));
 })
 
-const addOrderProduct = (orderProduct) => Axios.post(`${baseUrl}/add`, orderProduct);
+const getOrderDetails = (orderId) => new Promise((resolve, reject) => {
+    Axios.get(`${baseUrl}/details/${orderId}`)
+        .then((resp) => {
+            const orderDetails = resp.data;
+            resolve(orderDetails);
+        })
+        .catch(err => reject(err));
+})
 
-//const addProductToCart = (orderProduct) => Axios.post(`${baseUrl}`, orderProduct);
+const addOrderProduct = (orderProduct) => Axios.post(`${baseUrl}/add`, orderProduct);
 
 const deleteProductFromCart = (orderProductId) => Axios.delete(`${baseUrl}/${orderProductId}`);
 
-export default { addOrderProduct, getCart, deleteProductFromCart }
+export default { 
+    addOrderProduct,
+    getCart,
+    getOrderDetails,
+    deleteProductFromCart
+}

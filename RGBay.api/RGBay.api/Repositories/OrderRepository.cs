@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using RGBay.api.Commands;
 using RGBay.api.DataModels;
 
@@ -113,45 +114,12 @@ namespace RGBay.api.Repositories
         }
         
         /* PUT || UPDATE */
-        public Order UpdateOrderStatus(Order updatedOrder, int orderId)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"UPDATE [Order]
-                                SET [Status] = @status
-                            OUTPUT INSERTED.*
-                                WHERE [Id] = @id";
-
-                updatedOrder.Id = orderId;
-
-                var order = db.QueryFirst<Order>(sql, updatedOrder);
-
-                return order;
-            }
-        }
-
-        public Order UpdateOrderTotal(Order updatedOrder, int orderId)
-        {
-            using (var db = new SqlConnection(_connectionString))
-            {
-                var sql = @"UPDATE [ORDER] 
-                                SET [Total] = @total
-                            OUTPUT INSERTED.*
-                                WHERE [Id] = @id";
-
-                updatedOrder.Id = orderId;
-
-                var order = db.QueryFirst<Order>(sql, updatedOrder);
-
-                return order;
-            }
-        }
 
         public Order UpdateFullOrder(Order updatedOrder, int orderId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"UPDATE [ORDER] 
+                var sql = @"UPDATE [Order] 
                                     SET [Total] = @total,
                                         [Status] = @status
                             OUTPUT INSERTED.*
@@ -163,6 +131,68 @@ namespace RGBay.api.Repositories
 
                 return returningOrder;
             }
+        }
+
+        public bool CheckoutOrder(Order orderToCheckout)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Order]
+                            SET [Status] = @status
+                            WHERE [Id] = @id";
+                var parameters = new
+                {
+                    id = orderToCheckout.Id,
+                    status = "Ordered"
+                };
+
+                return db.Execute(sql, parameters) == 1;
+            }
+        }
+
+        public bool UpdateTotal(Order order)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"UPDATE [Order]
+                            SET [Total] = @total
+                            WHERE [Id] = @id";
+                var parameters = new
+                {
+                    id = order.Id,
+                    total = order.Total
+                };
+
+                return db.Execute(sql, parameters) == 1;
+
+            }
+        }
+
+        public void CalculateOrderTotalThenUpdate(int orderId)
+        {
+            var orderToUpdate = GetOrderByOrderId(orderId);
+            var itemsInOrder = new OrderProductRepository().GetOrderProductsByOrderId(orderId);
+            var totalToAdd = 0;
+            var productRepo = new ProductRepository();
+            foreach (var item in itemsInOrder)
+            {
+                var product = productRepo.GetProduct(item.ProductId);
+                if(item.Duration == 0)
+                {
+                    var itemCost = product.SalesPrice;
+                    totalToAdd += itemCost;
+                }
+
+                if(item.Duration != 0)
+                {
+                    var itemCost = product.RentalPrice * item.Duration;
+                    totalToAdd += itemCost;
+                }
+            }
+
+            orderToUpdate.Total = totalToAdd;
+
+            UpdateTotal(orderToUpdate);
         }
 
         /* DELETE */

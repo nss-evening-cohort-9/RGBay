@@ -53,10 +53,10 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"INSERT INTO [OrderProduct]
-                                ([OrderId], [ProductId])
+                                ([OrderId], [ProductId], [Duration])
                             OUTPUT INSERTED.*
                             VALUES
-                                (@orderId, @productId)";
+                                (@orderId, @productId, @duration)";
                 return db.QueryFirst<OrderProduct>(sql, orderProduct);
             }
         }
@@ -72,5 +72,7 @@ namespace RGBay.api.Repositories
                 return db.Execute(sql, parameters) == 1;
             }
         }
+
+
     }
 }

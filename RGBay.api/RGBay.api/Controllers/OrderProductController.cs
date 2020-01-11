@@ -55,6 +55,7 @@ namespace RGBay.api.Controllers
                 var cartItem = new CartItem
                 {
                     OrderProductId = orderProduct.Id,
+                    Duration = orderProduct.Duration,
                     Product = productInCart,
                 };
                 itemsInCart.Add(cartItem);
@@ -63,6 +64,38 @@ namespace RGBay.api.Controllers
             var cart = new Cart
             {
                 CartOrder = cartOrder,
+                CartItems = itemsInCart
+            };
+            orderRepo.CalculateOrderTotalThenUpdate(cartOrder.Id);
+            return cart;
+        }
+
+        [HttpGet("details/{orderId:int}")]
+        [Authorize]
+        public Cart GetOrderDetails(int orderId)
+        {
+            var orderRepo = new OrderRepository();
+            var matchedOrder = orderRepo.GetOrderByOrderId(orderId);
+            var productRepo = new ProductRepository();
+            var orderProductRepo = new OrderProductRepository();
+            var itemsInCart = new List<CartItem>();
+            var orderProducts = orderProductRepo.GetOrderProductsByOrderId(orderId);
+
+            foreach (var orderProduct in orderProducts)
+            {
+                var productInCart = productRepo.GetProduct(orderProduct.ProductId);
+                var cartItem = new CartItem
+                {
+                    OrderProductId = orderProduct.Id,
+                    Duration = orderProduct.Duration,
+                    Product = productInCart,
+                };
+                itemsInCart.Add(cartItem);
+            }
+
+            var cart = new Cart
+            {
+                CartOrder = matchedOrder,
                 CartItems = itemsInCart
             };
 
@@ -74,13 +107,16 @@ namespace RGBay.api.Controllers
         public IActionResult AddOrderProduct(AddOrderProductCommand orderProductCommand)
         {
             var repo = new OrderProductRepository();
+            var orderRepo = new OrderRepository();
             var newOrderProduct = new OrderProduct
             {
                 OrderId = orderProductCommand.OrderId,
-                ProductId = orderProductCommand.ProductId
+                ProductId = orderProductCommand.ProductId,
+                Duration = orderProductCommand.Duration
             };
-            var orderProductAdded = repo.AddOrderProduct(newOrderProduct);
 
+            var orderProductAdded = repo.AddOrderProduct(newOrderProduct);
+            orderRepo.CalculateOrderTotalThenUpdate(newOrderProduct.OrderId);
             return Created($"api/OrderProduct/{orderProductAdded.Id}", orderProductAdded);
         }
 
@@ -89,8 +125,11 @@ namespace RGBay.api.Controllers
         public IActionResult DeleteFromCart(int orderProductId)
         {
             var repo = new OrderProductRepository();
+            var user = new UserRepository().GetByUid(FirebaseUserId);
+            var orderToUpdate = new OrderRepository().GetCartOrder(user.Id);
+            var orderRepo = new OrderRepository();
             repo.DeleteFromCart(orderProductId);
-
+            orderRepo.CalculateOrderTotalThenUpdate(orderToUpdate.Id);
             return Ok();
         }
     }

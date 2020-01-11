@@ -10,43 +10,43 @@ import './Cart.scss';
 class CartProduct extends React.Component {
 
     render() {
-        const { product, orderProductId, removeFromCart } = this.props;
+        const { product, orderProductId, removeFromCart, duration } = this.props;
         const productLink = `/product/${product.id}`
-        let price;
-        let buttons;
-        if(product.rentalPrice !== 0 && product.salesPrice !== 0) {
-            price = <div>
-                        <CardSubtitle>Cost Per Day: ${product.rentalPrice}</CardSubtitle>
-                        <CardSubtitle>Cost To Purchase: ${product.salesPrice}</CardSubtitle>
-                    </div>;
-            buttons =   <div>
-                            <Button color="success">Rent</Button>
-                            <Button color="success">Buy</Button>
-                        </div>
-        }
-        else if(product.rentalPrice === 0) {
-            price = <div><CardSubtitle>Cost To Purchase: ${product.salesPrice}</CardSubtitle></div>
-            buttons = <div><Button color="success">Buy</Button></div>
-        }
-        else if (product.salesPrice === 0) {
-            price = <div><CardSubtitle>Rental Price(Per Day): ${product.rentalPrice}</CardSubtitle></div>    
-            buttons = <div><Button color="success">Rent</Button></div>
-        }
+        const rentalPrice = product.rentalPrice;
+        const salesPrice = product.salesPrice;
+        const pricePerDay = (rentalPrice / 10000).toFixed(2);
+        const totalCost = pricePerDay * duration;
+        const costToBuy = (salesPrice / 10000).toFixed(2);
 
+        let cardBody;
+        const rentalBody =  <div>
+                                <CardSubtitle>Price Per Day:</CardSubtitle>
+                                <CardText>${pricePerDay}</CardText>
+                                <CardSubtitle>Number Of Days:</CardSubtitle>
+                                <CardText>{duration}</CardText>
+                                <CardSubtitle>Total Cost:</CardSubtitle>
+                                <CardText>${totalCost}</CardText>
+                            </div>;
+
+        const purchaseBody =    <div>
+                                    <CardSubtitle>Total Cost</CardSubtitle>
+                                    <CardText>{costToBuy}</CardText>
+                                </div>;
+
+        if(duration === 0){
+            cardBody = <CardBody>{purchaseBody}</CardBody>
+        } else if (duration !== 0) {
+            cardBody = <CardBody> {rentalBody} </CardBody>
+        }
 
         return (
             <div className="Product">
                 <Col>
-                    <Card>
+                    <Card body className="cart-item-card">
                         <Link to={productLink}> <CardImg className="product-img" src={product.imageUrl} alt={product.title} /> </Link>
                         <CardTitle> <Link to={productLink}>{product.title}</Link> </CardTitle>
-                        {price}
-                        <CardBody>
-                            <CardText> {product.description} </CardText>
-                                <br/>
-                            {buttons}
-                            <Button color="danger" onClick={() => {removeFromCart(orderProductId)}}>Remove From Cart</Button>
-                        </CardBody>
+                        {cardBody}
+                        <Button color="danger" onClick={() => {removeFromCart(orderProductId)}}>Remove From Cart</Button>
                     </Card>
                 </Col>
             </div>
