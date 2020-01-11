@@ -61,7 +61,7 @@ class ProductViewCard extends React.Component {
                 </div>
                 <div className="d-flex justify-content-between">
                   <div className="small"><div>Date Added:</div><div>{productDate}</div></div>
-                  <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice}`}</div></div>
+                  <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice / 100}`}</div></div>
                 </div>
                 <hr className="my-2" />
                 <div className="lead">{product.description}</div>
