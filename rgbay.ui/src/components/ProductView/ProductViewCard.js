@@ -56,7 +56,7 @@ class ProductViewCard extends React.Component {
             <div className="col">
               <div className="card-body">
                 <div className="d-flex justify-content-between">
-                  <div className="pointer font-weight-bold lead" onClick={this.showProduct}>{product.title}</div>
+                  <div className="pointer font-weight-bold lead" onClick={this.showProduct}>{(!showImage && product.title.toString().length >= 45) ? product.title.substring(0,product.title.substring(0,45).lastIndexOf(' '))+'...' : product.title}</div>
                   {editIcons}
                 </div>
                 <div className="d-flex justify-content-between">
