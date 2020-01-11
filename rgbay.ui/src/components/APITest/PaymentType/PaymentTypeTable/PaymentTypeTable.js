@@ -16,6 +16,7 @@ import 'firebase/auth';
 import './PaymentTypeTable.scss';
 import paymentTypeData from '../../../../data/paymentTypeData';
 import PaymentTypeRow from '../PaymentTypeRow/PaymentTypeRow';
+import profileData from '../../../../data/profileData';
 
 const defaultPaymentType = {
   id: '',
@@ -36,10 +37,21 @@ class PaymentTypeTable extends React.Component {
     paymentTypes: [],
     isEditing: false,
     formPaymentType: defaultPaymentType,
+    currentUser: {}
   }
 
   componentDidMount() {
     this.updateData();
+    this.getUserId();
+  }
+
+  getUserId = () => {
+    let firebaseUserId = firebase.auth().currentUser.uid;
+    profileData.getUserByUid(firebaseUserId)
+      .then((user) => {
+        this.setState({currentUser: user.data});
+      })
+      .catch(error => console.error('could not get current user', error));
   }
 
   paymentTypeFormSubmit = (e) => {
@@ -52,7 +64,7 @@ class PaymentTypeTable extends React.Component {
   }
 
   updatePaymentType = (updatedPaymentType) => {
-    let paymentType = {...updatedPaymentType};
+    let paymentType = { ...updatedPaymentType };
     paymentType.userId = firebase.auth().currentUser.uid;
     paymentTypeData.updatePaymentType(paymentType.id, paymentType)
       .then(() => {
@@ -63,7 +75,7 @@ class PaymentTypeTable extends React.Component {
   }
 
   addPaymentType = (newPaymentType) => {
-    let paymentType = {...newPaymentType};
+    let paymentType = { ...newPaymentType };
     paymentType.userId = firebase.auth().currentUser.uid;
     paymentTypeData.postPaymentType(paymentType)
       .then(() => {
@@ -95,9 +107,9 @@ class PaymentTypeTable extends React.Component {
 
   paymentTypeFormChange = (e) => {
     const newFormPaymentType = { ...this.state.formPaymentType };
-    if(e.target.id==="profileName"){
+    if (e.target.id === "profileName") {
       newFormPaymentType.profileName = e.target.value;
-    } else if (e.target.id==="serviceName") {
+    } else if (e.target.id === "serviceName") {
       newFormPaymentType.serviceName = e.target.value;
     }
     this.setState({ formPaymentType: newFormPaymentType });
@@ -111,6 +123,7 @@ class PaymentTypeTable extends React.Component {
         update={this.updateData}
         deletePaymentType={this.deletePaymentType}
         editPaymentType={this.editPaymentType}
+        currentUserId={this.state.currentUser.id}
       />
     ));
     return (

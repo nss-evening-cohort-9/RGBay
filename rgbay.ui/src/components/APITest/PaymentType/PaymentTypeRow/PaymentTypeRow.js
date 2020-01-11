@@ -21,16 +21,22 @@ class PaymentTypeRow extends React.Component {
 
   render() {
     const { paymentType } = this.props;
+    let buttons = "";
+    if (this.props.currentUserId === paymentType.userId) {
+      buttons = <td>
+                  <Button outline onClick={this.deletePaymentTypeEvent}><i className="fas fa-times"></i></Button>
+                  <Button outline onClick={this.editPaymentType}><i className="fas fa-pencil-alt"></i></Button>
+                </td>;
+    } else {
+      buttons = <td>nope</td>;
+    }
     return (
       <tr>
         <td>{paymentType.id}</td>
         <td>{paymentType.userId}</td>
         <td>{paymentType.serviceName}</td>
         <td>{paymentType.profileName}</td>
-        <td>
-          <Button outline onClick={this.deletePaymentTypeEvent}><i className="fas fa-times"></i></Button>
-          <Button outline onClick={this.editPaymentType}><i className="fas fa-pencil-alt"></i></Button>
-        </td>
+        {buttons}
       </tr>
     )
   }
