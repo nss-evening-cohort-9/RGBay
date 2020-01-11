@@ -14,6 +14,7 @@ class AddToCartForm extends React.Component {
     createOrderProduct = () => {
         const { productId } = this.props;
         const { rentalDuration } = this.state;
+        
         orderData.getCartOrder()
             .then((order) => {
                 const orderProduct = {
@@ -33,7 +34,11 @@ class AddToCartForm extends React.Component {
 
     buySubmit = (e) => {
         e.preventDefault();
-        this.createOrderProduct();
+        this.setState({ 
+            rentalDuration: 0 
+        }, () => {
+            this.createOrderProduct();
+        })
     }
 
     updateDays = e => this.setState({ rentalDuration: e.target.value });
@@ -44,39 +49,6 @@ class AddToCartForm extends React.Component {
         const pricePerDay = (rentalPrice).toFixed(2);
         const priceToBuy = (salesPrice).toFixed(2);
         const totalAmount = ((this.state.rentalDuration * rentalPrice)).toFixed(2);
-        // const rentalForm =  <form className="rent-form" onSubmit={this.rentSubmit}>
-        //                         <div className="rent-con">
-        //                             <label>
-        //                                 <input 
-        //                                     type="number"
-        //                                     min="0"
-        //                                     name="days"
-        //                                     className="rent-input"
-        //                                     value={rentalDuration}
-        //                                     onChange={this.updateDays}
-        //                                     placeholder="Days"
-        //                                 /> 
-        //                             </label>
-        //                             <p className="rental-price-p">
-        //                                 (${pricePerDay} per day)
-        //                                 <br/>
-        //                                 (Total: ${totalAmount})
-        //                             </p>
-        //                             <input type="submit" value="Rent" className="rent-submit"/>
-        //                         </div>
-        //                     </form>;
-
-        // const buyForm =     <form className="buy-form" onSubmit={this.buySubmit}>
-        //                         <div className="buy-con">
-        //                             <label>${priceToBuy}</label>
-        //                             <input
-        //                                 type="submit"
-        //                                 name="buyInput"
-        //                                 value="Buy"
-        //                                 className="buy-submit"
-        //                             />
-        //                         </div>
-        //                     </form>
 
         const rentalForm =
             <Form className="rent-form rent-con" onSubmit={this.rentSubmit}>
