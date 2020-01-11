@@ -1,16 +1,13 @@
 import React from 'react'
 
 
-import { 
-    Table,
-    Button
-} from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import orderData from '../../data/orderData';
 import OrdersRow from './OrdersRow';
 
 class OrderTable extends React.Component {
     state = {
-        orderState: []
+        orders: []
     }
 
     getOrders = () => {
@@ -20,22 +17,11 @@ class OrderTable extends React.Component {
                 grabbedOrders.forEach(order => {
                     orderArray.push(order);
                 });
-                this.setState({ orderState: orderArray });
+                this.setState({ orders: orderArray });
             })
             .catch((err) => {
-                console.error('error in OrdersRow.js => getOrders()' ,err)
+                console.error('error in OrdersRow.js => getOrders()', err)
             })
-    }
-
-    addOrder = () => {
-        const status = "Ordered"
-        const total = Math.floor(Math.random() * Math.floor(1000));
-
-        const newOrder = {
-            Total: total,
-            Status: status
-        }
-        orderData.addNewOrder(newOrder).then(this.getOrders);
     }
 
 
@@ -44,37 +30,36 @@ class OrderTable extends React.Component {
     }
 
     render() {
-        const ordersRows = this.state.orderState.map(orderProp => (
+        const ordersRows = this.state.orders.map(order => (
             <OrdersRow
-            key={`order${orderProp.id}`}
-            orderProp={orderProp}
-            getOrders={this.getOrders}
+                key={`order_${order.id}`}
+                order={order}
+                getOrders={this.getOrders}
             />
         ));
 
         return (
-            <div>
-            <h2>Order</h2>
-                <Table striped dark responsive>
-                    <thead>
-                    <tr>
-                        <th scope="col">Order</th>
-                        <th scope="col">id</th>
-                        <th scope="col">CustomerId</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Status</th>
-                        
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {ordersRows}
-                    </tbody>
-                </Table>
+            <div className="OrdersTable col">
+                <div className="card">
+                    <Table striped dark responsive>
+                        <thead>
+                            <tr>
+                                <th scope="col">Order #</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ordersRows}
+                        </tbody>
+                    </Table>
+                </div>
                 <Button onClick={this.addOrder}> Add Order </Button>
             </div>
         )
-        }
+    }
 }
 
 export default OrderTable;

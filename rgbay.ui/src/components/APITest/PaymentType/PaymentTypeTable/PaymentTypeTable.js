@@ -127,7 +127,7 @@ class PaymentTypeTable extends React.Component {
       />
     ));
     return (
-      <div className="PaymentTypeTable container">
+      <div className="PaymentTypeTable card-body">
         <h2>PaymentType Data</h2>
         <Form onSubmit={this.paymentTypeFormSubmit}>
           <Row form>

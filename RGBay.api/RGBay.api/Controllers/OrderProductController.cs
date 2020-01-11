@@ -33,77 +33,91 @@ namespace RGBay.api.Controllers
 
         [HttpGet("cart")]
         [Authorize]
-        public Cart GetCart()
+        public Cart GetCartInfo()
         {
+            var orderProductRepo = new OrderProductRepository();
             var orderRepo = new OrderRepository();
             var productRepo = new ProductRepository();
-            var orderProductRepo = new OrderProductRepository();
-            var productList = new List<Product>();
-            var cartItems = new Dictionary<int, Product>();
-            var userRepo = new UserRepository();
-            var user = userRepo.GetByUid(FirebaseUserId);
-
+            var itemsInCart = new List<CartItem>();
+            var user = new UserRepository().GetByUid(FirebaseUserId);
             var cartOrder = orderRepo.GetCartOrder(user.Id);
-
+            
             if (cartOrder == null)
-            {
-                var newCart = orderRepo.CreateCartFromNewOrder(user.Id);
-                return newCart;
+            { 
+                return orderRepo.CreateCartFromNewOrder(user.Id);
             }
-            else
-            {
-                var cartOrderProducts = orderProductRepo.GetOrderProductsByOrderId(cartOrder.Id);
-                foreach (var orderProduct in cartOrderProducts)
-                {
-                    var productMatch = productRepo.GetProduct(orderProduct.ProductId);
-                    productList.Add(productMatch);
-                    cartItems.Add(orderProduct.Id, productMatch);
-                }
 
-                var cart = new Cart
+            var orderProducts = orderProductRepo.GetOrderProductsByOrderId(cartOrder.Id);
+            
+            foreach (var orderProduct in orderProducts)
+            {
+                var productInCart = productRepo.GetProduct(orderProduct.ProductId);
+                var cartItem = new CartItem
                 {
-                    CartOrder = cartOrder,
-                    CartProducts = productList,
-                    CartItems = cartItems
+                    OrderProductId = orderProduct.Id,
+                    Duration = orderProduct.Duration,
+                    Product = productInCart,
                 };
-                return cart;
+                itemsInCart.Add(cartItem);
             }
+
+            var cart = new Cart
+            {
+                CartOrder = cartOrder,
+                CartItems = itemsInCart
+            };
+            orderRepo.CalculateOrderTotalThenUpdate(cartOrder.Id);
+            return cart;
         }
 
-        [HttpPost]
+        [HttpGet("details/{orderId:int}")]
         [Authorize]
-        public IActionResult CreateOrderProduct(AddOrderProductCommand addOrderProductCommand)
+        public Cart GetOrderDetails(int orderId)
         {
             var orderRepo = new OrderRepository();
+            var matchedOrder = orderRepo.GetOrderByOrderId(orderId);
             var productRepo = new ProductRepository();
-            var userRepo = new UserRepository();
             var orderProductRepo = new OrderProductRepository();
-            var product = productRepo.GetProduct(addOrderProductCommand.ProductId);
-            var user = userRepo.GetByUid(FirebaseUserId);
-            var cartOrder = orderRepo.GetCartOrder(user.Id);
+            var itemsInCart = new List<CartItem>();
+            var orderProducts = orderProductRepo.GetOrderProductsByOrderId(orderId);
 
-            if (cartOrder == null)
+            foreach (var orderProduct in orderProducts)
             {
-                var createdOrder = orderRepo.CreateCartOrder(user.Id);
-                var orderId = createdOrder.Id;
-                var orderProduct = new OrderProduct
+                var productInCart = productRepo.GetProduct(orderProduct.ProductId);
+                var cartItem = new CartItem
                 {
-                    OrderId = orderId,
-                    ProductId = addOrderProductCommand.ProductId,
+                    OrderProductId = orderProduct.Id,
+                    Duration = orderProduct.Duration,
+                    Product = productInCart,
                 };
-                var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
-                return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
+                itemsInCart.Add(cartItem);
             }
-            else
+
+            var cart = new Cart
             {
-                var orderProduct = new OrderProduct
-                {
-                    OrderId = cartOrder.Id,
-                    ProductId = addOrderProductCommand.ProductId,
-                };
-                var createdOP = orderProductRepo.AddOrderProduct(orderProduct);
-                return Created($"api/OrderProduct/{createdOP.Id}", createdOP);
-            }
+                CartOrder = matchedOrder,
+                CartItems = itemsInCart
+            };
+
+            return cart;
+        }
+
+        [HttpPost("add")]
+        [Authorize]
+        public IActionResult AddOrderProduct(AddOrderProductCommand orderProductCommand)
+        {
+            var repo = new OrderProductRepository();
+            var orderRepo = new OrderRepository();
+            var newOrderProduct = new OrderProduct
+            {
+                OrderId = orderProductCommand.OrderId,
+                ProductId = orderProductCommand.ProductId,
+                Duration = orderProductCommand.Duration
+            };
+
+            var orderProductAdded = repo.AddOrderProduct(newOrderProduct);
+            orderRepo.CalculateOrderTotalThenUpdate(newOrderProduct.OrderId);
+            return Created($"api/OrderProduct/{orderProductAdded.Id}", orderProductAdded);
         }
 
         [HttpDelete("{orderProductId:int}")]
@@ -111,8 +125,11 @@ namespace RGBay.api.Controllers
         public IActionResult DeleteFromCart(int orderProductId)
         {
             var repo = new OrderProductRepository();
+            var user = new UserRepository().GetByUid(FirebaseUserId);
+            var orderToUpdate = new OrderRepository().GetCartOrder(user.Id);
+            var orderRepo = new OrderRepository();
             repo.DeleteFromCart(orderProductId);
-
+            orderRepo.CalculateOrderTotalThenUpdate(orderToUpdate.Id);
             return Ok();
         }
     }

@@ -80,78 +80,35 @@ namespace RGBay.api.Controllers
             return orders;
         }
 
-
-/*        [HttpPut("price/{orderId:int}")]
+        [HttpGet("cart")]
         [Authorize]
-        public IActionResult UpdateTotal(UpdateOrderCommand incomingOrder, int orderId)
+        public ActionResult<Order> GetCartOrder()
         {
-            var repo = new Order
-        }*/
-
-
-        // PUT || UPDATE//
-
-        //*Update Order Details(Status AND/OR Total) CustomerId Needed for validation*/
-        [HttpPut("{orderId:int}")]
-        public IActionResult UpdateOrder(UpdateOrderCommand incomingOrder, int orderId)
-        {
-            var repo = new OrderRepository();
-
-
-            var newOrder = new Order
+            var userRepo = new UserRepository();
+            var orderRepo = new OrderRepository();
+            var user = userRepo.GetByUid(FirebaseUserId);
+            var cartOrder = orderRepo.GetCartOrder(user.Id);
+            if (cartOrder == null)
             {
-                Id = orderId,
-                Total = incomingOrder.Total,
-                CustomerId = incomingOrder.CustomerId,
-                Status = incomingOrder.Status,
-            };
-
-            var matchedOrder = repo.GetOrderByOrderId(orderId);
-
-            if (incomingOrder.CustomerId == matchedOrder.CustomerId)
-            {
-                //Update ONLY Order Total
-                if (incomingOrder.Total != matchedOrder.Total
-                    && (incomingOrder.Status == null
-                        || incomingOrder.Status == matchedOrder.Status))
-                {
-                    var updatedOrderTotal = repo.UpdateOrderTotal(newOrder, newOrder.Id);
-
-                    return Ok(updatedOrderTotal);
-                }
-
-                //Update ONLY Order Status
-                else if (incomingOrder.Status != matchedOrder.Status
-                         && (incomingOrder.Total == matchedOrder.Total
-                             || incomingOrder.Total == 0))
-                {
-                    var updatedOrderStatus = repo.UpdateOrderStatus(newOrder, newOrder.Id);
-                    return Ok(updatedOrderStatus);
-                }
-
-                // Update BOTH Status & Total
-                else if (incomingOrder.Total != matchedOrder.Total
-                         && incomingOrder.Status != matchedOrder.Status
-                         &&incomingOrder.Total != 0 
-                         && incomingOrder.Status != null)
-                {
-                    var updatedFullOrder = repo.UpdateFullOrder(newOrder, newOrder.Id);
-                    return Ok(updatedFullOrder);
-                }
-
-                else if (incomingOrder.Total == matchedOrder.Total && incomingOrder.Status == matchedOrder.Status)
-                {
-                    return Ok();
-                }
-
-                else return NotFound("Order matched, but didn't update... Are values The same?");
+                return orderRepo.CreateCartOrder(user.Id);
             }
-            else
-            {
-                return NotFound("Order Status Could Not Be Updated... Are CustomerId & OrderId related?");
-            }
+            orderRepo.CalculateOrderTotalThenUpdate(cartOrder.Id);
+            return cartOrder;
         }
 
+        [HttpPut("checkout")]
+        [Authorize]
+        public Cart OrderCheckout()
+        {
+            var orderRepo = new OrderRepository();
+            var user = new UserRepository().GetByUid(FirebaseUserId);
+            var orderToCheckout = orderRepo.GetCartOrder(user.Id);
+
+            orderRepo.CheckoutOrder(orderToCheckout);
+
+            var newCart = orderRepo.CreateCartFromNewOrder(user.Id);
+            return newCart;
+        }
 
         // DELETE //
 

@@ -4,55 +4,49 @@ import {
     CardTitle, CardSubtitle, Col, Button
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-//import orderProductData from '../../data/orderProductData';
 
 import './Cart.scss';
 
 class CartProduct extends React.Component {
 
     render() {
-        const { productProps } = this.props;
-        const { remove } = this.props;
-        const productLink = `/product/${productProps.id}`
-        
-        let price;
-        let buttons;
-        if(productProps.rentalPrice !== 0 && productProps.salesPrice !== 0){
-            price = <div>
-                        <CardSubtitle>Cost Per Day: ${productProps.rentalPrice}</CardSubtitle>
-                        <CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle>
-                    </div>;
+        const { product, orderProductId, removeFromCart, duration } = this.props;
+        const productLink = `/product/${product.id}`
+        const rentalPrice = product.rentalPrice;
+        const salesPrice = product.salesPrice;
+        const pricePerDay = (rentalPrice / 10000).toFixed(2);
+        const totalCost = pricePerDay * duration;
+        const costToBuy = (salesPrice / 10000).toFixed(2);
 
-            buttons =   <div>
-                            <Button color="success">Rent</Button>
-                            <Button color="success">Buy</Button>
-                        </div>
-        } else if(productProps.rentalPrice === 0){
-            price = <div><CardSubtitle>Cost To Purchase: ${productProps.salesPrice}</CardSubtitle></div>
+        let cardBody;
+        const rentalBody =  <div>
+                                <CardSubtitle>Price Per Day:</CardSubtitle>
+                                <CardText>${pricePerDay}</CardText>
+                                <CardSubtitle>Number Of Days:</CardSubtitle>
+                                <CardText>{duration}</CardText>
+                                <CardSubtitle>Total Cost:</CardSubtitle>
+                                <CardText>${totalCost}</CardText>
+                            </div>;
 
-            buttons = <div><Button color="success">Buy</Button></div>
-        } else if (productProps.salesPrice === 0){
-            price = <div><CardSubtitle>Rental Price(Per Day): ${productProps.rentalPrice}</CardSubtitle></div>
-            
-            buttons = <div><Button color="success">Rent</Button></div>
+        const purchaseBody =    <div>
+                                    <CardSubtitle>Total Cost</CardSubtitle>
+                                    <CardText>{costToBuy}</CardText>
+                                </div>;
+
+        if(duration === 0){
+            cardBody = <CardBody>{purchaseBody}</CardBody>
+        } else if (duration !== 0) {
+            cardBody = <CardBody> {rentalBody} </CardBody>
         }
-
 
         return (
             <div className="Product">
                 <Col>
-                    <Card>
-                        <Link to={productLink}><CardImg className="product-img" src={productProps.imageUrl} alt={productProps.title} /></Link>
-                        <CardTitle><Link to={productLink}>{productProps.title}</Link></CardTitle>
-                        {price}
-                        <CardBody>
-                            <CardText>
-                                {productProps.description}
-                            </CardText>
-                            <br/>
-                            {buttons}
-                            <Button color="danger" onClick={() => {remove(productProps.opid)}}>Remove From Cart</Button>
-                        </CardBody>
+                    <Card body className="cart-item-card">
+                        <Link to={productLink}> <CardImg className="product-img" src={product.imageUrl} alt={product.title} /> </Link>
+                        <CardTitle> <Link to={productLink}>{product.title}</Link> </CardTitle>
+                        {cardBody}
+                        <Button color="danger" onClick={() => {removeFromCart(orderProductId)}}>Remove From Cart</Button>
                     </Card>
                 </Col>
             </div>
