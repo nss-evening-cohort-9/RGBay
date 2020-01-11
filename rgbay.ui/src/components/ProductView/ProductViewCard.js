@@ -64,7 +64,7 @@ class ProductViewCard extends React.Component {
                   <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice / 100}`}</div></div>
                 </div>
                 <hr className="my-2" />
-                <div className="lead">{product.description}</div>
+                <div className="lead">{product.description.toString().length >= 100 ? product.description.substring(0,product.description.substring(0,100).lastIndexOf(' '))+'...' : product.description}</div>
                 <div className="d-flex">
                   <button onClick = {this.addProductToCart}>Add To Cart</button>
                 </div>

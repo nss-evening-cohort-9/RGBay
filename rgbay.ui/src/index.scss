@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(70deg, hsla(0, 100%, 95%, 1), hsla(39, 100%, 95%, 1), hsla(60, 100%, 95%, 1), hsla(120, 100%, 95%, 1), hsla(240, 100%, 95%, 1));
+  .card{
+    // box-shadow: 4px 6px 10px -4px rgba(0,0,0,.25);
+    box-shadow: 2px 4px 10px -2px rgba(0, 0, 0, 0.125);
+  }
 }
 
 code {
