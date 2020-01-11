@@ -40,9 +40,12 @@ class AddToCartForm extends React.Component {
     render() {
         const { rentalDuration, rentalPrice, salesPrice } = this.props;
         let forms;
-        const pricePerDay = (rentalPrice / 100).toFixed(2);
-        const priceToBuy = (salesPrice / 100).toFixed(2);
-        const totalAmount = ((this.state.rentalDuration * rentalPrice) / 100).toFixed(2);
+        //const pricePerDay = (rentalPrice / 100).toFixed(2);
+        //const priceToBuy = (salesPrice / 100).toFixed(2);
+        //const totalAmount = ((this.state.rentalDuration * rentalPrice) / 100).toFixed(2);
+        const pricePerDay = rentalPrice;
+        const priceToBuy = salesPrice;
+        const totalAmount = this.state.rentalDuration * rentalPrice;
         const rentalForm =  <form className="rent-form" onSubmit={this.rentSubmit}>
                                 <div className="rent-con">
                                     <label>
