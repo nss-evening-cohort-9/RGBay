@@ -31,7 +31,7 @@ class OrderTable extends React.Component {
     }
 
     addOrder = () => {
-        const customerId = 1;
+        const customerId = 6;
         const status = "Ordered"
         const total = Math.floor(Math.random() * Math.floor(1000));
 

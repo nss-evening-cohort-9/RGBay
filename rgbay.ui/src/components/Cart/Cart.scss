@@ -1,0 +1,27 @@
+.Cart{
+    width: 100%;
+}
+
+.cart-con{
+    display:flex;
+    flex-flow: column;
+    align-content: center;
+}
+
+.items-in-cart{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.cart-item-card{
+    background-color: rgba(51, 51, 51, 0.157);
+    border-color: #333;
+    margin: 20px;
+}
+.card-img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}

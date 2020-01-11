@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './ProductView.scss';
 
 class ProductViewCard extends React.Component {
@@ -42,21 +41,23 @@ class ProductViewCard extends React.Component {
       </div>) : (<div></div>);
     return (
       <div className={productClass}>
-        <div className="card mb-5">
+        <div className="card">
           <div className="row no-gutters">
             {productImage}
             <div className="col">
               <div className="card-body">
                 <div className="d-flex justify-content-between">
-                  <div className="pointer font-weight-bold lead" onClick={this.showProduct}>{product.title}</div>
+                  <div className="pointer font-weight-bold lead" onClick={this.showProduct}>{(!showImage && product.title.toString().length >= 45) ? product.title.substring(0,product.title.substring(0,45).lastIndexOf(' '))+'...' : product.title}</div>
                   {editIcons}
                 </div>
                 <div className="d-flex justify-content-between">
                   <div className="small"><div>Date Added:</div><div>{productDate}</div></div>
-                  <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice}`}</div></div>
+                  <div className="small"><div>RENT | BUY:</div><div>{`$${product.rentalPrice / 100}/day | $${product.salesPrice / 100}`}</div></div>
                 </div>
                 <hr className="my-2" />
-                <div className="lead">{product.description}</div>
+                <div className="lead">{product.description.toString().length >= 100 ? product.description.substring(0,product.description.substring(0,100).lastIndexOf(' '))+'...' : product.description}</div>
+                <div className="d-flex">
+                </div>
               </div>
             </div>
           </div>

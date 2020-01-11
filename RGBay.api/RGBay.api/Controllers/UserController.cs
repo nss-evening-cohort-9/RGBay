@@ -43,7 +43,7 @@ namespace RGBay.api.Controllers
         [HttpPost]
         public IActionResult CreateUser(AddUserCommand newUserCommand)
         {
-            newUserCommand.FirebaseUid = UserId;
+            newUserCommand.FirebaseUid = FirebaseUserId;
 
             var repo = new UserRepository();
             var userCreated = repo.Add(newUserCommand);
