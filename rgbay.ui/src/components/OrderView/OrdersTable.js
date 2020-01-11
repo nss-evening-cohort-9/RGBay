@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import { Table } from 'reactstrap';
 import orderData from '../../data/orderData';
 import OrdersRow from './OrdersRow';
