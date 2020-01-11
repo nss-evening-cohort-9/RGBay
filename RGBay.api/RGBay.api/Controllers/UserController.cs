@@ -19,11 +19,11 @@ namespace RGBay.api.Controllers
             return userRepo.GetAll();
         }
 
-        [HttpGet("notdeleted")]
-        public IEnumerable<User> GetAllNonDeleted()
+        [HttpGet("withdeleted")]
+        public IEnumerable<User> GetUsersWithDeleted()
         {
             var userRepo = new UserRepository();
-            return userRepo.GetAllNonDeleted();
+            return userRepo.GetAllWithDeleted();
         }
 
         [HttpGet("{id}")]

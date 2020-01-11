@@ -15,17 +15,17 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var users = db.Query<User>(@"select * from [User]");
+                var users = db.Query<User>(@"select * from [User]
+                                            where[IsDeleted] = 0");
                 return users;
             }
         }
 
-        public IEnumerable<User> GetAllNonDeleted()
+        public IEnumerable<User> GetAllWithDeleted()
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var users = db.Query<User>(@"select * from [User]
-                                            where[IsDeleted] = 0");
+                var users = db.Query<User>(@"select * from [User]");
                 return users;
             }
         }

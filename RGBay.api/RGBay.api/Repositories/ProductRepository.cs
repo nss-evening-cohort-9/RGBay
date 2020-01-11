@@ -17,17 +17,17 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "select * from product";
+                var sql = "select * from product where isDeleted = 0";
                 var products = db.Query<Product>(sql);
                 return products;
             }
         }
 
-        public IEnumerable<Product> GetNotDeletedProducts()
+        public IEnumerable<Product> GetProductsWithDeleted()
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "select * from product where isDeleted = 0";
+                var sql = "select * from product";
                 var products = db.Query<Product>(sql);
                 return products;
             }

@@ -22,6 +22,12 @@ namespace RGBay.api.Controllers
             return _repo.GetProducts();
         }
 
+        [HttpGet("withdeleted")]
+        public IEnumerable<Product> GetAllNonDeleted()
+        {
+            return _repo.GetProductsWithDeleted();
+        }
+
         [HttpGet("{getLatestProductsNum}/latest")]
         public IEnumerable<Product> GetLatestProducts(int getLatestProductsNum)
         {
