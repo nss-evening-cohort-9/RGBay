@@ -13,6 +13,7 @@ class AddToCartForm extends React.Component {
     createOrderProduct = () => {
         const { productId } = this.props;
         const { rentalDuration } = this.state;
+        
         orderData.getCartOrder()
             .then((order) => {
                 const orderProduct = {
@@ -32,7 +33,11 @@ class AddToCartForm extends React.Component {
 
     buySubmit = (e) => {
         e.preventDefault();
-        this.createOrderProduct();
+        this.setState({ 
+            rentalDuration: 0 
+        }, () => {
+            this.createOrderProduct();
+        })
     }
 
     updateDays = e => this.setState({ rentalDuration: e.target.value });
@@ -40,9 +45,6 @@ class AddToCartForm extends React.Component {
     render() {
         const { rentalDuration, rentalPrice, salesPrice } = this.props;
         let forms;
-        //const pricePerDay = (rentalPrice / 100).toFixed(2);
-        //const priceToBuy = (salesPrice / 100).toFixed(2);
-        //const totalAmount = ((this.state.rentalDuration * rentalPrice) / 100).toFixed(2);
         const pricePerDay = rentalPrice;
         const priceToBuy = salesPrice;
         const totalAmount = this.state.rentalDuration * rentalPrice;
