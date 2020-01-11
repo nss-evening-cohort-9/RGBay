@@ -44,7 +44,6 @@ render() {
   const { user } = this.state;
   let { isAuthUser } = this.state;
   const editLink = `/edituser/${user.id}`;
-  const homeLink = `/`;
 
     return (
       <div className="container col-12 top-divide">
