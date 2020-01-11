@@ -41,7 +41,7 @@ class OrderTable extends React.Component {
         return (
             <div className="OrdersTable col">
                 <div className="card">
-                    <Table striped dark responsive>
+                    <Table striped responsive>
                         <thead>
                             <tr>
                                 <th scope="col">Order #</th>
@@ -56,7 +56,6 @@ class OrderTable extends React.Component {
                         </tbody>
                     </Table>
                 </div>
-                <Button onClick={this.addOrder}> Add Order </Button>
             </div>
         )
     }
