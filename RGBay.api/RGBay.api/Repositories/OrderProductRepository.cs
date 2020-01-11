@@ -22,7 +22,8 @@ namespace RGBay.api.Repositories
             {
                 var sql = @"SELECT *
                             FROM [OrderProduct]
-                            WHERE OrderId = @OrderId";
+                            WHERE OrderId = @OrderId
+                            AND IsDeleted = 0";
                 var parameters = new
                 {
                     OrderId = orderId
@@ -38,7 +39,8 @@ namespace RGBay.api.Repositories
             {
                 var sql = @"SELECT *
                             FROM [OrderProduct]
-                            WHERE CustomerId = @CustomerId";
+                            WHERE CustomerId = @CustomerId
+                            AND IsDeleted = 0";
                 var parameters = new
                 {
                     CustomerId = customerId
@@ -65,7 +67,8 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"DELETE FROM [OrderProduct]
+                var sql = @"UPDATE [dbo].[OrderProduct]
+                            SET [IsDeleted] = 1
                             WHERE Id = @orderProductId";
                 var parameters = new {orderProductId};
 

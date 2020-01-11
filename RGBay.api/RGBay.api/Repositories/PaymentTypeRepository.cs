@@ -15,6 +15,16 @@ namespace RGBay.api.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
+                var sql = "Select * from [PaymentType] where isDeleted = 0";
+                var allPaymentTypes = connection.Query<PaymentType>(sql);
+                return allPaymentTypes;
+            }
+        }
+
+        public IEnumerable<PaymentType> GetAllPaymentTypesWithDeleted()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
                 var sql = "Select * from [PaymentType]";
                 var allPaymentTypes = connection.Query<PaymentType>(sql);
                 return allPaymentTypes;
@@ -65,7 +75,8 @@ namespace RGBay.api.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var sql = @"DELETE FROM [dbo].[PaymentType]
+                var sql = @"UPDATE [dbo].[PaymentType]
+                            SET [IsDeleted] = 1
                             WHERE [Id] = @id";
                 var parameters = new { id };
                 return connection.Execute(sql, parameters) == 1;

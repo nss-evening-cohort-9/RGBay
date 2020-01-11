@@ -15,6 +15,16 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var sql = "select * from ProductCategory where isDeleted = 0";
+                var productCategories = db.Query<ProductCategory>(sql);
+                return productCategories;
+            }
+        }
+
+        public IEnumerable<ProductCategory> GetAllProductCategoriesWithDeleted()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
                 var sql = "select * from ProductCategory";
                 var productCategories = db.Query<ProductCategory>(sql);
                 return productCategories;
@@ -60,8 +70,9 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"DELETE FROM [dbo].[ProductCategory]
-                            WHERE [Id] = @id";
+                var sql = @"update [dbo].[ProductCategory]
+                            set [IsDeleted] = 1
+                            where [Id] = @id";
                 var parameters = new { id };
                 return db.Execute(sql, parameters) == 1;
             }

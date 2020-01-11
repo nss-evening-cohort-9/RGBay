@@ -16,7 +16,7 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var users = db.Query<User>(@"select * from [User]
-                                            where[IsDeleted] = 0");
+                                            where [IsDeleted] = 0");
                 return users;
             }
         }
