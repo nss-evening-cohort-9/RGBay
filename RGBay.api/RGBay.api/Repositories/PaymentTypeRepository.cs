@@ -33,7 +33,7 @@ namespace RGBay.api.Repositories
             }
         }
 
-        public bool AddPaymentType(AddPaymentTypeCommand newPaymentTypeCommand)
+        public bool AddPaymentType(PaymentType PaymentType)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -45,7 +45,7 @@ namespace RGBay.api.Repositories
                             (@userId
                             ,@serviceName
                             ,@profileName)";
-                return connection.Execute(sql, newPaymentTypeCommand) == 1;
+                return connection.Execute(sql, PaymentType) == 1;
             }
         }
 

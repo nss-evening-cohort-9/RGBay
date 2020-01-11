@@ -6,7 +6,14 @@ namespace RGBay.api.DataModels
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string ServiceName { get; set; }
+        public ServiceName ServiceName { get; set; }
         public string ProfileName { get; set; }
+    }
+
+    public enum ServiceName
+    {
+        CashApp,
+        PayPal,
+        Venmo
     }
 }
