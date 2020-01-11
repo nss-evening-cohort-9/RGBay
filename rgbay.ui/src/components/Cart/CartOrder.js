@@ -4,7 +4,7 @@ import { Table, Button } from 'reactstrap';
 class CartOrder extends React.Component {
     render() {
         const { order, orderCheckout } = this.props;
-        const orderTotal = (order.total / 10000).toFixed(2);
+        const orderTotal = (order.total / 100).toFixed(2);
         return (
             <div className="CartOrder">
                 <Table striped hover borderless>
