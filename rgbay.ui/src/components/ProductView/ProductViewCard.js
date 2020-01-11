@@ -1,5 +1,4 @@
 import React from 'react';
-import orderProductData from '../../data/orderProductData';
 import './ProductView.scss';
 
 class ProductViewCard extends React.Component {
@@ -20,14 +19,6 @@ class ProductViewCard extends React.Component {
   updateProduct = () => {
     const { stageEdit, product } = this.props;
     stageEdit(product.id, product);
-  }
-
-  addProductToCart = () => {
-    const { product } = this.props;
-    const orderProduct = {
-      ProductId: product.id
-    }
-    orderProductData.addProductToCart(orderProduct);
   }
 
   render() {
@@ -66,7 +57,6 @@ class ProductViewCard extends React.Component {
                 <hr className="my-2" />
                 <div className="lead">{product.description.toString().length >= 100 ? product.description.substring(0,product.description.substring(0,100).lastIndexOf(' '))+'...' : product.description}</div>
                 <div className="d-flex">
-                  <button onClick = {this.addProductToCart}>Add To Cart</button>
                 </div>
               </div>
             </div>

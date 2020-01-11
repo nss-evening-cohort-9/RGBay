@@ -1,9 +1,8 @@
 import React from 'react';
-
+import AddToCartForm from '../AddToCartForm/AddToCartForm';
 import productData from '../../data/product-data';
 import categoryData from '../../data/productCategoryData';
 import sellerData from '../../data/profileData';
-import orderProductData from '../../data/orderProductData';
 
 class Product extends React.Component {
   state = {
@@ -35,20 +34,20 @@ class Product extends React.Component {
       .catch(error => console.error(error));
   }
 
-  addProductToCart = () => {
-    const { product } = this.props;
-    const orderProduct = {
-      ProductId: product.id
-    }
-    orderProductData.addProductToCart(orderProduct);
-  }
-
   componentDidMount() {
     this.getProduct();
   }
 
   render() {
     const { product, category, seller, rentalPrice, salesPrice } = this.state;
+
+    const addToCartForm = <AddToCartForm 
+                            key={`${product.id}_addToCart`}
+                            productId={product.id}
+                            rentalPrice={rentalPrice}
+                            salesPrice={salesPrice}
+                          />
+
     return (
       <div className="Product text-left container">
         <div className="row">
@@ -65,8 +64,9 @@ class Product extends React.Component {
               <div>isForSale: {product.isForSale}</div>
               <div>isRgb: {product.isRgb}</div>
               <div className="">{product.description}</div>
+              <br />
               <div className="d-flex">
-                <button onClick = {this.addProductToCart}>Add To Cart</button>
+                {addToCartForm}
               </div>
           </div>
         </div>
