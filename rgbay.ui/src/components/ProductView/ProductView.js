@@ -181,7 +181,7 @@ class ProductView extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.authed) return
+    if (!this.props.authed && !this.props.profile) return
     this.getProducts();
     this.getCategories();
   }

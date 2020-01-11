@@ -12,14 +12,12 @@ state = {
 }
 
 getProfileInfo = (userId) => {
-  userData
-  .getSingleUser(userId)
-  .then((res) => {
+  userData.getSingleUser(userId)
+    .then((res) => {
       this.setState({ user: res.data })
       this.editButton();
-      }
-  )
-  .catch(err => console.log("No information: ", err));
+    })
+    .catch(err => console.log("No information: ", err));
 }
 
 
@@ -32,11 +30,10 @@ editButton = () => {
 }
 
 deleteProfile = () => {
-  const user = this.props.match.params.id;
-  userData
-  .removeUser(user)
-  .then(() => this.getProfileInfo())
-  .catch(err => console.error("Unable to delete single profile", err))
+  const userId = this.props.match.params.id;
+  userData.removeUser(userId)
+    .then(() => firebase.auth().signOut())
+    .catch(err => console.error("Unable to delete single profile", err))
 };
 
 componentDidMount() {
@@ -47,7 +44,6 @@ render() {
   const { user } = this.state;
   let { isAuthUser } = this.state;
   const editLink = `/edituser/${user.id}`;
-  const homeLink = `/`;
 
     return (
       <div className="container col-12 top-divide">
@@ -63,9 +59,7 @@ render() {
           {isAuthUser === true ? <Link 
           className="btn btn-success" to={editLink}>Edit</Link> : <></> 
           }
-          {isAuthUser === true ? <Link 
-          className="btn btn-danger" to={homeLink} id={user.id} onClick={this.deleteProfile}>Delete</Link> : <></> 
-          }
+          {isAuthUser === true ? <button className="btn btn-danger" onClick={this.deleteProfile}>Delete</button> : ('')}
       </div>
     )
   }

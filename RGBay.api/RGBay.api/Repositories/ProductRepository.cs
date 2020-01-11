@@ -17,6 +17,16 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
+                var sql = "select * from product where isDeleted = 0";
+                var products = db.Query<Product>(sql);
+                return products;
+            }
+        }
+
+        public IEnumerable<Product> GetProductsWithDeleted()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
                 var sql = "select * from product";
                 var products = db.Query<Product>(sql);
                 return products;
@@ -27,7 +37,7 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "select top(3) * from product where Category = @categoryId order by id desc";
+                var sql = "select top(3) * from product where Category = @categoryId and isDeleted = 0 order by id desc";
                 var parameters = new { categoryId };
                 var categories = db.Query<Product>(sql, parameters);
                 return categories;
@@ -38,7 +48,7 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "select top (@getLatestProductsNum) * from product order by DateCreated desc";
+                var sql = "select top (@getLatestProductsNum) * from product where isDeleted = 0 order by DateCreated desc";
                 var parameters = new { getLatestProductsNum };
                 var products = db.Query<Product>(sql, parameters);
                 return products;
@@ -60,7 +70,7 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = "delete from product where [id] = @id";
+                var sql = "update [Product] set [isDeleted] = 1 where [Id] = @Id";
                 var parameters = new { id };
                 return db.Execute(sql, parameters) == 1;
             }

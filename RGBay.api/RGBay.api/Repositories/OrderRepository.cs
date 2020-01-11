@@ -26,7 +26,7 @@ namespace RGBay.api.Repositories
                             OUTPUT INSERTED.*
                             VALUES
                                 (@customerId, @date, @total, @status)";
-                return db.QueryFirst<Order>(sql, newOrder);
+                return db.QueryFirstOrDefault<Order>(sql, newOrder);
             }
         }
 
@@ -57,7 +57,8 @@ namespace RGBay.api.Repositories
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"SELECT *
-                            FROM [Order]";
+                            FROM [Order]
+                            WHERE IsDeleted = 0";
                 var orders = db.Query<Order>(sql).AsList();
                 return orders;
             }
@@ -74,7 +75,7 @@ namespace RGBay.api.Repositories
                 {
                     OrderId = orderId
                 };
-                var selectedOrder = db.QueryFirst<Order>(sql, parameters);
+                var selectedOrder = db.QueryFirstOrDefault<Order>(sql, parameters);
                 return selectedOrder;
             }
         }
@@ -85,7 +86,8 @@ namespace RGBay.api.Repositories
             {
                 var sql = @"SELECT *
                             FROM [Order]
-                            WHERE CustomerId = @CustomerId";
+                            WHERE CustomerId = @CustomerId
+                            AND IsDeleted = 0";
                 var parameters = new
                 {
                     CustomerId = customerId
@@ -102,7 +104,8 @@ namespace RGBay.api.Repositories
                 var sql = @"SELECT *
                             FROM [Order]
                             WHERE CustomerId = @CustomerId
-                            AND Status = @Status";
+                            AND Status = @Status
+                            AND IsDeleted = 0";
                 var parameters = new
                 {
                     CustomerId = customerId,
@@ -127,7 +130,7 @@ namespace RGBay.api.Repositories
 
                 updatedOrder.Id = orderId;
 
-                var returningOrder = db.QueryFirst<Order>(sql, updatedOrder);
+                var returningOrder = db.QueryFirstOrDefault<Order>(sql, updatedOrder);
 
                 return returningOrder;
             }
@@ -200,8 +203,9 @@ namespace RGBay.api.Repositories
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"DELETE FROM [Order]
-                                WHERE Id = @orderId";
+                var sql = @"UPDATE [dbo].[Order]
+                            SET [IsDeleted] = 1
+                            WHERE Id = @orderId";
 
                 var parameters = new { orderId };
 
