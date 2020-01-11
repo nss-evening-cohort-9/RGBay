@@ -14,9 +14,9 @@ class CartProduct extends React.Component {
         const productLink = `/product/${product.id}`
         const rentalPrice = product.rentalPrice;
         const salesPrice = product.salesPrice;
-        const pricePerDay = (rentalPrice / 10000).toFixed(2);
+        const pricePerDay = (rentalPrice / 100).toFixed(2);
         const totalCost = pricePerDay * duration;
-        const costToBuy = (salesPrice / 10000).toFixed(2);
+        const costToBuy = (salesPrice / 100).toFixed(2);
 
         let cardBody;
         const rentalBody =  <div>
