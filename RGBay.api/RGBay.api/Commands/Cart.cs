@@ -9,7 +9,7 @@ namespace RGBay.api.Commands
     public class Cart
     {
         public Order CartOrder { get; set; }
-        public IEnumerable<Product> CartProducts { get; set; }
-        public Dictionary<int, Product> CartItems { get; set; }
+        public int OrderId => CartOrder.Id;
+        public IEnumerable<CartItem> CartItems { get; set; }
     }
 }

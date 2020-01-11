@@ -18,7 +18,7 @@ import CategoryView from '../components/CategoryView/CategoryView';
 import EditUser from '../components/Profile/EditUser';
 import Home from '../components/Home/Home';
 import NavBar from '../components/NavBar/NavBar';
-import Order from '../components/Order/Order';
+import Order from '../components/OrderView/Order';
 import Orders from '../components/OrderView/OrdersView';
 import Product from '../components/Product/Product';
 import ProductView from '../components/ProductView/ProductView';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'reactstrap';
 import './OrderRow.scss';
 import orderData from '../../../../data/orderData';
 
@@ -39,9 +38,6 @@ class OrderRow extends React.Component {
             <td>{orderProp.date}</td>
             <td>{orderProp.total}</td>
             <td>{orderProp.status}</td>
-            <td><Button onClick={this.cancelOrder} >Cancel Order</Button></td>
-            <td><Button onClick={this.resumeOrder}>Resume this order</Button></td>
-            <td><Button onClick={this.deleteOrder} >Delete Order</Button></td>
             </tr>
         )
     }

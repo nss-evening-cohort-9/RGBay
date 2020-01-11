@@ -27,7 +27,20 @@ const getOrderByOrderId = (id) => new Promise ((resolve, reject) => {
         resolve(orderData);
     })
     .catch(err => reject(err))
-})
+});
+
+const getCartOrder = () => new Promise((resolve, reject) => {
+    Axios.get(`${baseUrl}/cart`)
+        .then((resp) => {
+            const cartOrder = resp.data;
+            resolve(cartOrder);
+        })
+        .catch(err => reject(err, console.error("error in getCartOrder()")));
+});
+
+const checkoutCart = order => Axios.put(`${baseUrl}/checkout`);
+
+const updateOrderTotal = () => Axios.put(`${baseUrl}/total`);
 
 const addNewOrder = order => Axios.post(`${baseUrl}`, order);
 
@@ -37,10 +50,13 @@ const updateOrder = (orderId, updatedOrder) => Axios.put(`${baseUrl}/${orderId}`
 
 export default 
 { 
+    checkoutCart,
+    getCartOrder,
     getOrderData,
     getOrdersByUid,
     getOrderByOrderId,
     addNewOrder,
     deleteOrder,
     updateOrder,
+    updateOrderTotal
 }
